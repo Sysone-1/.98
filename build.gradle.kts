@@ -15,7 +15,7 @@ dependencies {
 }
 
 application {
-    mainClass.set("org.example.Main")
+    mainClass.set("com.sysone.ogamza.Main")
 
 }
 
