@@ -1,4 +1,4 @@
-package org.example.layout;
+package com.sysone.ogamza.view;
 
 import javafx.scene.layout.BorderPane;
 

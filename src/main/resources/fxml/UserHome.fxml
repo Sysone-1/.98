@@ -17,7 +17,7 @@
                <children>
                   <ImageView fitHeight="45.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true" translateX="57.0" translateY="40.0">
                      <image>
-                        <Image url="@../assets/images/home.png" />
+                        <Image url="@../images/home.png" />
                      </image>
                   </ImageView>
                   <Label style="-fx-text-fill: #ffffff;" text="Home" textFill="WHITE" translateX="50.0" translateY="50.0">
@@ -30,7 +30,7 @@
                <children>
                   <ImageView fitHeight="45.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true" translateX="60.0" translateY="40.0">
                      <image>
-                        <Image url="@../assets/images/dashboard.png" />
+                        <Image url="@../images/dashboard.png" />
                      </image>
                   </ImageView>
                   <Label alignment="CENTER" contentDisplay="CENTER" style="-fx-text-fill: #ffffff;" text="Dashboard" textFill="WHITE" translateX="30.0" translateY="50.0">
@@ -44,7 +44,7 @@
                <children>
                   <ImageView fitHeight="45.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true" translateX="60.0" translateY="40.0">
                      <image>
-                        <Image url="@../assets/images/record.png" />
+                        <Image url="@../images/record.png" />
                      </image>
                   </ImageView>
                   <Label style="-fx-text-fill: #ffffff;" text="Record" textFill="WHITE" translateX="50.0" translateY="50.0">
@@ -58,7 +58,7 @@
                <children>
                   <ImageView fitHeight="45.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true" translateX="60.0" translateY="40.0">
                      <image>
-                        <Image url="@../assets/images/setting.png" />
+                        <Image url="@../images/setting.png" />
                      </image>
                   </ImageView>
                   <Label style="-fx-text-fill: #ffffff;" text="Setting" textFill="WHITE" translateX="50.0" translateY="50.0">
@@ -72,7 +72,7 @@
                <children>
                   <ImageView fitHeight="45.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true" translateX="60.0" translateY="40.0">
                      <image>
-                        <Image url="@../assets/images/logout.png" />
+                        <Image url="@../images/logout.png" />
                      </image>
                   </ImageView>
                </children>
@@ -82,7 +82,7 @@
          <children>
             <ImageView fitHeight="150.0" fitWidth="222.57" pickOnBounds="true" preserveRatio="true" style="-fx-translate-x: 10; -fx-translate-y: 40;">
                <image>
-                  <Image url="@../assets/images/userLogo.png" />
+                  <Image url="@../images/userLogo.png" />
                </image>
             </ImageView>
          </children>
