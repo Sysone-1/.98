@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.VBox?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
+
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.HBox?>
+<VBox xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.sysone.ogamza.controller.NFCController"
+      spacing="20"
+      style="-fx-background-color: lightblue; -fx-padding: 10;">
+
+    <ScrollPane prefWidth="400" prefHeight="600" fitToWidth="true">
+        <content>
+            <VBox spacing="10" prefWidth="380" style="-fx-padding: 10;">
+                <Label text="사번"/>
+                <TextField fx:id="empIdField" />
+
+                <Label text="이름"/>
+                <TextField fx:id="nameField"/>
+
+                <Label text="부서"/>
+                <TextField fx:id="departmentField"/>
+
+                <Label text="직위"/>
+                <TextField fx:id="positionField"/>
+
+                <HBox spacing="10">
+                    <Button fx:id="readCardButton" text="사원 등록" onAction="#onRegisterEmployee"/>
+                    <Button text="카드 데이터 읽기" onAction="#onReadCardData"/>
+                </HBox>
+
+                <Label fx:id="uidLabel" text="UID: -"/>
+
+                <Label text="결과"/>
+                <TextArea fx:id="resultArea" prefHeight="120" wrapText="true"/>
+
+                <Label text="카드 데이터"/>
+                <TextArea fx:id="cardDataArea" prefHeight="250" wrapText="true"/>
+            </VBox>
+        </content>
+    </ScrollPane>
+</VBox>
