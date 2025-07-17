@@ -1,4 +1,4 @@
-package com.sysone.ogamza.controller;
+package com.sysone.ogamza.controller.user;
 
 import com.sysone.ogamza.nfc.NFCReader;
 import com.sysone.ogamza.service.NFCService;

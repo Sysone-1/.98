@@ -1,4 +1,4 @@
-package com.sysone.ogamza.controller;
+package com.sysone.ogamza.controller.user;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
