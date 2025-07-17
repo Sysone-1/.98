@@ -1,4 +1,4 @@
-package com.sysone.ogamza.controller;
+package com.sysone.ogamza.controller.user;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;

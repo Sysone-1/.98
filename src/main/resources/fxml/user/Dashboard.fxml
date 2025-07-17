@@ -8,7 +8,7 @@
 
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.sysone.ogamza.controller.DashboardController"
+            fx:controller="com.sysone.ogamza.controller.user.DashboardController"
             prefHeight="400.0" prefWidth="600.0">
     <children>
         <Label fx:id="welcomeLabel" text="환영합니다!" layoutX="50" layoutY="50"/>

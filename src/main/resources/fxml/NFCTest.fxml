@@ -9,7 +9,7 @@
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.HBox?>
 <VBox xmlns:fx="http://javafx.com/fxml"
-      fx:controller="com.sysone.ogamza.controller.NFCController"
+      fx:controller="com.sysone.ogamza.controller.user.NFCController"
       spacing="20"
       style="-fx-background-color: lightblue; -fx-padding: 10;">
 
