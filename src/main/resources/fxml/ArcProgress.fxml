@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<?import javafx.scene.canvas.Canvas?>
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.sysone.ogamza.view.ArcProgress">
+    <children>
+        <Canvas fx:id="gaugeCanvas" width="300.0" height="200.0" />
+    </children>
+</AnchorPane>
