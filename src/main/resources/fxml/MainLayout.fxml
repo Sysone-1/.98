@@ -8,18 +8,13 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="832.0"
-            prefWidth="1284.0" style="-fx-background-radius: 50; -fx-background-color: #F1F9FF;"
-            xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.sysone.ogamza.controller.MainController">
+<AnchorPane id="anchorPane" fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="832.0" prefWidth="1284.0" style="-fx-background-radius: 50; -fx-background-color: #F1F9FF;" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sysone.ogamza.controller.MainController">
    <children>
       <VBox prefHeight="834.0" prefWidth="130.0" style="-fx-background-color: #0099FF;">
          <children>
             <VBox prefHeight="100.0" prefWidth="130.0" styleClass="sidebar-items" translateY="100.0">
                <children>
-                  <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true"
-                             preserveRatio="true" translateX="50.0" translateY="20.0"
-                             onMouseClicked="#goHome">
+                  <ImageView fitHeight="40.0" fitWidth="40.0" onMouseClicked="#goHome" pickOnBounds="true" preserveRatio="true" translateX="50.0" translateY="20.0">
                      <image>
                         <Image url="@../images/home.png" />
                      </image>
@@ -32,9 +27,7 @@
             </VBox>
             <VBox layoutX="10.0" layoutY="10.0" prefHeight="100.0" prefWidth="130.0" styleClass="sidebar-items" translateY="100.0">
                <children>
-                  <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true"
-                             translateX="50.0" translateY="20.0"
-                             onMouseClicked="#goDashboard">
+                  <ImageView fitHeight="40.0" fitWidth="40.0" onMouseClicked="#goDashboard" pickOnBounds="true" preserveRatio="true" translateX="50.0" translateY="20.0">
                      <image>
                         <Image url="@../images/dashboard.png" />
                      </image>
@@ -48,9 +41,7 @@
             </VBox>
             <VBox layoutX="10.0" layoutY="160.0" prefHeight="100.0" prefWidth="130.0" styleClass="sidebar-items" translateY="100.0">
                <children>
-                  <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true"
-                             translateX="50.0" translateY="20.0"
-                           onMouseClicked="#goRecord">
+                  <ImageView fitHeight="40.0" fitWidth="40.0" onMouseClicked="#goRecord" pickOnBounds="true" preserveRatio="true" translateX="50.0" translateY="20.0">
                      <image>
                         <Image url="@../images/record.png" />
                      </image>
@@ -64,9 +55,7 @@
             </VBox>
             <VBox layoutX="10.0" layoutY="160.0" prefHeight="100.0" prefWidth="130.0" styleClass="sidebar-items" translateY="100.0">
                <children>
-                  <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true"
-                             translateX="50.0" translateY="20.0"
-                           onMouseClicked="#goSettings">
+                  <ImageView fitHeight="40.0" fitWidth="40.0" onMouseClicked="#goSettings" pickOnBounds="true" preserveRatio="true" translateX="50.0" translateY="20.0">
                      <image>
                         <Image url="@../images/setting.png" />
                      </image>
@@ -80,9 +69,7 @@
             </VBox>
             <VBox layoutX="10.0" layoutY="460.0" prefHeight="100.0" prefWidth="130.0" styleClass="sidebar-items" translateY="250.0">
                <children>
-                  <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true"
-                             translateX="50.0" translateY="50.0"
-                           onMouseClicked="#logout">
+                  <ImageView fitHeight="40.0" fitWidth="40.0" onMouseClicked="#logout" pickOnBounds="true" preserveRatio="true" translateX="50.0" translateY="50.0">
                      <image>
                         <Image url="@../images/logout.png" />
                      </image>
@@ -90,17 +77,15 @@
                </children>
             </VBox>
          </children></VBox>
-      <VBox layoutX="130.0" prefHeight="110.0" prefWidth="1154.8" style="-fx-background-color: #ffffff;">
+      <VBox layoutX="130.0" prefHeight="110.0" prefWidth="1151.0" style="-fx-background-color: #ffffff;">
          <children>
-            <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true"
-                       style="-fx-translate-x: 10; -fx-translate-y: 40;"
-                     onMouseClicked="#goHome">
+            <ImageView fitHeight="150.0" fitWidth="200.0" onMouseClicked="#goHome" pickOnBounds="true" preserveRatio="true" style="-fx-translate-x: 10; -fx-translate-y: 20;">
                <image>
                   <Image url="@../images/userLogo.png" />
                </image>
             </ImageView>
          </children>
       </VBox>
-      <StackPane fx:id="contentArea" layoutX="130.0" layoutY="111.0" prefHeight="1304.0" prefWidth="1266.0" />
+      <StackPane fx:id="contentArea" layoutX="130.0" layoutY="110.0" prefHeight="721.0" prefWidth="1151.0" />
    </children>
 </AnchorPane>

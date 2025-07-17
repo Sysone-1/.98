@@ -5,7 +5,9 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.shape.Rectangle;
 
 import java.io.IOException;
 
@@ -15,10 +17,19 @@ public class MainController {
     private StackPane contentArea;
 
     @FXML
+    private AnchorPane anchorPane;
+
+    @FXML
     public void initialize() {
         // 시작 시 로그인 페이지로 로딩
         System.out.println(" 로그인 페이지 로딩 ");
         loadPage("/fxml/Home.fxml");
+
+        Rectangle clip = new Rectangle(anchorPane.getPrefWidth(), anchorPane.getPrefHeight());
+        clip.setArcWidth(50);
+        clip.setArcHeight(50);
+        anchorPane.setClip(clip);
+
     }
 
     public void goHome(MouseEvent event) {
@@ -51,6 +62,7 @@ public class MainController {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
             Parent view = loader.load();
+
             contentArea.getChildren().setAll(view);  // 페이지 교체
         } catch (IOException e) {
             e.printStackTrace();
