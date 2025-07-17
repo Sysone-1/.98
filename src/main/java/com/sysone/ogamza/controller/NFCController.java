@@ -26,7 +26,7 @@ public class NFCController {
     private void readCardUID() {
         String uid = NFCReader.readUID();
         if (uid == null) {
-            resultArea.setText("⚠ NFC 카드를 인식하지 못했습니다.");
+            resultArea.setText("❌ NFC 카드를 인식하지 못했습니다.");
         } else {
             scannedUID = uid;
             uidLabel.setText("UID: " + uid);
@@ -47,7 +47,7 @@ public class NFCController {
         String position = positionField.getText().trim();
 
         if (empId.isEmpty() || name.isEmpty() || dept.isEmpty() || position.isEmpty() || scannedUID == null) {
-            resultArea.setText("⚠ 입력값 또는 카드 UID가 없습니다.");
+            resultArea.setText("❌ 입력값 또는 카드 UID가 없습니다.");
             return;
         }
 
