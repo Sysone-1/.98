@@ -38,6 +38,7 @@ public class MainController {
     }
 
     public void goRecord(MouseEvent event){
+        loadPage("/fxml/Record.fxml");
         System.out.println(" 레코드 이동 ");
     }
 
