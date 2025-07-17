@@ -9,6 +9,8 @@ import javafx.stage.Stage;
 
 import java.util.Objects;
 
+import java.io.InputStream;
+
 public class Main extends Application {
 
     @Override
@@ -20,8 +22,11 @@ public class Main extends Application {
                 getClass().getResourceAsStream("/fonts/Inter-VariableFont_opsz,wght.ttf"),
                 10
         );
+      Font.loadFont(getClass().getResourceAsStream("/fonts/SUIT-Regular.tff"),10);
+      Font.loadFont(getClass().getResourceAsStream("/fonts/KoPubWorld Batang Light.ttf"),10);
+      Font.loadFont(getClass().getResourceAsStream("/fonts/ylee Mortal Heart, Immortal Memory v.1.11 (TTF).ttf"),10);
+        // 안전한 폰트 로딩
 
-        // TODO: 로그인 페이지 완성되면 Login.fxml로 변경
         /* 2) FXML 파일 로드 */
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/MainLayout.fxml"));
         Parent root = loader.load();

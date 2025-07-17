@@ -3,8 +3,12 @@
  font-family: "Inter";
  src:url("/fonts/Inter-VariableFont_opsz,wght.ttf");
 }
-
+@font-face{
+ font-family: "SUIT";
+ src:url("/fonts/SUIT-Reqular.tff");
+}
 /* 전역 기본 글꼴로 사용 */
 .root {
- -fx-font-family: "Inter","Malgun Gothic";
+ -fx-font-family: "Inter","SUIT";
 }
+
