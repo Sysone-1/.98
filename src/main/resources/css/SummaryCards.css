@@ -1,0 +1,45 @@
+/* 섹션 제목 - 23px, semi-bold, 왼쪽 정렬 */
+.section-title {
+    -fx-font-size: 23px;
+    -fx-font-weight: 600; /* semi-bold */
+    -fx-text-fill: #333333;
+    -fx-alignment: center-left;
+    -fx-padding: 0 0 15 20; /* 왼쪽에 20px 패딩 추가 */
+}
+
+/* 4개 원형을 감싸는 외부 사각형 박스 */
+.cards-wrapper-box {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #E5E5E5;
+    -fx-border-width: 1;
+    -fx-border-radius: 15;
+    -fx-background-radius: 15;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 10, 0, 0, 3);
+    -fx-padding: 20;
+}
+
+/* 카드 컨테이너 - 내부 컨테이너 */
+.summary-cards-container {
+    -fx-background-color: transparent;
+}
+
+/* 원형 카드 */
+.circle-card {
+    -fx-pref-width: 70;
+    -fx-pref-height: 70;
+}
+
+/* 원 안의 숫자 */
+.circle-number {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #333333;
+}
+
+/* 카드 제목 (원 아래) */
+.card-title {
+    -fx-font-size: 14px;
+    -fx-text-fill: #666666;
+    -fx-text-alignment: center;
+    -fx-wrap-text: true;
+}

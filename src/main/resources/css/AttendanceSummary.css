@@ -1,0 +1,62 @@
+/* 근태 현황 제목 */
+.attendance-title {
+    -fx-font-size: 23px;
+    -fx-font-weight: 600;
+    -fx-text-fill: #333333;
+    -fx-padding: 0 0 10 20;
+}
+
+/* 근태 카드 컨테이너 */
+.attendance-cards-container {
+    -fx-background-color: transparent;
+}
+
+/* 개별 근태 카드 */
+.attendance-card {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #E5E5E5;
+    -fx-border-width: 1;
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 5, 0, 0, 2);
+    -fx-padding: 15;
+}
+
+/* 사람 아이콘 (외곽선) */
+.person-icon-outline {
+    -fx-fill: transparent;
+    -fx-stroke: #666666;
+    -fx-stroke-width: 2;
+    -fx-scale-x: 1.5;
+    -fx-scale-y: 1.5;
+}
+
+/* 사람 아이콘 (채워진) */
+.person-icon-filled {
+    -fx-fill: #333333;
+    -fx-stroke: none;
+    -fx-scale-x: 1.5;
+    -fx-scale-y: 1.5;
+}
+
+/* 집 아이콘 */
+.home-icon {
+    -fx-fill: #333333;
+    -fx-stroke: none;
+    -fx-scale-x: 1.5;
+    -fx-scale-y: 1.5;
+}
+
+/* 근태 인원 수 */
+.attendance-count {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #333333;
+}
+
+/* 근태 레이블 */
+.attendance-label {
+    -fx-font-size: 14px;
+    -fx-text-fill: #666666;
+    -fx-text-alignment: center;
+}

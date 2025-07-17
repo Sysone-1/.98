@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
+
+<!-- SummaryCards.fxml: 결재·근태 신청 요약 카드 모듈 -->
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.sysone.ogamza.controller.SummaryCardsController"
+      spacing="15"
+      alignment="CENTER"
+      stylesheets="@/css/SummaryCards.css">
+
+    <!-- 제목 - 중앙 정렬 -->
+
+    <!-- 카드 컨테이너 박스 -->
+    <VBox styleClass="cards-wrapper">
+        <HBox spacing="52" alignment="CENTER" styleClass="summary-cards-container">
+            <padding>
+                <Insets top="40" right="40" bottom="40" left="40"/>
+            </padding>
+
+            <!-- 휴가 신청 카드 -->
+            <VBox fx:id="vacationCard" spacing="10" alignment="CENTER" prefWidth="120">
+                <StackPane styleClass="circle-card">
+                    <Circle radius="35" fill="#DBE8F6" stroke="#E9ECEF" strokeWidth="1"/>
+                    <Label fx:id="vacationCount" text="0" styleClass="circle-number"/>
+                </StackPane>
+                <Label text="휴가 신청" styleClass="card-title"/>
+            </VBox>
+
+            <!-- 신청 카드 -->
+            <VBox fx:id="businessCard" spacing="10" alignment="CENTER" prefWidth="120">
+                <StackPane styleClass="circle-card">
+                    <Circle radius="35" fill="#DBE8F6" stroke="#E9ECEF" strokeWidth="1"/>
+                    <Label fx:id="businessCount" text="0" styleClass="circle-number"/>
+                </StackPane>
+                <Label text="조퇴 신청" styleClass="card-title"/>
+            </VBox>
+
+            <!-- 출퇴근 변경 신청 카드 -->
+            <VBox fx:id="lateCard" spacing="10" alignment="CENTER" prefWidth="120">
+                <StackPane styleClass="circle-card">
+                    <Circle radius="35" fill="#DBE8F6" stroke="#E9ECEF" strokeWidth="1"/>
+                    <Label fx:id="lateCount" text="0" styleClass="circle-number"/>
+                </StackPane>
+                <Label text="출퇴근 변경 신청" styleClass="card-title"/>
+            </VBox>
+
+            <!-- 근태 휴스 신청 카드 -->
+            <VBox fx:id="absentCard" spacing="10" alignment="CENTER" prefWidth="120">
+                <StackPane styleClass="circle-card">
+                    <Circle radius="35" fill="#DBE8F6" stroke="#E9ECEF" strokeWidth="1"/>
+                    <Label fx:id="absentCount" text="0" styleClass="circle-number"/>
+                </StackPane>
+                <Label text="근태 취소 신청" styleClass="card-title"/>
+            </VBox>
+        </HBox>
+    </VBox>
+</VBox>
