@@ -1,4 +1,4 @@
-package com.sysone.ogamza.db;
+package com.sysone.ogamza.utils.db;
 import java.sql.*;
 
 public class DbTest {
