@@ -7,42 +7,39 @@ import javafx.scene.Scene;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
+import java.util.Objects;
+
 import java.io.InputStream;
 
 public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+        /* 글꼴 등록 : 첫 실행 때 한 번만 호출해주면 됨.
+           이후부터 Font.font("Inter",...)
+        */
+      Font.loadFont(
+                getClass().getResourceAsStream("/fonts/Inter-VariableFont_opsz,wght.ttf"),
+                10
+        );
+      Font.loadFont(getClass().getResourceAsStream("/fonts/SUIT-Regular.tff"),10);
+      Font.loadFont(getClass().getResourceAsStream("/fonts/KoPubWorld Batang Light.ttf"),10);
+      Font.loadFont(getClass().getResourceAsStream("/fonts/ylee Mortal Heart, Immortal Memory v.1.11 (TTF).ttf"),10);
         // 안전한 폰트 로딩
-        loadCustomFont("/fonts/KoPubWorld Batang Light.ttf", 16);
-        loadCustomFont("/fonts/ylee Mortal Heart, Immortal Memory v.1.11 (TTF).ttf", 16);
 
-        // TODO: 로그인 페이지 완성되면 Login.fxml로 변경
+        /* 2) FXML 파일 로드 */
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/MainLayout.fxml"));
         Parent root = loader.load();
-        primaryStage.setTitle("ontime.89");
-        primaryStage.setScene(new Scene(root, 1284, 832));
-        primaryStage.show();
-    }
 
-    private void loadCustomFont(String fontPath, double size) {
-        try {
-            InputStream fontStream = getClass().getResourceAsStream(fontPath);
-            if (fontStream != null) {
-                Font customFont = Font.loadFont(fontStream, size);
-                if (customFont != null) {
-                    String fontFamily = customFont.getFamily();
-                    System.out.println("폰트 로딩 성공: " + fontFamily);
-                } else {
-                    System.err.println("폰트 로딩 실패: " + fontPath);
-                }
-                fontStream.close();
-            } else {
-                System.err.println("폰트 파일을 찾을 수 없습니다: " + fontPath);
-            }
-        } catch (Exception e) {
-            System.err.println("폰트 로딩 중 오류 발생: " + fontPath + " - " + e.getMessage());
-        }
+        /* 3) Scene + CSS */
+        Scene scene = new Scene(root, 1280, 832);
+        scene.getStylesheets().add (
+            Objects.requireNonNull(getClass().getResource("/css/main.css")).toExternalForm());
+
+        /* 4) Stage 세팅 */
+        primaryStage.setTitle("ontime.89");
+        primaryStage.setScene(scene);
+        primaryStage.show();
     }
 
     public static void main(String[] args) {
