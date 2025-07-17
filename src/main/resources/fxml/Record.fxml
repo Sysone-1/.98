@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="743.0" prefWidth="1126.0" style="-fx-background-color:#F1F9FF;" stylesheets="@../css/record.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sysone.ogamza.controller.RecordController">
+   <children>
+   
+       <!-- 헤더 레이블 : 좌·상 24px -->
+       <Label fx:id="recordLabel" style="-fx-font-size:18px;-fx-font-weight:bold;" AnchorPane.leftAnchor="24.0" AnchorPane.topAnchor="24.0" />
+
+       <!-- 테이블 : 사방 24px, 위쪽은 레이블 공간만큼 64px -->
+       <TableView fx:id="recordTable" AnchorPane.bottomAnchor="24.0" AnchorPane.leftAnchor="24.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="24.0">
+   
+           <columns>
+               <TableColumn fx:id="id" prefWidth="150.0" text="사원번호" />
+               <TableColumn fx:id="name" prefWidth="150.0" text="이름" />
+               <TableColumn fx:id="date" prefWidth="195.0" text="근무 날짜" />
+               <TableColumn fx:id="inTime" prefWidth="195.0" text="출근 시간" />
+               <TableColumn fx:id="outTIme" prefWidth="195.0" text="퇴근 시간" />
+               <TableColumn fx:id="status" prefWidth="150.0" text="근무 상태" />
+           </columns>
+       </TableView>
+   </children>
+
+</AnchorPane>
