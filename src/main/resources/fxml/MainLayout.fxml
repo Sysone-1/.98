@@ -101,6 +101,13 @@
             </ImageView>
          </children>
       </VBox>
-      <StackPane fx:id="contentArea" layoutX="130.0" layoutY="111.0" prefHeight="1304.0" prefWidth="1266.0" />
+      <StackPane fx:id="contentArea"
+                 style="-fx-padding:24;"
+                 AnchorPane.topAnchor="110"
+                 AnchorPane.leftAnchor="130"
+                 AnchorPane.rightAnchor="24"
+                 AnchorPane.bottomAnchor="24"
+                 layoutX="130.0"
+                 layoutY="111.0" prefHeight="1304.0" prefWidth="1266.0" />
    </children>
 </AnchorPane>
