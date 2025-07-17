@@ -16,9 +16,9 @@
            <columns>
                <TableColumn fx:id="id" prefWidth="150.0" text="사원번호" />
                <TableColumn fx:id="name" prefWidth="150.0" text="이름" />
-               <TableColumn fx:id="date" prefWidth="195.0" text="근무 날짜" />
-               <TableColumn fx:id="inTime" prefWidth="195.0" text="출근 시간" />
-               <TableColumn fx:id="outTIme" prefWidth="195.0" text="퇴근 시간" />
+               <TableColumn fx:id="date" prefWidth="190.0" text="근무 날짜" />
+               <TableColumn fx:id="inTime" prefWidth="190.0" text="출근 시간" />
+               <TableColumn fx:id="outTIme" prefWidth="190.0" text="퇴근 시간" />
                <TableColumn fx:id="status" prefWidth="150.0" text="근무 상태" />
            </columns>
        </TableView>
