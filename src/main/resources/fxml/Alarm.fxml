@@ -21,11 +21,11 @@
     <!-- VBox로 전체 내용을 새로 배치 -->
     <VBox alignment="CENTER_LEFT" spacing="20" AnchorPane.topAnchor="20" AnchorPane.leftAnchor="20" AnchorPane.rightAnchor="30">
     <!-- 제목 -->
-    <Label text = "알림 설정" style="-fx-font-size: 20px;" />
+    <Label text = "퇴근 알림 설정" style="-fx-font-size: 20px;" />
         <!-- 허용 여부-->
         <HBox spacing="20" alignment="CENTER_LEFT">
             <Label text="허용 여부" style="-fx-font-size: 16px;" prefHeight="24"/>
-            <ToggleSwitch fx:id="toggleSwitch" text="" prefWidth="50" prefHeight="27"/>
+            <ToggleSwitch fx:id="toggleSwitch" prefWidth="50" prefHeight="27"/>
         </HBox>
 
         <!-- 시간대 설정-->
