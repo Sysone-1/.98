@@ -110,11 +110,11 @@
         <!-- 버튼 영역 -->
         <HBox alignment="CENTER" spacing="10">
             <Button text="취소" fx:id="cancelButton"
-                    style="-fx-background-color: #4f4f4f; -fx-text-fill: white; -fx-background-radius: 8
+                    style="-fx-background-color: #4f4f4f; -fx-text-fill: white; -fx-background-radius: 8;
                     -fx-pref-height:27px; -fx-pref-width: 60px; -fx-font-size:16px"
                     onAction="#handleCancel"/>
             <Button text="저장" fx:id="saveButton"
-                    style="-fx-background-color: #009DFF; -fx-text-fill: white; -fx-background-radius: 8
+                    style="-fx-background-color: #009DFF; -fx-text-fill: white; -fx-background-radius: 8;
                     -fx-pref-height:27px; -fx-pref-width: 60px; -fx-font-size:16px"
                     onAction="#handleSave"/>
         </HBox>
