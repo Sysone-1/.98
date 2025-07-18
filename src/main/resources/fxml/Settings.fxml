@@ -23,7 +23,8 @@
                 </StackPane>
 
                 <!-- 카드 2 : 알림 정보-->
-                <StackPane prefHeight="60.0" prefWidth="1050.0" style="-fx-background-color: white; -fx-background-radius: 8px; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 4, 0, 0, 2);">
+                <StackPane fx:id = "alarm" onMouseClicked = "#openAlarmModal"
+                           prefHeight="60.0" prefWidth="1050.0" style="-fx-background-color: white; -fx-background-radius: 8px; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 4, 0, 0, 2);">
                     <children>
                         <Label style="-fx-font-size: 16px; -fx-padding : 10 20" text="알림 정보" />
                     </children>
