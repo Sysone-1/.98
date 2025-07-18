@@ -61,7 +61,7 @@
                         </VBox>
                         <VBox prefHeight="200.0" prefWidth="100.0" style="-fx-pref-width: 175; -fx-alignment: center;">
                            <children>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="08 : 45 :  42">
+                              <Text fx:id="accessTime" strokeType="OUTSIDE" strokeWidth="0.0" text="08 : 45 :  42" wrappingWidth="157.42835927009583">
                                  <font>
                                     <Font name="SansSerif Regular" size="24.0" />
                                  </font>
@@ -85,9 +85,9 @@
                               </VBox>
                            </children>
                         </VBox>
-                        <VBox prefHeight="200.0" prefWidth="100.0" style="-fx-pref-width: 175; -fx-alignment: center;">
+                        <VBox prefHeight="200.0" prefWidth="100.0" style="-fx-pref-width: 175; -fx-alignment: center; -fx-padding: 0 25 0 0;">
                            <children>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="-- : -- : --">
+                              <Text fx:id="leaveTime" strokeType="OUTSIDE" strokeWidth="0.0" text="-- : -- : --" wrappingWidth="129.9609501361847">
                                  <font>
                                     <Font name="SansSerif Regular" size="24.0" />
                                  </font>
@@ -111,9 +111,9 @@
                               </VBox>
                            </children>
                         </VBox>
-                        <VBox prefHeight="200.0" prefWidth="100.0" style="-fx-pref-width: 175; -fx-alignment: center;">
+                        <VBox prefHeight="70.0" prefWidth="229.0" style="-fx-pref-width: 175; -fx-alignment: center; -fx-padding: 0 40 0 0;">
                            <children>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="3시간 25분">
+                              <Text fx:id="workingHours" strokeType="OUTSIDE" strokeWidth="0.0" text="3시간 25분">
                                  <font>
                                     <Font name="SansSerif Regular" size="24.0" />
                                  </font>
@@ -128,7 +128,7 @@
                <children>
                   <VBox prefHeight="137.0" prefWidth="337.0">
                      <children>
-                        <HBox prefHeight="129.0" prefWidth="337.0" style="-fx-alignment: center;">
+                        <HBox prefHeight="129.0" prefWidth="337.0" style="-fx-alignment: center; -fx-padding: 0 30 0 0;">
                            <children>
                                <StackPane prefHeight="117.0" prefWidth="300" translateY="-60">
                                   <fx:include source="ArcProgress.fxml" />
@@ -143,11 +143,15 @@
                                                 </font>
                                              </Text>
                                              <HBox prefHeight="100.0" prefWidth="200.0" style="-fx-alignment: center; -fx-max-height: 20;" />
-                                             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="5시간 15분" wrappingWidth="119.99995803833008">
-                                                <font>
-                                                   <Font name="SansSerif Bold" size="24.0" />
-                                                </font>
-                                             </Text>
+                                             <VBox prefHeight="27.0" prefWidth="173.0" style="-fx-alignment: center; -fx-pref-height: 10;">
+                                                <children>
+                                                   <Text fx:id="remainingWorkingHours" strokeType="OUTSIDE" strokeWidth="0.0" text="155시간 15분" translateX="20" wrappingWidth="153.33337497711182">
+                                                      <font>
+                                                         <Font name="SansSerif Bold" size="24.0" />
+                                                      </font>
+                                                   </Text>
+                                                </children>
+                                             </VBox>
                                           </children>
                                        </VBox>
                                     </children>
@@ -164,9 +168,9 @@
                <children>
                   <HBox prefHeight="100.0" prefWidth="349.0" style="-fx-alignment: CENTER_LEFT;">
                      <children>
-                        <VBox prefHeight="65.0" prefWidth="100.0" style="-fx-alignment: center-left;">
+                        <VBox prefHeight="65.0" prefWidth="100.0" style="-fx-alignment: center;">
                            <children>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="연차">
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="연차" wrappingWidth="64.66674423217773">
                                  <font>
                                     <Font name="System Bold" size="24.0" />
                                  </font>
@@ -175,20 +179,20 @@
                         </VBox>
                      </children>
                   </HBox>
-                  <HBox prefHeight="100.0" prefWidth="349.0" style="-fx-alignment: center-left; -fx-padding: 7;">
+                  <HBox prefHeight="100.0" prefWidth="371.0" style="-fx-alignment: center-left; -fx-padding: 7;">
                      <children>
-                        <ProgressBar id="progressBar" prefHeight="35.0" prefWidth="335.0" progress="0.4" />
+                        <ProgressBar fx:id="vacationProgressBar" prefHeight="35.0" prefWidth="363.0" progress="0.4" />
                      </children></HBox>
                   <HBox prefHeight="89.0" prefWidth="349.0" style="-fx-alignment: CENTER_LEFT;">
                      <children>
-                        <HBox prefHeight="49.0" prefWidth="198.0" style="-fx-alignment: center-left; -fx-padding: 5;">
+                        <HBox prefHeight="39.0" prefWidth="187.0" style="-fx-alignment: center; -fx-padding: 5;">
                            <children>
                               <Text fill="#7f8c8d" strokeType="OUTSIDE" strokeWidth="0.0" text="총연차 :  ">
                                  <font>
                                     <Font name="SansSerif Regular" size="20.0" />
                                  </font>
                               </Text>
-                              <Text fill="#7f8c8d" strokeType="OUTSIDE" strokeWidth="0.0" text="15일">
+                              <Text fx:id="totalVacation" fill="#7f8c8d" strokeType="OUTSIDE" strokeWidth="0.0" text="15일" wrappingWidth="68.24608993530273">
                                  <font>
                                     <Font name="SansSerif Regular" size="20.0" />
                                  </font>
@@ -199,14 +203,14 @@
                   </HBox>
                   <HBox prefHeight="85.0" prefWidth="349.0" style="-fx-alignment: CENTER_LEFT;">
                      <children>
-                        <HBox prefHeight="100.0" prefWidth="200.0" style="-fx-alignment: center-left; -fx-padding: 5;">
+                        <HBox prefHeight="35.0" prefWidth="197.0" style="-fx-alignment: center; -fx-padding: 5;">
                            <children>
                               <Text fill="#7f8c8d" strokeType="OUTSIDE" strokeWidth="0.0" text="사용 연차 : ">
                                  <font>
                                     <Font name="SansSerif Regular" size="20.0" />
                                  </font>
                               </Text>
-                              <Text fill="#7f8c8d" strokeType="OUTSIDE" strokeWidth="0.0" text="3일">
+                              <Text fx:id="usedVacation" fill="#7f8c8d" strokeType="OUTSIDE" strokeWidth="0.0" text="3일" wrappingWidth="61.7896728515625">
                                  <font>
                                     <Font name="SansSerif Regular" size="20.0" />
                                  </font>
@@ -217,14 +221,14 @@
                   </HBox>
                   <HBox prefHeight="86.0" prefWidth="349.0" style="-fx-alignment: CENTER_LEFT;">
                      <children>
-                        <HBox prefHeight="100.0" prefWidth="200.0" style="-fx-alignment: center-left; -fx-padding: 5;">
+                        <HBox prefHeight="36.0" prefWidth="210.0" style="-fx-alignment: center; -fx-padding: 5;">
                            <children>
                               <Text fill="#7f8c8d" strokeType="OUTSIDE" strokeWidth="0.0" text="남은 연차 : ">
                                  <font>
                                     <Font name="SansSerif Regular" size="20.0" />
                                  </font>
                               </Text>
-                              <Text fill="#7f8c8d" strokeType="OUTSIDE" strokeWidth="0.0" text="12일">
+                              <Text fx:id="remainingVacation" fill="#7f8c8d" strokeType="OUTSIDE" strokeWidth="0.0" text="12일" wrappingWidth="73.5794677734375">
                                  <font>
                                     <Font name="SansSerif Regular" size="20.0" />
                                  </font>
@@ -237,26 +241,60 @@
          </children>
       </HBox>
       
-      <VBox layoutX="53.0" layoutY="403.0" prefHeight="265.0" prefWidth="491.0" style="-fx-background-color: white; -fx-background-radius: 20; -fx-border-radius: 20; -fx-padding: 10;">
+      <VBox layoutX="53.0" layoutY="403.0" prefHeight="265.0" prefWidth="520.0" style="-fx-background-color: white; -fx-background-radius: 20; -fx-border-radius: 20; -fx-padding: 10;">
           <effect>
               <DropShadow color="gray" offsetX="2" offsetY="2" radius="5" />
           </effect>
           <children>
-            <HBox prefHeight="100.0" prefWidth="200.0">
+            <HBox prefHeight="60.0" prefWidth="475.0">
                <children>
-                  <VBox prefHeight="64.0" prefWidth="341.0" style="-fx-alignment: center-left;">
+                  <VBox prefHeight="60.0" prefWidth="370.0" style="-fx-alignment: center-left;">
                      <children>
-                        <VBox prefHeight="49.0" prefWidth="324.0" style="-fx-alignment: center;">
+                        <VBox prefHeight="49.0" prefWidth="273.0" style="-fx-alignment: center;">
                            <children>
-                              <VBox maxWidth="356.0" prefHeight="49.0" prefWidth="356.0" style="-fx-alignment: center; -fx-max-width: 300;">
+                              <HBox prefHeight="49.0" prefWidth="410.0" style="-fx-padding: 0 0 0 20;">
                                  <children>
-                                    <Text fill="#187bcd" strokeType="OUTSIDE" strokeWidth="0.0" text="07월 1주차 (주 52시간 기준)" wrappingWidth="289.9999656677246">
-                                       <font>
-                                          <Font name="SansSerif Regular" size="20.0" />
-                                       </font>
-                                    </Text>
+                                    <HBox prefHeight="49.0" prefWidth="105.0">
+                                       <children>
+                                          <VBox maxWidth="356.0" prefHeight="49.0" prefWidth="356.0" style="-fx-alignment: center; -fx-max-width: 30;">
+                                             <children>
+                                                <Text fx:id="todayMonth" fill="#187bcd" strokeType="OUTSIDE" strokeWidth="0.0" text="07월" wrappingWidth="44.00000762939453">
+                                                   <font>
+                                                      <Font name="SansSerif Regular" size="20.0" />
+                                                   </font>
+                                                </Text>
+                                             </children>
+                                          </VBox>
+                                       </children>
+                                    </HBox>
+                                    <HBox prefHeight="49.0" prefWidth="481.0">
+                                       <children>
+                                          <VBox maxWidth="356.0" prefHeight="49.0" prefWidth="73.0" style="-fx-alignment: center-left; -fx-max-width: 300; -fx-padding: 0 0 0 5;">
+                                             <children>
+                                                <Text fx:id="todayWeek" fill="#187bcd" strokeType="OUTSIDE" strokeWidth="0.0" text="52주차" wrappingWidth="62.6666374206543">
+                                                   <font>
+                                                      <Font name="SansSerif Regular" size="20.0" />
+                                                   </font>
+                                                </Text>
+                                             </children>
+                                          </VBox>
+                                       </children>
+                                    </HBox>
+                                    <HBox prefHeight="49.0" prefWidth="481.0">
+                                       <children>
+                                          <VBox maxWidth="356.0" prefHeight="49.0" prefWidth="73.0" style="-fx-alignment: center-left; -fx-max-width: 300;">
+                                             <children>
+                                                <Text fill="#187bcd" strokeType="OUTSIDE" strokeWidth="0.0" text=" (주 52시간 기준)" wrappingWidth="245.33331680297852">
+                                                   <font>
+                                                      <Font name="SansSerif Regular" size="20.0" />
+                                                   </font>
+                                                </Text>
+                                             </children>
+                                          </VBox>
+                                       </children>
+                                    </HBox>
                                  </children>
-                              </VBox>
+                              </HBox>
                            </children>
                         </VBox>
                      </children>
@@ -300,11 +338,28 @@
                <children>
                   <VBox maxWidth="363.0" prefHeight="15.0" prefWidth="379.0" style="-fx-alignment: center-right; -fx-max-width: 530;">
                      <children>
-                        <Text fill="#e74c3c" strokeType="OUTSIDE" strokeWidth="0.0" text="52h" wrappingWidth="58.6667594909668">
-                           <font>
-                              <Font name="SansSerif Regular" size="16.0" />
-                           </font>
-                        </Text>
+                        <HBox prefHeight="0.0" prefWidth="471.0">
+                           <children>
+                              <VBox prefHeight="27.0" prefWidth="357.0" style="-fx-alignment: center;">
+                                 <children>
+                                    <Text fx:id="totalWorkingHours" strokeType="OUTSIDE" strokeWidth="0.0" text="34시간 25분" wrappingWidth="278.7109832763672">
+                                       <font>
+                                          <Font name="SansSerif Regular" size="24.0" />
+                                       </font>
+                                    </Text>
+                                 </children>
+                              </VBox>
+                              <VBox maxWidth="363.0" prefHeight="27.0" prefWidth="71.0" style="-fx-alignment: center-right; -fx-max-width: 530;">
+                                 <children>
+                                    <Text fill="#e74c3c" strokeType="OUTSIDE" strokeWidth="0.0" text="52h" wrappingWidth="50.000133991241455">
+                                       <font>
+                                          <Font name="SansSerif Regular" size="16.0" />
+                                       </font>
+                                    </Text>
+                                 </children>
+                              </VBox>
+                           </children>
+                        </HBox>
                      </children>
                   </VBox>
                </children>
@@ -313,8 +368,8 @@
                <children>
                   <StackPane prefHeight="37.0" prefWidth="450.0">
                      <children>
-                        <ProgressBar id="progressBar" prefHeight="37.0" prefWidth="435.0" progress="0.4" />
-                        <VBox prefHeight="42.0" prefWidth="461.0" style="-fx-alignment: center-right; -fx-max-width: 200;">
+                        <ProgressBar fx:id="workingProgressBar" prefHeight="37.0" prefWidth="488.0" progress="0.76" />
+                        <VBox maxWidth="221.0" prefHeight="42.0" prefWidth="221.0" style="-fx-alignment: center-right; -fx-max-width: 224;">
                            <children>
                               <Line endX="-100.3636474609375" endY="37.29289245605469" startX="-100.0" stroke="#ff6e6e" strokeWidth="3.0" style="-fx-stroke-dash-array: 5;" />
                            </children>
@@ -322,77 +377,85 @@
                      </children>
                   </StackPane>
                </children></HBox>
-            <HBox prefHeight="66.0" prefWidth="499.0" style="-fx-alignment: center-left;">
+            <VBox prefHeight="200.0" prefWidth="100.0" style="-fx-padding: 10;">
                <children>
-                  <VBox maxWidth="345.0" prefHeight="21.0" prefWidth="244.0" style="-fx-alignment: center; -fx-max-width: 300;">
+                  <HBox prefHeight="66.0" prefWidth="499.0" style="-fx-alignment: center-left;">
                      <children>
-                        <HBox prefHeight="49.0" prefWidth="244.0" style="-fx-alignment: center;">
+                        <VBox maxWidth="345.0" prefHeight="21.0" prefWidth="244.0" style="-fx-alignment: center; -fx-max-width: 300;">
                            <children>
-                              <Text fill="#7f8c8d" strokeType="OUTSIDE" strokeWidth="0.0" text="남은 근무 시간 : ">
-                                 <font>
-                                    <Font name="SansSerif Regular" size="16.0" />
-                                 </font>
-                              </Text>
-                              <Text fill="#7f8c8d" strokeType="OUTSIDE" strokeWidth="0.0" text="19시간 20분">
-                                 <font>
-                                    <Font name="SansSerif Regular" size="16.0" />
-                                 </font>
-                              </Text>
+                              <HBox prefHeight="49.0" prefWidth="244.0" style="-fx-alignment: center;">
+                                 <children>
+                                    <Text fill="#7f8c8d" strokeType="OUTSIDE" strokeWidth="0.0" text="남은 근무 시간 : " wrappingWidth="128.2265625">
+                                       <font>
+                                          <Font name="SansSerif Regular" size="16.0" />
+                                       </font>
+                                    </Text>
+                                    <Text fx:id="totalRemainingWorkingHours" fill="#7f8c8d" strokeType="OUTSIDE" strokeWidth="0.0" text="19시간 20분" wrappingWidth="244.03899765014648">
+                                       <font>
+                                          <Font name="SansSerif Regular" size="16.0" />
+                                       </font>
+                                    </Text>
+                                 </children>
+                              </HBox>
                            </children>
-                        </HBox>
+                        </VBox>
                      </children>
-                  </VBox>
-               </children>
-            </HBox>
-            <HBox prefHeight="69.0" prefWidth="499.0" style="-fx-alignment: center-left;">
-               <children>
-                  <VBox maxWidth="249.0" prefHeight="49.0" prefWidth="249.0" style="-fx-alignment: center; -fx-max-width: 300;">
+                  </HBox>
+                  <HBox prefHeight="69.0" prefWidth="499.0" style="-fx-alignment: center-left;">
                      <children>
-                        <HBox prefHeight="49.0" prefWidth="273.0" style="-fx-alignment: center;">
+                        <VBox maxWidth="249.0" prefHeight="49.0" prefWidth="249.0" style="-fx-alignment: center; -fx-max-width: 300;">
                            <children>
-                              <Text fill="#7f8c8d" strokeType="OUTSIDE" strokeWidth="0.0" text="남은  연장 근무 시간 :  ">
-                                 <font>
-                                    <Font name="SansSerif Regular" size="16.0" />
-                                 </font></Text>
-                              <Text fill="#7f8c8d" strokeType="OUTSIDE" strokeWidth="0.0" text="12시간">
-                                 <font>
-                                    <Font name="SansSerif Regular" size="16.0" />
-                                 </font></Text>
+                              <HBox prefHeight="49.0" prefWidth="273.0" style="-fx-alignment: center;">
+                                 <children>
+                                    <Text fill="#7f8c8d" strokeType="OUTSIDE" strokeWidth="0.0" text="남은  연장 근무 시간 :  ">
+                                       <font>
+                                          <Font name="SansSerif Regular" size="16.0" />
+                                       </font>
+                                    </Text>
+                                    <Text fx:id="extendWorkingTime" fill="#7f8c8d" strokeType="OUTSIDE" strokeWidth="0.0" text="12시간" wrappingWidth="229.1301828622818">
+                                       <font>
+                                          <Font name="SansSerif Regular" size="16.0" />
+                                       </font>
+                                    </Text>
+                                 </children>
+                              </HBox>
                            </children>
-                        </HBox>
+                        </VBox>
                      </children>
-                  </VBox>
-               </children>
-            </HBox>
-            <HBox prefHeight="61.0" prefWidth="471.0" style="-fx-alignment: center-left;">
-               <children>
-                  <VBox maxWidth="253.0" prefHeight="49.0" prefWidth="292.0" style="-fx-alignment: center; -fx-max-width: 300;">
+                  </HBox>
+                  <HBox prefHeight="61.0" prefWidth="471.0" style="-fx-alignment: center-left;">
                      <children>
-                        <HBox prefHeight="100.0" prefWidth="200.0" style="-fx-alignment: center;">
+                        <VBox maxWidth="253.0" prefHeight="49.0" prefWidth="292.0" style="-fx-alignment: center; -fx-max-width: 300;">
                            <children>
-                              <Text fill="#7f8c8d" strokeType="OUTSIDE" strokeWidth="0.0" text="남은  휴일 연장 근무 시간 :  ">
-                                 <font>
-                                    <Font name="SansSerif Regular" size="16.0" />
-                                 </font></Text>
-                              <Text fill="#7f8c8d" strokeType="OUTSIDE" strokeWidth="0.0" text=" 16시간">
-                                 <font>
-                                    <Font name="SansSerif Regular" size="16.0" />
-                                 </font></Text>
+                              <HBox prefHeight="100.0" prefWidth="200.0" style="-fx-alignment: center;">
+                                 <children>
+                                    <Text fill="#7f8c8d" strokeType="OUTSIDE" strokeWidth="0.0" text="남은  휴일 연장 근무 시간 :  " wrappingWidth="201.3411865234375">
+                                       <font>
+                                          <Font name="SansSerif Regular" size="16.0" />
+                                       </font>
+                                    </Text>
+                                    <Text fx:id="weekendWorkingTime" fill="#7f8c8d" strokeType="OUTSIDE" strokeWidth="0.0" text="16시간" wrappingWidth="232.24219226837158">
+                                       <font>
+                                          <Font name="SansSerif Regular" size="16.0" />
+                                       </font>
+                                    </Text>
+                                 </children>
+                              </HBox>
                            </children>
-                        </HBox>
+                        </VBox>
                      </children>
-                  </VBox>
+                  </HBox>
                </children>
-            </HBox>
+            </VBox>
          </children></VBox>
       <VBox layoutX="578.0" layoutY="403.0" prefHeight="265.0" prefWidth="520.0" style=" -fx-background-color: white; -fx-background-radius: 20; -fx-border-radius: 20">
           <effect>
               <DropShadow color="gray" offsetX="2" offsetY="2" radius="5" />
           </effect>
           <children>
-            <VBox prefHeight="268.0" prefWidth="520.0" style="-fx-alignment: center;">
+            <VBox fx:id="scheduleListBox" prefHeight="268.0" prefWidth="520.0" spacing="10" style="-fx-alignment: top-center; -fx-padding: 15 15 10 15;">
                <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="등록된 일정이 없습니다.">
+                  <Text fx:id="noScheduleText" strokeType="OUTSIDE" strokeWidth="0.0" text="등록된 일정이 없습니다.">
                      <font>
                         <Font name="SansSerif Regular" size="24.0" />
                      </font>
