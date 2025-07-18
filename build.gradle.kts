@@ -12,6 +12,9 @@ repositories {
 dependencies {
     implementation("org.openjfx:javafx-controls:$javafxVersion")
     implementation("org.openjfx:javafx-fxml:$javafxVersion")
+
+    // Medusa 게이지 차트 라이브러리
+    implementation("eu.hansolo:medusa:21.0.9")
 }
 
 application {

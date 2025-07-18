@@ -18,12 +18,12 @@ public class MainController {
     public void initialize() {
         // 시작 시 로그인 페이지로 로딩
         System.out.println(" 로그인 페이지 로딩 ");
-        loadPage("/fxml/Home.fxml");
+        loadPage("/fxml/AdminHome.fxml");
     }
 
     public void goHome(MouseEvent event) {
         System.out.println(" 메인 홈 이동 ");
-        loadPage("/fxml/Home.fxml");
+        loadPage("/fxml/AdminHome.fxml");
     }
 
     public void goSettings(MouseEvent event) {
