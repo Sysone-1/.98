@@ -1,0 +1,30 @@
+.toggle-switch:selected .thumb-area {
+   -fx-background-color: #0099FF;
+   -fx-border-color: transparent;
+}
+.toggle-switch .thumb-area {
+    -fx-background-color: white;
+    -fx-border-color: #ccc; /* 테두리 색상 */
+    -fx-border-radius: 10;
+    -fx-border-width: 1; /* 테두리 두께 */
+    -fx-border-style: solid; /* 테두리 스타일 */
+}
+
+.combo-box {
+    -fx-background-color: #F1F9FF;
+    -fx-background-radius: 10;
+    -fx-border-color: #F1F9FF;
+    -fx-border-radius: 10;
+    -fx-border-width: 2;
+}
+
+.combo-box:disabled {
+    -fx-background-color: #F1F9FF;
+    -fx-background-radius: 10;
+    -fx-border-color: #F1F9FF;
+    -fx-border-radius: 10;
+    -fx-border-width: 2;
+    -fx-opacity: 1;
+}
+
+

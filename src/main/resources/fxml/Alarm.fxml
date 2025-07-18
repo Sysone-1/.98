@@ -15,7 +15,7 @@
             prefHeight="220.0" prefWidth="500.0"
             style="-fx-background-color: white; -fx-background-radius:20;">
     <stylesheets>
-        <URL value="@../css/Button.css"/>
+        <URL value="@../css/Alarm.css"/>
     </stylesheets>
 
     <!-- VBox로 전체 내용을 새로 배치 -->
