@@ -12,29 +12,40 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class SettingsController {
-
-    @FXML
-    public void openEditMemberModal(MouseEvent mouseEvent) {
+    //함수
+    private void openModal(String fxmlPath, String title) {
         try {
-            // 파일을 불러옴.
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/EditMemberModal.fxml"));
-            // FXML을 Java 객체로 로드
+            //파일을 불러옴
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
+            //FXML을 Java 객체로 로드
             Parent root = loader.load();
-            // 모달 생성
+            //모달 생성
             Stage modalStage = new Stage();
-            // 모달 설정
-            modalStage.initModality(Modality.APPLICATION_MODAL); //모달로 설정
-            // 창 위의 제목을 설정
-            modalStage.setTitle("회원 정보 수정");
-            // 모달 창에서 보일 UI 구성
+            //모달 설정
+            modalStage.initModality(Modality.APPLICATION_MODAL);
+            //창 위의 제목을 설정
+            modalStage.setTitle(title);
+            //모달 창에서 보일 UI 구성
             modalStage.setScene(new Scene(root));
-            // 모달 크기 변경 금지
+            //모달 크기 변경 금지
             modalStage.setResizable(false);
-            //모달 창이 닫힐 떄까지 대기
+            //모달 창이 닫힐 때까지 대기
             modalStage.showAndWait();
         }catch(IOException e) {
             e.printStackTrace();
-
         }
+
+    }
+
+
+    @FXML
+    public void openEditMemberModal(MouseEvent mouseEvent) {
+        openModal("/fxml/EditMemberModal.fxml","회원정보 수정");
+
+    }
+
+    public void openAlarmModal(MouseEvent mouseEvent) {
+        openModal("/fxml/Alarm.fxml","알람 설정");
+
     }
 }
