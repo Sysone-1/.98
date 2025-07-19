@@ -1,14 +1,15 @@
 package com.sysone.ogamza.repository;
 
+import com.sysone.ogamza.sql.DashboardSql;
 import com.sysone.ogamza.utils.db.OracleConnector;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.lang.reflect.Method;
+import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 public class DashboardDAO {
     private static final DashboardDAO instance = new DashboardDAO();
@@ -19,206 +20,45 @@ public class DashboardDAO {
         return instance;
     }
 
-    public LocalDateTime findFirstAccessLogByDateAndEmpId(long id) {
-        String sql = "SELECT * FROM ACCESS_LOG WHERE EMPLOYEE_ID = ? ORDER BY ACCESS_TIME FETCH FIRST 1 ROWS ONLY";
-
-        try (Connection conn = OracleConnector.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql);
-             ) {
-
-            LocalDateTime time = null;
-            pstmt.setLong(1, id);
-
-            try (ResultSet rs = pstmt.executeQuery()) {
-                while(rs.next()) {
-                    time = rs.getTimestamp("ACCESS_TIME").toLocalDateTime();
-                }
-            }
-
-            return time;
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
+    public Optional<LocalDateTime> findFirstAccessTimeByDateAndId(long id) {
+        return fetchData(DashboardSql.FIND_FIRST_ACCESS_LOG, LocalDateTime.class, id);
     }
 
-    public LocalDateTime findLastLeaveLogByDateAndEmpId(long id) {
-        return getLocalDateTime(id);
-    }
-
-    private static LocalDateTime getLocalDateTime(long id) {
-        String sql = "SELECT ACCESS_TIME FROM ACCESS_LOG WHERE EMPLOYEE_ID = ? ORDER BY ACCESS_TIME DESC FETCH FIRST 1 ROWS ONLY";
-
-        try (Connection conn = OracleConnector.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql);
-             ) {
-
-            LocalDateTime time = null;
-            pstmt.setLong(1, id);
-
-            try (ResultSet rs = pstmt.executeQuery()) {
-                while(rs.next()) {
-                    time = rs.getTimestamp("ACCESS_TIME").toLocalDateTime();
-                }
-            }
-            return time;
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    public LocalDateTime findTodayWorkTimeByDateAndEmpId(long id) {
-        String sql = "SELECT ACCESS_TIME FROM ACCESS_LOG WHERE EMPLOYEE_ID = ? ORDER BY ACCESS_TIME FETCH FIRST 1 ROWS ONLY";
-
-        try (Connection conn = OracleConnector.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql);
-        ) {
-
-            LocalDateTime time = null;
-            pstmt.setLong(1, id);
-
-            try (ResultSet rs = pstmt.executeQuery()) {
-                while(rs.next()) {
-                    time = rs.getTimestamp("ACCESS_TIME").toLocalDateTime();
-                }
-            }
-            return time;
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
+    public Optional<LocalDateTime> findLastLeaveTimeByDateAndId(long id) {
+        return fetchData(DashboardSql.FIND_LAST_ACCESS_LOG, LocalDateTime.class, id);
     }
 
     public int findVacationDaysByEmpId(long id) {
-        String sql = "SELECT TOTAL_VAC_NUM FROM EMPLOYEE WHERE ID = ?";
-
-        try (Connection conn = OracleConnector.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql);
-        ) {
-
-            int vacationNum = 0;
-            pstmt.setLong(1, id);
-
-            try (ResultSet rs = pstmt.executeQuery()) {
-                while(rs.next()) {
-                    vacationNum = rs.getInt("TOTAL_VAC_NUM");
-                }
-            }
-            return vacationNum;
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return 0;
+        return fetchData(DashboardSql.FIND_VACATION_NUM, Integer.class, id).orElse(15);
     }
 
     public int findUsedVacationDaysByEmpId(long id) {
-        String sql = "SELECT COUNT(*) AS TOTAL_USED_VACATION FROM SCHEDULE WHERE EMPLOYEE_ID = ? AND SCHEDULE_TYPE = '연차'";
-
-        try (Connection conn = OracleConnector.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql);
-        ) {
-
-            int usedVacationNum = 0;
-            pstmt.setLong(1, id);
-
-            try (ResultSet rs = pstmt.executeQuery()) {
-                while(rs.next()) {
-                    usedVacationNum = rs.getInt("TOTAL_USED_VACATION");
-                }
-            }
-            return usedVacationNum;
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return 0;
+        return fetchData(DashboardSql.FIND_USED_VACATION_NUM, Integer.class, id).orElse(0);
     }
 
     public int findAllWorkTimeByDateAndEmpId(long id) {
-        String sql = "SELECT SUM(WORKING_TIME) AS TOTAL_WORKING_TIME FROM ATTENDANCE WHERE EMPLOYEE_ID = ?";
-
-        try (Connection conn = OracleConnector.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql);
-        ) {
-
-            int totalWorkingTime = 0;
-            pstmt.setLong(1, id);
-
-            try (ResultSet rs = pstmt.executeQuery()) {
-                while(rs.next()) {
-                    totalWorkingTime = rs.getInt("TOTAL_WORKING_TIME");
-                }
-            }
-            return totalWorkingTime;
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return 0;
+        return fetchData(DashboardSql.FIND_TOTAL_WORKING_TIME, Integer.class, id).orElse(0);
     }
 
     public int findAllExtendWorkTimeByDateAndEmpId(long id) {
-        String sql = "SELECT COUNT(SCHEDULE_TYPE) AS EXTEND_WORK_COUNT FROM SCHEDULE WHERE EMPLOYEE_ID = ? AND SCHEDULE_TYPE ='연장 근무'";
-
-        try (Connection conn = OracleConnector.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql);
-        ) {
-
-            int totalExtendWorkingTime = 0;
-            pstmt.setLong(1, id);
-
-            try (ResultSet rs = pstmt.executeQuery()) {
-                while(rs.next()) {
-                    totalExtendWorkingTime = rs.getInt("EXTEND_WORK_COUNT");
-                }
-            }
-            return totalExtendWorkingTime;
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return 0;
+        return fetchData(DashboardSql.FIND_TOTAL_EXTEND_WORKING_TIME, Integer.class, id).orElse(0);
     }
 
     public int findAllWeekendWorkTimeByDateAndEmpId(long id) {
-        String sql = "SELECT COUNT(SCHEDULE_TYPE) AS WEEKEND_WORK_COUNT FROM SCHEDULE WHERE EMPLOYEE_ID = ? AND SCHEDULE_TYPE ='휴일'";
-
-        try (Connection conn = OracleConnector.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql);
-        ) {
-
-            int totalWeekendWorkingTime = 0;
-            pstmt.setLong(1, id);
-
-            try (ResultSet rs = pstmt.executeQuery()) {
-                while(rs.next()) {
-                    totalWeekendWorkingTime = rs.getInt("WEEKEND_WORK_COUNT");
-                }
-            }
-            return totalWeekendWorkingTime;
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return 0;
+        return fetchData(DashboardSql.FIND_TOTAL_WEEKEND_WORKING_TIME, Integer.class, id).orElse(0);
     }
 
+    /*
+        List<String>로 해당 주에 등록된 일정 반환 하는 함수
+    */
     public List<String> findSchedulesByDateAndEmpId(long id) {
-        String sql = "SELECT * FROM SCHEDULE WHERE EMPLOYEE_ID = ?";
-
         try (Connection conn = OracleConnector.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql);
+             PreparedStatement pstmt = conn.prepareStatement(DashboardSql.FIND_SCHEDULE_LIST);
         ) {
             List<String> scheduleList = new ArrayList<>();
             LocalDateTime startDate = null;
             String title = null;
             pstmt.setLong(1, id);
-            int index = 0;
 
             try (ResultSet rs = pstmt.executeQuery()) {
                 while(rs.next()) {
@@ -235,6 +75,44 @@ public class DashboardDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return null;
+        return Collections.emptyList();
+    }
+
+    /*
+        DB 에서 데이터 조회 후 데이터 값 반환
+        Optional 사용 NullPointerException 방지
+    */
+    private <T> Optional<T> fetchData(String sql, Class<T> type, Object... params) {
+        try (Connection conn = OracleConnector.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            for (int i = 0; i < params.length; i++) {
+                pstmt.setObject(i + 1, params[i]);
+            }
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    Object value = rs.getObject(1);
+
+                    // 타입 변환 : oracle.sql.TIMESTAMP -> java.sql.Timestam -> LocalDateTime
+                    if (type == LocalDateTime.class) {
+                        Method method = value.getClass().getMethod("timestampValue");
+                        Timestamp ts = (Timestamp) method.invoke(value);
+                        return Optional.of(type.cast(ts.toLocalDateTime()));
+                    }
+
+                    // 타입 변환 : NUMBER -> BigDecimal -> Integer
+                    if (type == Integer.class) {
+                        return Optional.of(type.cast(((Number) value).intValue()));
+                    }
+
+                    return Optional.ofNullable(type.cast(value));
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return Optional.empty();
     }
 }

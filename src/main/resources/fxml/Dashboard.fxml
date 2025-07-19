@@ -111,7 +111,7 @@
                               </VBox>
                            </children>
                         </VBox>
-                        <VBox prefHeight="70.0" prefWidth="229.0" style="-fx-pref-width: 175; -fx-alignment: center; -fx-padding: 0 40 0 0;">
+                        <VBox prefHeight="70.0" prefWidth="229.0" style="-fx-pref-width: 175; -fx-alignment: center; -fx-padding: 0 30 0 0;">
                            <children>
                               <Text fx:id="workingHours" strokeType="OUTSIDE" strokeWidth="0.0" text="3시간 25분">
                                  <font>
@@ -143,7 +143,7 @@
                                                 </font>
                                              </Text>
                                              <HBox prefHeight="100.0" prefWidth="200.0" style="-fx-alignment: center; -fx-max-height: 20;" />
-                                             <VBox prefHeight="27.0" prefWidth="173.0" style="-fx-alignment: center; -fx-pref-height: 10;">
+                                             <VBox prefHeight="27.0" prefWidth="215.0" style="-fx-alignment: center; -fx-pref-height: 10; -fx-padding: 0 0 0 10;">
                                                 <children>
                                                    <Text fx:id="remainingWorkingHours" strokeType="OUTSIDE" strokeWidth="0.0" text="155시간 15분" translateX="20" wrappingWidth="153.33337497711182">
                                                       <font>
@@ -241,7 +241,7 @@
          </children>
       </HBox>
       
-      <VBox layoutX="53.0" layoutY="403.0" prefHeight="265.0" prefWidth="520.0" style="-fx-background-color: white; -fx-background-radius: 20; -fx-border-radius: 20; -fx-padding: 10;">
+      <VBox layoutX="53.0" layoutY="403.0" prefHeight="266.0" prefWidth="499.0" style="-fx-background-color: white; -fx-background-radius: 20; -fx-border-radius: 20; -fx-padding: 10;">
           <effect>
               <DropShadow color="gray" offsetX="2" offsetY="2" radius="5" />
           </effect>
@@ -448,12 +448,12 @@
                </children>
             </VBox>
          </children></VBox>
-      <VBox layoutX="578.0" layoutY="403.0" prefHeight="265.0" prefWidth="520.0" style=" -fx-background-color: white; -fx-background-radius: 20; -fx-border-radius: 20">
+      <VBox layoutX="584.0" layoutY="403.0" prefHeight="266.0" prefWidth="514.0" style=" -fx-background-color: white; -fx-background-radius: 20; -fx-border-radius: 20">
           <effect>
               <DropShadow color="gray" offsetX="2" offsetY="2" radius="5" />
           </effect>
           <children>
-            <VBox fx:id="scheduleListBox" prefHeight="268.0" prefWidth="520.0" spacing="10" style="-fx-alignment: top-center; -fx-padding: 15 15 10 15;">
+            <VBox fx:id="scheduleListBox" prefHeight="266.0" prefWidth="494.0" spacing="10" style="-fx-padding: 15 15 10 15;">
                <children>
                   <Text fx:id="noScheduleText" strokeType="OUTSIDE" strokeWidth="0.0" text="등록된 일정이 없습니다.">
                      <font>
