@@ -70,6 +70,7 @@ public class DashboardDAO {
                     scheduleList.add(String.format("%02d월 %02d일 %s", month, day, title));
                 }
             }
+
             return scheduleList;
 
         } catch (SQLException e) {
@@ -93,6 +94,8 @@ public class DashboardDAO {
             try (ResultSet rs = pstmt.executeQuery()) {
                 if (rs.next()) {
                     Object value = rs.getObject(1);
+
+                    if (value == null) return Optional.empty();
 
                     // 타입 변환 : oracle.sql.TIMESTAMP -> java.sql.Timestam -> LocalDateTime
                     if (type == LocalDateTime.class) {

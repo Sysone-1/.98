@@ -6,7 +6,7 @@ public class DashboardSql {
                 "SELECT ACCESS_TIME " +
                 "FROM ACCESS_LOG " +
                 "WHERE EMPLOYEE_ID = ? AND " +
-                "TRUNC(ACCESS_TIME) = TRUNC(SYSDATE) " +
+                "TRUNC(ACCESS_TIME) = TRUNC(CURRENT_DATE) " +
                 "ORDER BY ACCESS_TIME " +
                 "FETCH FIRST 1 ROWS ONLY";
 
@@ -14,7 +14,7 @@ public class DashboardSql {
                 "SELECT ACCESS_TIME " +
                 "FROM ACCESS_LOG " +
                 "WHERE EMPLOYEE_ID = ? AND " +
-                "TRUNC(ACCESS_TIME) = TRUNC(SYSDATE) " +
+                "TRUNC(ACCESS_TIME) = TRUNC(CURRENT_DATE) " +
                 "ORDER BY ACCESS_TIME DESC " +
                 "FETCH FIRST 1 ROWS ONLY";
 
@@ -33,25 +33,25 @@ public class DashboardSql {
                 "SELECT SUM(WORKING_TIME) AS TOTAL_WORKING_TIME " +
                 "FROM ATTENDANCE " +
                 "WHERE EMPLOYEE_ID = ? AND " +
-                "TRUNC(ATTENDANCE_DATE) BETWEEN TRUNC(SYSDATE, 'D') AND TRUNC(SYSDATE, 'D') + 6";
+                "TRUNC(ATTENDANCE_DATE) BETWEEN TRUNC(CURRENT_DATE, 'D') AND TRUNC(CURRENT_DATE, 'D') + 6";
 
     public static final String FIND_TOTAL_EXTEND_WORKING_TIME =
                 "SELECT COUNT(SCHEDULE_TYPE) AS EXTEND_WORK_COUNT " +
                 "FROM SCHEDULE " +
                 "WHERE EMPLOYEE_ID = ? AND " +
                 "SCHEDULE_TYPE ='연장 근무' AND " +
-                "TRUNC(START_DATE) BETWEEN TRUNC(SYSDATE, 'D') AND TRUNC(SYSDATE, 'D') + 6";
+                "TRUNC(START_DATE) BETWEEN TRUNC(CURRENT_DATE, 'D') AND TRUNC(CURRENT_DATE, 'D') + 6";
 
     public static final String FIND_TOTAL_WEEKEND_WORKING_TIME =
                 "SELECT COUNT(SCHEDULE_TYPE) AS WEEKEND_WORK_COUNT " +
                 "FROM SCHEDULE " +
                 "WHERE EMPLOYEE_ID = ? AND " +
                 "SCHEDULE_TYPE ='휴일' AND " +
-                "TRUNC(START_DATE) BETWEEN TRUNC(SYSDATE, 'D') AND TRUNC(SYSDATE, 'D') + 6";
+                "TRUNC(START_DATE) BETWEEN TRUNC(CURRENT_DATE, 'D') AND TRUNC(CURRENT_DATE, 'D') + 6";
 
     public static final String FIND_SCHEDULE_LIST =
                 "SELECT START_DATE, TITLE " +
                 "FROM SCHEDULE " +
                 "WHERE EMPLOYEE_ID = ? AND " +
-                "TRUNC(START_DATE) BETWEEN TRUNC(SYSDATE, 'D') AND TRUNC(SYSDATE, 'D') + 6";
+                "TRUNC(START_DATE) BETWEEN TRUNC(CURRENT_DATE, 'D') AND TRUNC(CURRENT_DATE, 'D') + 6";
 }

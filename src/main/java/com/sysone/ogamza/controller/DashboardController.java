@@ -2,13 +2,28 @@ package com.sysone.ogamza.controller;
 
 import com.sysone.ogamza.service.DashboardService;
 import com.sysone.ogamza.view.ArcProgress;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import javafx.stage.Window;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.temporal.WeekFields;
 import java.util.List;
@@ -21,6 +36,7 @@ public class DashboardController {
     @FXML private Text todayMonth, todayWeek;
     @FXML private VBox scheduleListBox;
     @FXML private Text noScheduleText;
+    @FXML private ScrollPane scheduleScrollPane;
 
     private static final DashboardService dashboardService = DashboardService.getInstance();
     private static final long empId = 1001L;
@@ -123,23 +139,45 @@ public class DashboardController {
 
         List<String> scheduleList = dashboardService.getWeekSchedules(empId);
         scheduleListBox.setAlignment(scheduleList.isEmpty() ? Pos.CENTER : Pos.TOP_CENTER);
+        scheduleListBox.setBackground(new Background(new BackgroundFill(Color.WHITE, new CornerRadii(30), Insets.EMPTY)));
 
         if (scheduleList.isEmpty()) {
             scheduleListBox.getChildren().add(noScheduleText);
+
         } else {
+            scheduleScrollPane.setPadding(new Insets(20, 10, 20, 10));
+            scheduleListBox.setPadding(new Insets(10, 10, 0, 10));
             for (String schedule : scheduleList) {
-                Label item = getLabel(schedule);
+                Label item = dashboardService.getLabel(schedule);
                 scheduleListBox.getChildren().add(item);
             }
         }
     }
 
     /*
-        라벨에 속성 부여
+        일정 등록 클릭 핸들러
     */
-    private static Label getLabel(String schedule) {
-        Label item = new Label(schedule);
-        item.setStyle("-fx-pref-width:500; -fx-pref-height:50; -fx-background-color: #1E90FF; -fx-text-fill: white; -fx-padding: 10 20 10 20; -fx-font-weight: bold; -fx-background-radius: 15; -fx-font-size: 16px;");
-        return item;
+    @FXML
+    private void handleAddScheduleClick(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/ScheduleRegister.fxml"));
+            Parent formRoot = loader.load();
+
+            Stage dialogStage = new Stage();
+            dialogStage.initModality(Modality.APPLICATION_MODAL);
+            dialogStage.setTitle("일정 등록");
+
+            Window parentWindow = ((Node) event.getSource()).getScene().getWindow();
+            dialogStage.initOwner(parentWindow);
+
+            Scene dialogScene = new Scene(formRoot);
+            dialogStage.setScene(dialogScene);
+            dialogStage.setResizable(false);
+
+            dialogStage.showAndWait();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
