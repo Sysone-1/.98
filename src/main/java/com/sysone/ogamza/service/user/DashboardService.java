@@ -1,9 +1,9 @@
 package com.sysone.ogamza.service;
 
-import com.sysone.ogamza.controller.DashboardController;
-import com.sysone.ogamza.controller.ScheduleContentController;
+import com.sysone.ogamza.controller.user.DashboardController;
+import com.sysone.ogamza.controller.user.ScheduleContentController;
 import com.sysone.ogamza.dto.DashboardScheduleDto;
-import com.sysone.ogamza.repository.DashboardDAO;
+import com.sysone.ogamza.dao.user.DashboardDAO;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Cursor;
 import javafx.scene.Parent;
@@ -154,7 +154,7 @@ public class DashboardService {
      */
     private void openScheduleDetailModal(int index) {
         try {
-            FXMLLoader loader = new FXMLLoader(DashboardController.class.getResource("/fxml/ScheduleContent.fxml"));
+            FXMLLoader loader = new FXMLLoader(DashboardController.class.getResource("/fxml/user/ScheduleContent.fxml"));
             Parent root = loader.load();
 
             ScheduleContentController controller = loader.getController();

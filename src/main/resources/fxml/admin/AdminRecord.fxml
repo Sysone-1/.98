@@ -14,7 +14,7 @@
 
 <BorderPane prefHeight="743.0" prefWidth="1126.0" style="-fx-background-color:#F3F5F9;" xmlns=
         "http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller=
-                    "com.sysone.ogamza.controller.AdminRecordController">
+                    "com.sysone.ogamza.controller.admin.AdminRecordController">
 
     <!-- 중앙 콘텐츠 -->
     <center>

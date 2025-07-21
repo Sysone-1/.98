@@ -11,11 +11,11 @@
 <?import org.controlsfx.control.ToggleSwitch?>
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.sysone.ogamza.controller.AlramController"
+            fx:controller="com.sysone.ogamza.controller.user.AlramController"
             prefHeight="220.0" prefWidth="500.0"
             style="-fx-background-color: white; -fx-background-radius:20;">
     <stylesheets>
-        <URL value="@../css/Alarm.css"/>
+        <URL value="@../../css/Alarm.css"/>
     </stylesheets>
 
     <!-- VBox로 전체 내용을 새로 배치 -->

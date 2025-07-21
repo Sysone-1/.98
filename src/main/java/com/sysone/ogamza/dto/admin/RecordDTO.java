@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
  *
  * @author 조윤상
  */
-public class Record {
+public class RecordDTO {
 
     private long employeeId;
     private String employeeName;
@@ -29,8 +29,8 @@ public class Record {
      * @param taggingTime    출입 시각
      * @param approvalStatus 출입 승인 여부
      */
-    public Record(long employeeId, String employeeName, String departmentName,
-                  String position, LocalDateTime taggingTime, String approvalStatus) {
+    public RecordDTO(long employeeId, String employeeName, String departmentName,
+                     String position, LocalDateTime taggingTime, String approvalStatus) {
         this.employeeId = employeeId;
         this.employeeName = employeeName;
         this.departmentName = departmentName;
@@ -40,7 +40,7 @@ public class Record {
     }
 
     /** 기본 생성자 (직렬화 혹은 JavaFX 내부 처리용) */
-    public Record() {}
+    public RecordDTO() {}
 
     /** @return 사원 ID */
     public long getEmployeeId() {

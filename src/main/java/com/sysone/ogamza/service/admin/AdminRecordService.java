@@ -1,6 +1,6 @@
 package com.sysone.ogamza.service;
 
-import com.sysone.ogamza.dao.RecordDao;
+import com.sysone.ogamza.dao.admin.RecordDAO;
 import com.sysone.ogamza.entity.Record;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
@@ -19,14 +19,14 @@ import java.util.List;
  */
 
 public class AdminRecordService {
-    private final RecordDao recordDao;
+    private final RecordDAO recordDao;
 
     /**
      * AdminRecordService의 새 인스턴스를 생성합니다.
      * 내부적으로 RecordDao를 초기화합니다.
      */
     public AdminRecordService() {
-        this.recordDao = new RecordDao();
+        this.recordDao = new RecordDAO();
     }
 
     /**

@@ -7,7 +7,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="723" prefWidth="1151" style="-fx-background-color : F1F9FF;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sysone.ogamza.controller.SettingsController">
+<AnchorPane prefHeight="723" prefWidth="1151" style="-fx-background-color : F1F9FF;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sysone.ogamza.controller.user.SettingsController">
     <children>
         <VBox layoutX="24" layoutY="100" spacing="20.0">
             <children>
