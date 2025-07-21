@@ -1,6 +1,8 @@
 package com.sysone.ogamza.repository.user;
 
+import com.sysone.ogamza.model.user.TodayFortune;
 import com.sysone.ogamza.model.user.UserInfo;
+import com.sysone.ogamza.service.user.FortuneService;
 import com.sysone.ogamza.sql.user.UserHomeSQL;
 import com.sysone.ogamza.utils.db.OracleConnector;
 
@@ -8,6 +10,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UserHomeDAO {
     private static final UserHomeDAO instance = new UserHomeDAO();
@@ -16,28 +20,59 @@ public class UserHomeDAO {
     public static UserHomeDAO getInstance(){return instance;}
 
 
-
-    public int updateFortune(int num, String shape, String color, String msg, int employeeId)throws SQLException{
-
-        String sql = UserHomeSQL.UPDATE_USER;
+    // 럭키 데이터 업데이트를 위한 모든 사원의 id
+    public List<Integer> findAllId() throws SQLException{
+        String selectAll = UserHomeSQL.SELECT_ALL;
 
         try(Connection conn = OracleConnector.getConnection();
-            PreparedStatement pstmt = conn.prepareStatement(sql);
-        ){
-            pstmt.setString(1, color );
-            pstmt.setInt(2,num);
-            pstmt.setString(3, shape);
-            pstmt.setString(4, msg);
-            pstmt.setInt(5,employeeId);
-            return pstmt.executeUpdate();
+        PreparedStatement pstmt = conn.prepareStatement(selectAll)){
+            ResultSet result = pstmt.executeQuery();
+
+            List<Integer> ids = new ArrayList<>();
+            while (result.next()){
+                int id = result.getInt("ID");
+                ids.add(id);
+            }
+            return ids;
         }
     }
 
+
+    // 럭키 데이터 모든 사원의 정보 bulk update
+    public int updateFortune(List<TodayFortune> todayFortunes)throws SQLException{
+
+        String insertTemp = UserHomeSQL.INSERT_TEMP;
+        String mergeData = UserHomeSQL.MERGE_DATA;
+
+        try(Connection conn = OracleConnector.getConnection();
+            PreparedStatement insertPstmt = conn.prepareStatement(insertTemp);
+            PreparedStatement mergePstmt = conn.prepareStatement(mergeData)){
+            conn.setAutoCommit(false);
+
+            for(TodayFortune data : todayFortunes) {
+                insertPstmt.setInt(1, data.getEmployeeId());
+                insertPstmt.setInt(2, data.getLuckyNumber());
+                insertPstmt.setString(3, data.getLuckyShape());
+                insertPstmt.setString(4, data.getLuckyColor());
+                insertPstmt.setString(5, data.getRandomMessage());
+                insertPstmt.addBatch();
+            }
+            // GTT에 반영
+            insertPstmt.executeBatch();
+
+            // bulk update
+            int response = mergePstmt.executeUpdate();
+            // 커밋해줘야 gtt 리셋 됨
+            conn.commit();
+            return response;
+        }
+    }
+    // 유저 홈 정보 출력
     public UserInfo getUserHome(int userId) throws SQLException{
         String sql = UserHomeSQL.SELECT_HOME;
 
         try(Connection conn = OracleConnector.getConnection();
-        PreparedStatement pstmt = conn.prepareStatement(sql);){
+        PreparedStatement pstmt = conn.prepareStatement(sql)){
             pstmt.setInt(1, userId);
             ResultSet resultSet = pstmt.executeQuery();
 

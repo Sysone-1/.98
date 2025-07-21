@@ -1,9 +1,12 @@
 package com.sysone.ogamza.service.user;
 
+import com.sysone.ogamza.model.user.TodayFortune;
 import com.sysone.ogamza.repository.user.UserHomeDAO;
 import javafx.scene.paint.Color;
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.Executors;
@@ -22,16 +25,23 @@ public class FortuneService {
 
         Runnable task = () -> {
             System.out.println("🎯 자정 작업 실행! " + LocalDateTime.now());
-            setLuckyItems();
-        };
+            try {
+                int response = UserHomeDAO.getInstance().updateFortune(setLuckyDataList());
+                if(response == 0){
+                    throw new RuntimeException("저장된 행이 없습니다.");
+                }
+            }catch (Exception e){
+                System.out.println("Lucky Data 업데이트에 실패하였습니다");
+                e.printStackTrace();
+            }
 
+        };
 
         //long initialDelay = 5;         // 5초 뒤 첫 실행
         //long period = 60;              // 60초마다 실행 (1분)
 
         long initialDelay = computeInitialDelayToMidnight(); // 자정까지 남은 초 계산
         long period = TimeUnit.DAYS.toSeconds(1); // 24시간
-
 
         scheduler.scheduleAtFixedRate(task, initialDelay, period, TimeUnit.SECONDS);
 
@@ -44,42 +54,67 @@ public class FortuneService {
         return Duration.between(now, nextMidnight).getSeconds();
     }
 
-    public void setLuckyItems(){
 
-        // 행운의 번호
-        int luckyNum = (int)(Math.random()*100);
+    // 데이터 셋팅
+    public List<TodayFortune> setLuckyDataList(){
+        try{
+            // 사원 아이디 불러오기
+            List<Integer> ids = UserHomeDAO.getInstance().findAllId();
+            System.out.println("사원 수: " + ids.size()); // ✅ 몇 명인지 확인
 
-        // 행운의 도형
+            List<TodayFortune> fortuneList = new ArrayList<>();
+            for(int id : ids){
+                fortuneList.add(TodayFortune.builder()
+                        .employeeId(id)
+                        .luckyNumber(setLuckyNumber())
+                        .luckyShape(setLuckyShape())
+                        .luckyColor(setLuckyColor())
+                        .randomMessage(setRandomMessage())
+                                .build());
+            }
+
+            System.out.println("데이터 셋팅 : " + fortuneList);
+            return fortuneList;
+
+        }catch (Exception e){
+            System.out.println("lucky Data 셋팅에 실패하였습니다.");
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    // 행운의 번호
+    public int setLuckyNumber(){
+        return  (int)(Math.random()*100);
+    }
+
+    // 행운의 도형
+    public String setLuckyShape(){
         String[] shapeNames = { "원", "사각형", "별", "세모", "하트", "마름모", "번개", "퍼즐" };
         int luckShape =(int)(Math.random()*8);
         // db 넣을 용
         String todayShape = shapeNames[luckShape];
+        return todayShape;
+    }
 
-        // 행운의 색깔
+
+    // 행운의 색깔
+    public String setLuckyColor(){
         Random rand = new Random();
         Color randomColor = Color.color(
                 0.4 + rand.nextDouble() * 0.6, // 0.4 ~ 1.0
                 0.4 + rand.nextDouble() * 0.6,
                 0.4 + rand.nextDouble() * 0.6
         );
+        return randomColor.toString();
+    }
 
-        // 디버깅 로그용 출력
-        System.out.println("🎲 LuckyNum: " + luckyNum);
-        System.out.println("🟢 Shape: " + shapeNames[luckShape]);
-        System.out.println("🎨 Color: " + randomColor.toString());
 
+    // 랜덤 메세지
+    public String setRandomMessage(){
         String msg = "나는 어제로 돌아갈 수 없다.";
 
-        try{
-            // 사용자 db에 업데이트
-            int result = UserHomeDAO.getInstance().updateFortune(luckyNum,todayShape,randomColor.toString(),msg, 1003);
-            if(result ==0){
-                throw new RuntimeException("업데이트된 행이 없습니다.");
-            }
-            System.out.println("Lucky Box 업데이트 완료");
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-
+        return msg;
     }
+
 }

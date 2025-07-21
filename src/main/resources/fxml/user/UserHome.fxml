@@ -137,15 +137,15 @@
                </children>
             </VBox>
          </children></VBox>
-      <VBox id="todayMood" layoutX="767.0" layoutY="446.0" prefHeight="200.0" prefWidth="100.0" style="-fx-background-color: #ffffff; -fx-background-radius: 50; -fx-pref-width: 337; -fx-pref-height: 30; -fx-alignment: center;">
+      <VBox fx:id="todayMood" layoutX="767.0" layoutY="446.0" prefHeight="200.0" prefWidth="100.0" style="-fx-background-color: #ffffff; -fx-background-radius: 50; -fx-pref-width: 337; -fx-pref-height: 30; -fx-alignment: center;">
          <effect>
             <DropShadow color="#C4CACF" offsetX="2" offsetY="4" radius="4" />
          </effect>
          <children>
-            <HBox id="moodBox" prefHeight="200.0" prefWidth="100.0" style="-fx-padding: 5; -fx-spacing: 130; -fx-alignment: center;">
+            <HBox fx:id="moodBox" prefHeight="200.0" prefWidth="100.0" style="-fx-padding: 5; -fx-spacing: 130; -fx-alignment: center;">
                <children>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 21;" text="(Today Mood)" />
-                  <Text fx:id="emoji" style="-fx-font-size: 35;" text="😎" />
+                  <Text fx:id="emoji" style="-fx-font-size: 35; -fx-cursor: hand;" text="😎" />
                </children>
             </HBox>
          </children>

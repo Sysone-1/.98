@@ -1,9 +1,10 @@
 package com.sysone.ogamza.controller.user;
 
 import com.sysone.ogamza.model.user.UserInfo;
-import com.sysone.ogamza.service.user.FortuneService;
+import com.sysone.ogamza.repository.user.EmojiDAO;
 import com.sysone.ogamza.service.user.UserHomeService;
 import com.sysone.ogamza.view.user.CalendarView;
+import com.sysone.ogamza.view.user.EmojiView;
 import com.sysone.ogamza.view.user.UserShape;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -11,6 +12,7 @@ import javafx.scene.Group;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Shape;
 import javafx.scene.text.Text;
@@ -38,6 +40,8 @@ public class UserHomeController implements Initializable {
     private Text randomMsg;
     @FXML
     private Text emoji;
+    @FXML
+    private VBox todayMood;
 
 
     @Override
@@ -52,6 +56,19 @@ public class UserHomeController implements Initializable {
         AnchorPane.setRightAnchor(calendarView, 0.0);
 
         getHomeInfo(1009);
+        emoji.setMouseTransparent(false); // 혹시라도 true로 되어 있으면
+        emoji.setPickOnBounds(true); // 텍스트 바깥 여백도 클릭 가능하게
+        new EmojiView(emoji, todayMood, selected -> {
+            emoji.setText(selected);
+            try{
+                int response = EmojiDAO.getInstance().updateEmoji(1009, selected);
+                if(response == 0 ){
+                    throw new RuntimeException("0행 업데이트되었습니다.");
+                }
+            }catch (Exception e){
+                System.out.println("이모지 업데이트 실패"+ e.getMessage());
+            }
+        });
     }
 
     public void getHomeInfo(int userId){
