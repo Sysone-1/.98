@@ -1,7 +1,10 @@
 package com.sysone.ogamza.controller.user;
 
-import com.sysone.ogamza.model.user.UserInfo;
-import com.sysone.ogamza.repository.user.EmojiDAO;
+import com.sysone.ogamza.dao.user.RankingDAO;
+import com.sysone.ogamza.dao.user.UserHomeDAO;
+import com.sysone.ogamza.dto.user.RankingDTO;
+import com.sysone.ogamza.dto.user.UserInfoDTO;
+import com.sysone.ogamza.dao.user.EmojiDAO;
 import com.sysone.ogamza.service.user.UserHomeService;
 import com.sysone.ogamza.view.user.CalendarView;
 import com.sysone.ogamza.view.user.EmojiView;
@@ -18,30 +21,27 @@ import javafx.scene.shape.Shape;
 import javafx.scene.text.Text;
 
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class UserHomeController implements Initializable {
 
-    @FXML
-    private AnchorPane calendarContainer;
-    @FXML
-    private Group shapeGroup;
-    @FXML
-    private ImageView employeeProfile;
-    @FXML
-    private Text employeeName;
-    @FXML
-    private Text departmentName;
-    @FXML
-    private Group luckyShape;
-    @FXML
-    private Text luckyNumber;
-    @FXML
-    private Text randomMsg;
-    @FXML
-    private Text emoji;
-    @FXML
-    private VBox todayMood;
+    @FXML private AnchorPane calendarContainer;
+    @FXML private Group shapeGroup;
+    @FXML private ImageView employeeProfile;
+    @FXML private Text employeeName;
+    @FXML private Text departmentName;
+    @FXML private Group luckyShape;
+    @FXML private Text luckyNumber;
+    @FXML private Text randomMsg;
+    @FXML private Text emoji;
+    @FXML private VBox todayMood;
+    @FXML private Text rankingDept1;
+    @FXML private Text rankingDept2;
+    @FXML private Text rankingDept3;
+    @FXML private Text rankingNum1;
+    @FXML private Text rankingNum2;
+    @FXML private Text rankingNum3;
 
 
     @Override
@@ -66,14 +66,26 @@ public class UserHomeController implements Initializable {
                     throw new RuntimeException("0행 업데이트되었습니다.");
                 }
             }catch (Exception e){
-                System.out.println("이모지 업데이트 실패"+ e.getMessage());
+                System.out.println("이모지 업데이트 실패 :: "+ e.getMessage());
             }
         });
+
+        try{
+        List<RankingDTO> rankingList = RankingDAO.getInstance().getRanking();
+            rankingDept1.setText(rankingList.get(0).getDeptName());
+            rankingNum1.setText(String.valueOf(rankingList.get(0).getRanking()));
+            rankingDept2.setText(rankingList.get(1).getDeptName());
+            rankingNum2.setText(String.valueOf(rankingList.get(1).getRanking()));
+            rankingDept3.setText(rankingList.get(2).getDeptName());
+            rankingNum3.setText(String.valueOf(rankingList.get(2).getRanking()));
+        }catch (Exception e){
+            System.out.println("랭킹 불러오기 실패 :: "+ e.getMessage());
+        }
     }
 
     public void getHomeInfo(int userId){
         // 유저 정보 불러오기
-        UserInfo user = UserHomeService.getInstance().getUserHomeInfo(userId);
+        UserInfoDTO user = UserHomeService.getInstance().getUserHomeInfo(userId);
         //이미지 셋팅
         Image userProfile = new Image(getClass().getResource(user.getProfile()).toExternalForm());
         employeeProfile.setImage(userProfile);

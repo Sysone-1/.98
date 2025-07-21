@@ -1,4 +1,4 @@
-package com.sysone.ogamza.model.user;
+package com.sysone.ogamza.dto.user;
 
 
 import lombok.Builder;
@@ -6,7 +6,7 @@ import lombok.Data;
 
 @Builder
 @Data
-public class TodayFortune {
+public class TodayFortuneDTO {
     private int employeeId;
     private int luckyNumber;
     private String luckyShape;

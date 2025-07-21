@@ -2,7 +2,7 @@ package com.sysone.ogamza.service;
 
 import com.sysone.ogamza.dto.ScheduleContentDto;
 import com.sysone.ogamza.dto.ScheduleListDto;
-import com.sysone.ogamza.repository.ScheduleDAO;
+import com.sysone.ogamza.dao.ScheduleDAO;
 import lombok.Getter;
 
 import java.util.ArrayList;
