@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="743.0" prefWidth="1151.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sysone.ogamza.controller.LoginController">
+   <children>
+       <ImageView fitHeight="70.0" fitWidth="287.0" layoutX="513.0" layoutY="213.0">
+           <image>
+               <Image url="@../images/userLogo.png" />
+           </image>
+       </ImageView>
+       <!-- 아이디 입력 -->
+       <TextField fx:id="emailField" layoutX="433.0" layoutY="303.0" prefHeight="50.0" prefWidth="446.0" promptText="이메일 입력" style="-fx-background-radius: 10; -fx-border-radius:10; -fx-font-size: 20px" />
+       <!-- 비밀번호 입력 -->
+       <PasswordField fx:id="passwordField" layoutX="433.0" layoutY="372.0" prefHeight="50.0" prefWidth="446.0" promptText="비밀번호 입력" style="-fx-background-radius: 10; -fx-border-radius: 10; -fx-font-size: 20px" />
+       <Label fx:id="errorLabel"
+              textFill="red"
+              layoutX="440" layoutY="430"
+              visible="false"
+              style="-fx-font-size: 15px;" />
+       <!-- 로그인 버튼 -->
+       <Button layoutX="433.0" layoutY="460.0" onAction="#handleLogin" prefHeight="50.0" prefWidth="446.0" style="-fx-background-color: #0099ff; -fx-text-fill: white; -fx-font-size: 20px; -fx-background-radius: 10;" text="로그인" />
+
+   </children>
+
+
+</AnchorPane>
