@@ -39,8 +39,15 @@ public class DashboardController {
     private static final DashboardService dashboardService = DashboardService.getInstance();
     public static final long empId = 1001L;
 
+    import javafx.fxml.FXML;
+    import javafx.scene.control.Label;
+
+    public class DashboardController {
+
+
     @FXML
     public void initialize() {
+
         loadAccessTime();
         loadLeaveTime();
         loadWorkingHours();
