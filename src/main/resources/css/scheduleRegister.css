@@ -1,0 +1,55 @@
+.date-picker {
+    -fx-background-color: #f0f8ff;
+    -fx-font-size: 12px;
+}
+
+.date-picker .arrow-button {
+    -fx-background-color: #007acc;
+    -fx-background-radius: 30;
+    -fx-translate-x: 4px;
+    -fx-cursor: hand;
+}
+
+.date-picker .arrow-button .arrow {
+    -fx-background-color: white;
+    -fx-scale-x: 1.2;
+    -fx-scale-y: 1.2;
+}
+
+.date-picker .text-field {
+    -fx-background-color: white;
+    -fx-background-radius: 30;
+    -fx-text-fill: #333333;
+    -fx-border-color: #BBBBBB;
+    -fx-border-radius: 30;
+    -fx-font-size: 12px;
+}
+
+.combo-box .list-cell {
+    -fx-text-fill: black;
+    -fx-font-size: 14px;
+}
+
+.combo-box .arrow-button {
+    -fx-background-color: #1E90FF;
+    -fx-background-radius: 0 10 10 0;
+}
+
+.combo-box .arrow {
+    -fx-background-color: white;
+}
+
+.combo-box .combo-box-popup {
+    -fx-background-color: white;
+    -fx-background-border: 10;
+    -fx-padding: 0 5 0 5;
+}
+
+.combo-box .combo-box-popup .list-view {
+    -fx-background-color: white;
+}
+
+.combo-box .combo-box-popup .list-cell:hover {
+    -fx-background-color: #e0f0ff;
+    -fx-text-fill: #1E90FF;
+}
