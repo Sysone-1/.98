@@ -1,5 +1,6 @@
 package com.sysone.ogamza.view;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -9,9 +10,11 @@ public class ArcProgress {
 
     @FXML private Canvas gaugeCanvas;
 
+    public static double percent = 0;
+
     @FXML
     public void initialize() {
-        drawGauge(30); // 진행률
+        Platform.runLater(() -> drawGauge(percent));
     }
 
     public void drawGauge(double percent) {
