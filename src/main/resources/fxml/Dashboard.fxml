@@ -20,10 +20,15 @@
             <Font name="SansSerif Bold" size="28.0" />
          </font>
       </Label>
-      <Button fx:id="addScheduleButton" layoutX="978.0" layoutY="357.0" mnemonicParsing="false" onAction="#handleAddScheduleClick" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: #1E90FF; -fx-background-radius: 30; -fx-cursor: hand;" text="일정 등록" textFill="WHITE">
+      <Button fx:id="fetchScheduleButton" layoutX="978.0" layoutY="357.0" mnemonicParsing="false" onAction="#handleFetchScheduleClick" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: green; -fx-background-radius: 30; -fx-cursor: hand;" text="결재 내역" textFill="WHITE">
          <font>
             <Font name="SansSerif Bold" size="20.0" />
          </font></Button>
+      <Button fx:id="addScheduleButton" layoutX="847.0" layoutY="357.0" mnemonicParsing="false" onAction="#handleAddScheduleClick" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: #1E90FF; -fx-background-radius: 30; -fx-cursor: hand;" text="일정 결재" textFill="WHITE">
+         <font>
+            <Font name="SansSerif Bold" size="20.0" />
+         </font>
+      </Button>
       <Label layoutX="60.0" layoutY="357.0" prefHeight="33.0" prefWidth="110.0" text="Week ">
          <font>
             <Font name="SansSerif Bold" size="28.0" />
@@ -380,7 +385,7 @@
                </children></HBox>
             <VBox prefHeight="200.0" prefWidth="100.0" style="-fx-padding: 10;">
                <children>
-                  <HBox prefHeight="66.0" prefWidth="499.0" style="-fx-alignment: center-left;">
+                  <HBox prefHeight="66.0" prefWidth="499.0" style="-fx-alignment: center-left; -fx-padding: 0 0 0 10;">
                      <children>
                         <VBox maxWidth="345.0" prefHeight="21.0" prefWidth="244.0" style="-fx-alignment: center; -fx-max-width: 300;">
                            <children>
@@ -406,7 +411,7 @@
                      <children>
                         <VBox maxWidth="249.0" prefHeight="49.0" prefWidth="249.0" style="-fx-alignment: center; -fx-max-width: 300;">
                            <children>
-                              <HBox prefHeight="49.0" prefWidth="273.0" style="-fx-alignment: center;">
+                              <HBox prefHeight="49.0" prefWidth="273.0" style="-fx-alignment: center; -fx-padding: 0 0 0 10;">
                                  <children>
                                     <Text fill="#7f8c8d" strokeType="OUTSIDE" strokeWidth="0.0" text="남은  연장 근무 시간 :  ">
                                        <font>
@@ -424,7 +429,7 @@
                         </VBox>
                      </children>
                   </HBox>
-                  <HBox prefHeight="61.0" prefWidth="471.0" style="-fx-alignment: center-left;">
+                  <HBox prefHeight="61.0" prefWidth="471.0" style="-fx-alignment: center-left; -fx-padding: 0 0 0 10;">
                      <children>
                         <VBox maxWidth="253.0" prefHeight="49.0" prefWidth="292.0" style="-fx-alignment: center; -fx-max-width: 300;">
                            <children>

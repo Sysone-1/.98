@@ -10,9 +10,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.control.ProgressBar;
-import javafx.scene.control.ScrollPane;
+import javafx.scene.control.*;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
@@ -39,7 +37,7 @@ public class DashboardController {
     @FXML private ScrollPane scheduleScrollPane;
 
     private static final DashboardService dashboardService = DashboardService.getInstance();
-    private static final long empId = 1001L;
+    public static final long empId = 1001L;
 
     @FXML
     public void initialize() {
@@ -51,14 +49,14 @@ public class DashboardController {
         loadTodayScheduleList();
     }
 
-    /*
+    /**
         출근 시간 조회 및 setText
     */
     private void loadAccessTime() {
         accessTime.setText(dashboardService.getTodayAccessTime(empId));
     }
 
-    /*
+    /**
         퇴근 시간 조회 및 setText
     */
     private void loadLeaveTime() {
@@ -66,7 +64,7 @@ public class DashboardController {
         leaveTime.setText(time);
     }
 
-    /*
+    /**
         근로 시간 및 잔여 근로 시간 조회
     */
     private void loadWorkingHours() {
@@ -78,7 +76,7 @@ public class DashboardController {
         remainingWorkingHours.setText(timeArray[1]);
     }
 
-    /*
+    /**
         총연차, 사용 연차, 남은 연차 조회
     */
     private void loadVacationDays() {
@@ -92,7 +90,7 @@ public class DashboardController {
         vacationProgressBar.setProgress((double) used / total);
     }
 
-    /*
+    /**
         총 근무 시간, 남은 근무 시간, 남은 연장 근무 시간, 남은 휴일 연장 근무 시간 조회
     */
     private void loadTotalWorkingHours() {
@@ -112,7 +110,7 @@ public class DashboardController {
         // 해당 월 휴일 근무 횟수
         int weekend = dashboardService.getTotalWeekendWorkingHours(empId);
 
-        int totalMinutes = base + extend * 60 + weekend * 60;
+        int totalMinutes = base + (extend + weekend) * 60;
 
         int totalHours = totalMinutes / 60;
         int remainHours = 68 - totalHours;
@@ -131,7 +129,7 @@ public class DashboardController {
         weekendWorkingTime.setText((16 - dashboardService.getTotalWeekendWorkingHours(empId)) + "시간 ");
     }
 
-    /*
+    /**
         일정 등록 리스트 조회
     */
     private void loadTodayScheduleList() {
@@ -147,15 +145,16 @@ public class DashboardController {
         } else {
             scheduleScrollPane.setPadding(new Insets(20, 10, 20, 10));
             scheduleListBox.setPadding(new Insets(10, 10, 0, 10));
-            for (String schedule : scheduleList) {
-                Label item = dashboardService.getLabel(schedule);
+
+            for (int i = 0; i < scheduleList.size(); i++) {
+                Label item = dashboardService.getLabel(scheduleList.get(i), i);
                 scheduleListBox.getChildren().add(item);
             }
         }
     }
 
-    /*
-        일정 등록 클릭 핸들러
+    /**
+        일정 결재 클릭 핸들러
     */
     @FXML
     private void handleAddScheduleClick(ActionEvent event) {
@@ -165,7 +164,37 @@ public class DashboardController {
 
             Stage dialogStage = new Stage();
             dialogStage.initModality(Modality.APPLICATION_MODAL);
-            dialogStage.setTitle("일정 등록");
+            dialogStage.setTitle("일정 결재");
+
+            Window parentWindow = ((Node) event.getSource()).getScene().getWindow();
+            dialogStage.initOwner(parentWindow);
+
+            Scene dialogScene = new Scene(formRoot);
+            dialogStage.setScene(dialogScene);
+            dialogStage.setResizable(false);
+
+            dialogStage.showAndWait();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+       결재 내역 클릭 핸들러
+    */
+    @FXML
+    private void handleFetchScheduleClick(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/ScheduleList.fxml"));
+            Parent formRoot = loader.load();
+
+            ScheduleListController controller = loader.getController();
+            controller.loadScheduleList();
+
+            Stage dialogStage = new Stage();
+            dialogStage.initModality(Modality.APPLICATION_MODAL);
+            dialogStage.setTitle("결재 내역");
 
             Window parentWindow = ((Node) event.getSource()).getScene().getWindow();
             dialogStage.initOwner(parentWindow);

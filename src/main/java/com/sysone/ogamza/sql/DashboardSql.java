@@ -22,12 +22,12 @@ public class DashboardSql {
                 "SELECT TOTAL_VAC_NUM " +
                 "FROM EMPLOYEE " +
                 "WHERE ID = ?";
-
     public static final String FIND_USED_VACATION_NUM =
                 "SELECT COUNT(*) AS TOTAL_USED_VACATION " +
                 "FROM SCHEDULE " +
                 "WHERE EMPLOYEE_ID = ? AND " +
-                "SCHEDULE_TYPE = '연차'";
+                "SCHEDULE_TYPE = '연차' AND " +
+                "IS_GRANTED = 1";
 
     public static final String FIND_TOTAL_WORKING_TIME =
                 "SELECT SUM(WORKING_TIME) AS TOTAL_WORKING_TIME " +
@@ -40,6 +40,7 @@ public class DashboardSql {
                 "FROM SCHEDULE " +
                 "WHERE EMPLOYEE_ID = ? AND " +
                 "SCHEDULE_TYPE ='연장 근무' AND " +
+                "IS_GRANTED = 1 AND " +
                 "TRUNC(START_DATE) BETWEEN TRUNC(CURRENT_DATE, 'D') AND TRUNC(CURRENT_DATE, 'D') + 6";
 
     public static final String FIND_TOTAL_WEEKEND_WORKING_TIME =
@@ -47,10 +48,11 @@ public class DashboardSql {
                 "FROM SCHEDULE " +
                 "WHERE EMPLOYEE_ID = ? AND " +
                 "SCHEDULE_TYPE ='휴일' AND " +
+                "IS_GRANTED = 1 AND " +
                 "TRUNC(START_DATE) BETWEEN TRUNC(CURRENT_DATE, 'D') AND TRUNC(CURRENT_DATE, 'D') + 6";
 
     public static final String FIND_SCHEDULE_LIST =
-                "SELECT START_DATE, TITLE " +
+                "SELECT * " +
                 "FROM SCHEDULE " +
                 "WHERE EMPLOYEE_ID = ? AND " +
                 "TRUNC(START_DATE) BETWEEN TRUNC(CURRENT_DATE, 'D') AND TRUNC(CURRENT_DATE, 'D') + 6";
