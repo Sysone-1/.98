@@ -48,7 +48,7 @@ application {
 
 javafx {
     version = javafxVersion
-    modules = listOf("javafx.controls", "javafx.fxml")
+    modules = listOf("javafx.controls", "javafx.fxml" )
 }
 
 configurations.all {
