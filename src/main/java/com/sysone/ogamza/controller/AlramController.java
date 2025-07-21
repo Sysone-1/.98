@@ -22,7 +22,7 @@ public class AlramController {
 
     private Stage modalStage;
 
-    private final LocalTime offTime = LocalTime.of(18,0);
+    private final LocalTime offTime = LocalTime.of(23,30);
 
     //수정
     private boolean toggleSwitchState;
