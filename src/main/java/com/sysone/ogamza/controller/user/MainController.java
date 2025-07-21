@@ -1,6 +1,5 @@
-package com.sysone.ogamza.controller;
+package com.sysone.ogamza.controller.user;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -23,7 +22,7 @@ public class MainController {
     public void initialize() {
         // 시작 시 로그인 페이지로 로딩
         System.out.println(" 로그인 페이지 로딩 ");
-        loadPage("/fxml/Home.fxml");
+        loadPage("/fxml/user/UserHome.fxml");
 
         Rectangle clip = new Rectangle(anchorPane.getPrefWidth(), anchorPane.getPrefHeight());
         clip.setArcWidth(50);
@@ -34,7 +33,7 @@ public class MainController {
 
     public void goHome(MouseEvent event) {
         System.out.println(" 메인 홈 이동 ");
-        loadPage("/fxml/Home.fxml");
+        loadPage("/fxml/user/UserHome.fxml");
     }
 
     public void goSettings(MouseEvent event) {
@@ -44,7 +43,7 @@ public class MainController {
     }
 
     public void goDashboard(MouseEvent event){
-        loadPage("/fxml/Dashboard.fxml");
+        loadPage("/fxml/user/Dashboard.fxml");
         System.out.println(" 대시보드 이동 ");
     }
 
@@ -54,7 +53,7 @@ public class MainController {
     }
 
     public void goRecord(MouseEvent event){
-        loadPage("/fxml/Record.fxml");
+        loadPage("/fxml/user/Record.fxml");
         System.out.println(" 레코드 이동 ");
     }
 

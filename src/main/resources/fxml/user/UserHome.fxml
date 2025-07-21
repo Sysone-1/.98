@@ -11,7 +11,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="724.0" prefWidth="1150.0" style="-fx-background-color: #F1F9FF;" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sysone.ogamza.controller.UserHomeController">
+<AnchorPane prefHeight="724.0" prefWidth="1150.0" style="-fx-background-color: #F1F9FF;" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sysone.ogamza.controller.user.UserHomeController">
 
     <children>
       <HBox layoutX="26.0" layoutY="30.0" prefHeight="43.0" prefWidth="200.0" styleClass="helloMentBox">
@@ -33,7 +33,7 @@
                <children>
                   <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" translateX="70.0" translateY="40.0">
                      <image>
-                        <Image url="@../images/employee.png" />
+                        <Image url="@../../images/employee.png" />
                      </image>
                   </ImageView>
                </children>
@@ -51,10 +51,8 @@
             <DropShadow color="#C4CACF" offsetX="2" offsetY="4" radius="4" />
          </effect>
          <children>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="달력을 넣어봅니다">
-               <font>
-                  <Font name="Inter Regular" size="13.0" />
-               </font></Text>
+            <AnchorPane fx:id="calendarContainer"
+                        prefWidth="600" prefHeight="500" />
          </children>
       </VBox>
       <VBox layoutX="767.0" layoutY="142.0" prefHeight="213.0" prefWidth="318.0" style="-fx-background-color: #ffffff; -fx-background-radius: 20; -fx-spacing: 10;">
@@ -104,7 +102,7 @@
          <children>
             <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../images/crown.png" />
+                  <Image url="@../../images/crown.png" />
                </image>
             </ImageView>
             <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 26; -fx-text-alignment: center;" text="근태 랭킹" />
@@ -126,13 +124,13 @@
                      <children>
                         <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../images/left-quote.png" />
+                              <Image url="@../../images/left-quote.png" />
                            </image>
                         </ImageView>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 28; -fx-font-family: 'ylee MHIM'; -fx-text-alignment: center;" text="잠올땐 자라" />
                         <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../images/right-quote.png" />
+                              <Image url="@../../images/right-quote.png" />
                            </image>
                         </ImageView>
                      </children>
