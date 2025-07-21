@@ -1,7 +1,7 @@
 package com.sysone.ogamza.service.user;
 
-import com.sysone.ogamza.model.user.UserInfo;
-import com.sysone.ogamza.repository.user.UserHomeDAO;
+import com.sysone.ogamza.dao.user.UserInfoDAO;
+import com.sysone.ogamza.dao.user.UserHomeDAO;
 
 public class UserHomeService {
 
@@ -11,9 +11,9 @@ public class UserHomeService {
     public static UserHomeService getInstance(){return instance;}
 
 
-    public UserInfo getUserHomeInfo(int userId){
+    public UserInfoDAO getUserHomeInfo(int userId){
         try {
-            UserInfo user = UserHomeDAO.getInstance().getUserHome(userId);
+            UserInfoDAO user = UserHomeDAO.getInstance().getUserHome(userId);
             if(user == null){
                 throw new RuntimeException("사용자를 찾을 수 없습니다");
             }

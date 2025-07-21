@@ -1,7 +1,7 @@
 package com.sysone.ogamza.service.user;
 
-import com.sysone.ogamza.model.user.TodayFortune;
-import com.sysone.ogamza.repository.user.UserHomeDAO;
+import com.sysone.ogamza.dao.user.TodayFortuneDAO;
+import com.sysone.ogamza.dao.user.UserHomeDAO;
 import javafx.scene.paint.Color;
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -56,15 +56,15 @@ public class FortuneService {
 
 
     // 데이터 셋팅
-    public List<TodayFortune> setLuckyDataList(){
+    public List<TodayFortuneDAO> setLuckyDataList(){
         try{
             // 사원 아이디 불러오기
             List<Integer> ids = UserHomeDAO.getInstance().findAllId();
             System.out.println("사원 수: " + ids.size()); // ✅ 몇 명인지 확인
 
-            List<TodayFortune> fortuneList = new ArrayList<>();
+            List<TodayFortuneDAO> fortuneList = new ArrayList<>();
             for(int id : ids){
-                fortuneList.add(TodayFortune.builder()
+                fortuneList.add(TodayFortuneDAO.builder()
                         .employeeId(id)
                         .luckyNumber(setLuckyNumber())
                         .luckyShape(setLuckyShape())

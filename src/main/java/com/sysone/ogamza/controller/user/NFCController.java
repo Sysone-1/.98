@@ -1,7 +1,7 @@
 package com.sysone.ogamza.controller.user;
 
 import com.sysone.ogamza.nfc.NFCReader;
-import com.sysone.ogamza.service.NFCService;
+import com.sysone.ogamza.service.user.NFCService;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
