@@ -1,5 +1,6 @@
 package com.sysone.ogamza;
 
+import com.sysone.ogamza.service.user.FortuneService;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -38,6 +39,8 @@ public class Main extends Application {
         primaryStage.setTitle("ontime.89");
         primaryStage.setScene(scene);
         primaryStage.show();
+
+        FortuneService.getInstance().todayLuck();
     }
 
     public static void main(String[] args) {
