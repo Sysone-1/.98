@@ -12,7 +12,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="728.0" prefWidth="1155.0" stylesheets="@../css/dashboard.css" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sysone.ogamza.controller.DashboardController">
+<AnchorPane prefHeight="728.0" prefWidth="1155.0" stylesheets="@../../css/dashboard.css" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sysone.ogamza.controller.DashboardController">
    <children>
       <Label layoutX="58.0" layoutY="28.0" prefHeight="33.0" prefWidth="83.0" text="Day">
          <font>
@@ -131,7 +131,7 @@
                         <HBox prefHeight="129.0" prefWidth="337.0" style="-fx-alignment: center;">
                            <children>
                                <StackPane prefHeight="117.0" prefWidth="300" translateY="-60">
-                                  <fx:include source="ArcProgress.fxml" />
+                                  <fx:include source="../ArcProgress.fxml" />
                                  <HBox maxHeight="98.0" prefHeight="263.0" prefWidth="300.0" style="-fx-alignment: center; -fx-max-height: 1000;">
                                     <children>
                                        <VBox prefHeight="139.0" prefWidth="198.0" style="-fx-alignment: center;">
