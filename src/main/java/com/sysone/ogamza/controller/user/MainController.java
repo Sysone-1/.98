@@ -40,6 +40,7 @@ public class MainController {
         System.out.println(" 셋팅 이동 ");
 
         loadPage("/fxml/Settings.fxml");
+        System.out.println("Setting 이동");
     }
 
     public void goDashboard(MouseEvent event){
