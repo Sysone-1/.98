@@ -1,4 +1,4 @@
-package com.sysone.ogamza.controller;
+package com.sysone.ogamza.controller.user;
 
 import javafx.event.ActionEvent;
 

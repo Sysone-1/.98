@@ -1,4 +1,4 @@
-package com.sysone.ogamza.service;
+package com.sysone.ogamza.service.user;
 
 import com.sysone.ogamza.enums.NFCErrCode;
 import com.sysone.ogamza.nfc.NFCReader;

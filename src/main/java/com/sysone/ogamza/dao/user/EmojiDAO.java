@@ -1,4 +1,4 @@
-package com.sysone.ogamza.repository.user;
+package com.sysone.ogamza.dao.user;
 
 import com.sysone.ogamza.sql.user.UserHomeSQL;
 import com.sysone.ogamza.utils.db.OracleConnector;

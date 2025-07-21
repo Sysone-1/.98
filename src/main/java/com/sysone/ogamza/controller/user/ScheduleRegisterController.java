@@ -1,7 +1,7 @@
-package com.sysone.ogamza.controller;
+package com.sysone.ogamza.controller.user;
 
-import com.sysone.ogamza.dto.ScheduleContentDto;
-import com.sysone.ogamza.service.ScheduleService;
+import com.sysone.ogamza.dto.user.ScheduleContentDTO;
+import com.sysone.ogamza.service.user.ScheduleService;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -35,7 +35,7 @@ public class ScheduleRegisterController {
     */
     @FXML
     private void handleSubmit(ActionEvent event) {
-        ScheduleContentDto scheduleListDto = new ScheduleContentDto(
+        ScheduleContentDTO scheduleListDto = new ScheduleContentDTO(
                 DashboardController.empId,
                 titleField.getText(),
                 typeComboBox.getValue(),

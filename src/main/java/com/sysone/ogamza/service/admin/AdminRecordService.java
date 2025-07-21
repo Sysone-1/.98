@@ -1,7 +1,7 @@
-package com.sysone.ogamza.service;
+package com.sysone.ogamza.service.admin;
 
 import com.sysone.ogamza.dao.admin.RecordDAO;
-import com.sysone.ogamza.entity.Record;
+import com.sysone.ogamza.dto.admin.RecordDTO;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TableView;
@@ -35,11 +35,11 @@ public class AdminRecordService {
      * @param masterData  출입 기록 데이터를 저장할 ObservableList
      * @param recordTable 출입 기록을 표시할 TableView 컨트롤
      */
-    public void loadAllRecordsFromDB(ObservableList<Record> masterData, TableView<Record> recordTable) {
+    public void loadAllRecordsFromDB(ObservableList<RecordDTO> masterData, TableView<RecordDTO> recordTable) {
         masterData.clear();
         try {
-            List<Record> records = recordDao.findAllRecords();
-            masterData.addAll(records);
+            List<RecordDTO> recordDTOS = recordDao.findAllRecords();
+            masterData.addAll(recordDTOS);
             recordTable.setItems(masterData);
         } catch (SQLException e) {
             e.printStackTrace();

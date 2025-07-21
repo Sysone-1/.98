@@ -1,10 +1,9 @@
-package com.sysone.ogamza.controller;
+package com.sysone.ogamza.controller.user;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -57,12 +56,12 @@ public class SettingsController {
 
     @FXML
     public void openEditMemberModal(MouseEvent mouseEvent) {
-        openModal("/fxml/EditMemberModal.fxml","회원정보 수정");
+        openModal("/fxml/user/EditMemberModal.fxml","회원정보 수정");
 
     }
 
     public void openAlarmModal(MouseEvent mouseEvent) {
-        openModal("/fxml/Alarm.fxml","퇴근 알림 설정");
+        openModal("/fxml/user/Alarm.fxml","퇴근 알림 설정");
 
     }
 }

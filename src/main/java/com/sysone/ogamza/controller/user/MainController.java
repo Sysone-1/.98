@@ -39,17 +39,17 @@ public class MainController {
     public void goSettings(MouseEvent event) {
         System.out.println(" 셋팅 이동 ");
 
-        loadPage("/fxml/Settings.fxml");
+        loadPage("/fxml/user/Settings.fxml");
         System.out.println("Setting 이동");
     }
 
     public void goDashboard(MouseEvent event){
-        loadPage("/fxml/Dashboard.fxml");
+        loadPage("/fxml/user/Dashboard.fxml");
         System.out.println(" 대시보드 이동 ");
     }
 
     public void goTestNFC(MouseEvent event){
-        loadPage("/fxml/NFCTest.fxml");
+        loadPage("/fxml/user/NFCTest.fxml");
         System.out.println(" NFCTest 이동 ");
     }
 

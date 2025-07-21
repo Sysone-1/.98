@@ -1,7 +1,7 @@
-package com.sysone.ogamza.service;
+package com.sysone.ogamza.service.user;
 
-import com.sysone.ogamza.dto.ScheduleContentDto;
-import com.sysone.ogamza.dto.ScheduleListDto;
+import com.sysone.ogamza.dto.user.ScheduleContentDTO;
+import com.sysone.ogamza.dto.user.ScheduleListDTO;
 import com.sysone.ogamza.dao.user.ScheduleDAO;
 import lombok.Getter;
 
@@ -20,7 +20,7 @@ public class ScheduleService {
         일정 상세 내용 조회
      */
     public List<String> getScheduleContent (long id, int index) {
-        ScheduleContentDto dto = scheduleDAO.findScheduleContentById(id, index);
+        ScheduleContentDTO dto = scheduleDAO.findScheduleContentById(id, index);
 
         List<String> scheduleList = new ArrayList<>();
         int sYear = dto.getStartDate().getYear();
@@ -44,14 +44,14 @@ public class ScheduleService {
     /**
         일정 조회
      */
-    public List<ScheduleListDto> getScheduleList(long id) {
+    public List<ScheduleListDTO> getScheduleList(long id) {
        return scheduleDAO.findScheduleListById(id);
     }
 
     /**
         일정 결재 상신
      */
-    public boolean createSchedule(ScheduleContentDto scheduleListDto) {
+    public boolean createSchedule(ScheduleContentDTO scheduleListDto) {
         return scheduleDAO.insertSchedule(scheduleListDto);
     }
 

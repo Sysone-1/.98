@@ -1,8 +1,8 @@
-package com.sysone.ogamza.repository;
+package com.sysone.ogamza.dao.user;
 
-import com.sysone.ogamza.dto.ScheduleContentDto;
-import com.sysone.ogamza.dto.ScheduleListDto;
-import com.sysone.ogamza.sql.ScheduleSql;
+import com.sysone.ogamza.dto.user.ScheduleContentDTO;
+import com.sysone.ogamza.dto.user.ScheduleListDTO;
+import com.sysone.ogamza.sql.user.ScheduleSql;
 import com.sysone.ogamza.utils.db.OracleConnector;
 import lombok.Getter;
 
@@ -19,8 +19,8 @@ public class ScheduleDAO {
     /**
         해당 주에 등록된 것 중 승인 된 리스트 조회
     */
-    public ScheduleContentDto findScheduleContentById(long id, int index) {
-        List<ScheduleContentDto> scheduleList = new ArrayList<>();
+    public ScheduleContentDTO findScheduleContentById(long id, int index) {
+        List<ScheduleContentDTO> scheduleList = new ArrayList<>();
 
         try (Connection conn = OracleConnector.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(ScheduleSql.FIND_SCHEDULE_GRANTED_CONTENT);
@@ -29,7 +29,7 @@ public class ScheduleDAO {
 
             try (ResultSet rs = pstmt.executeQuery()) {
                 while(rs.next()) {
-                    scheduleList.add(new ScheduleContentDto(
+                    scheduleList.add(new ScheduleContentDTO(
                             id,
                             rs.getString("TITLE"),
                             rs.getString("SCHEDULE_TYPE"),
@@ -51,8 +51,8 @@ public class ScheduleDAO {
     /**
         결재 내역 조회
      */
-    public List<ScheduleListDto> findScheduleListById(long id) {
-        List<ScheduleListDto> scheduleList = new ArrayList<>();
+    public List<ScheduleListDTO> findScheduleListById(long id) {
+        List<ScheduleListDTO> scheduleList = new ArrayList<>();
 
         try (Connection conn = OracleConnector.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(ScheduleSql.FIND_SCHEDULE_LIST);
@@ -61,7 +61,7 @@ public class ScheduleDAO {
 
             try (ResultSet rs = pstmt.executeQuery()) {
                 while(rs.next()) {
-                    scheduleList.add(new ScheduleListDto(
+                    scheduleList.add(new ScheduleListDTO(
                             rs.getInt("ID"),
                             id,
                             rs.getString("TITLE"),
@@ -82,7 +82,7 @@ public class ScheduleDAO {
     /**
         일정 결재 상신
      */
-    public boolean insertSchedule(ScheduleContentDto dto) {
+    public boolean insertSchedule(ScheduleContentDTO dto) {
 
         try (Connection conn = OracleConnector.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(ScheduleSql.INSERT_SCHEDULE)) {

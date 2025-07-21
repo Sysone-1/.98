@@ -1,4 +1,4 @@
-package com.sysone.ogamza.dto;
+package com.sysone.ogamza.dto.user;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
-public class DashboardScheduleDto {
+public class DashboardScheduleDTO {
     private String title;
     private LocalDateTime startDate;
     /**
@@ -15,7 +15,7 @@ public class DashboardScheduleDto {
     */
     private int isGranted;
 
-    public DashboardScheduleDto(String title, LocalDateTime startDate, int isGranted) {
+    public DashboardScheduleDTO(String title, LocalDateTime startDate, int isGranted) {
         this.title = title;
         this.startDate = startDate;
         this.isGranted = isGranted;

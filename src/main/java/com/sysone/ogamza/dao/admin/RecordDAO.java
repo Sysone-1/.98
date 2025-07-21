@@ -1,6 +1,6 @@
-package com.sysone.ogamza.dao;
+package com.sysone.ogamza.dao.admin;
 
-import com.sysone.ogamza.entity.Record;
+import com.sysone.ogamza.dto.admin.RecordDTO;
 import com.sysone.ogamza.utils.db.OracleConnector;
 
 import java.sql.*;
@@ -16,7 +16,7 @@ import java.util.List;
  *
  * 작성자: 조윤상
  */
-public class RecordDao {
+public class RecordDAO {
 
     /**
      * 데이터베이스에서 모든 출입 기록을 조회합니다.
@@ -25,11 +25,11 @@ public class RecordDao {
      * 출입 시간, 직원 정보, 부서명, 직급, 출입 승인 여부 등을 조회합니다.
      * </p>
      *
-     * @return 출입 기록 리스트(List of {@link Record})
+     * @return 출입 기록 리스트(List of {@link RecordDTO})
      * @throws SQLException DB 접근 중 오류가 발생한 경우 던져집니다.
      */
-    public List<Record> findAllRecords() throws SQLException {
-        List<Record> records = new ArrayList<>();
+    public List<RecordDTO> findAllRecords() throws SQLException {
+        List<RecordDTO> recordDTOS = new ArrayList<>();
 
         String sql = """
                 SELECT
@@ -54,7 +54,7 @@ public class RecordDao {
 
             while (rs.next()) {
                 try {
-                    Record r = new Record(
+                    RecordDTO r = new RecordDTO(
                             rs.getLong("emp_id"),
                             rs.getString("employee_name"),
                             rs.getString("department_name"),
@@ -62,7 +62,7 @@ public class RecordDao {
                             rs.getObject("tagging_time", LocalDateTime.class),
                             rs.getString("approval_status")
                     );
-                    records.add(r);
+                    recordDTOS.add(r);
                 } catch (Exception e) {
                     // 데이터 처리 중 개별 행 오류 발생 시 로그만 남기고 계속 진행
                     System.err.println("Error processing a row: " + e.getMessage());
@@ -71,6 +71,6 @@ public class RecordDao {
                 }
             }
         }
-        return records;
+        return recordDTOS;
     }
 }

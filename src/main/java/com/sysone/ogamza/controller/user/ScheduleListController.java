@@ -1,7 +1,7 @@
-package com.sysone.ogamza.controller;
+package com.sysone.ogamza.controller.user;
 
-import com.sysone.ogamza.dto.ScheduleListDto;
-import com.sysone.ogamza.service.ScheduleService;
+import com.sysone.ogamza.dto.user.ScheduleListDTO;
+import com.sysone.ogamza.service.user.ScheduleService;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -16,16 +16,16 @@ import java.util.List;
 
 public class ScheduleListController {
 
-    @FXML private TableView<ScheduleListDto> scheduleTable;
-    @FXML private TableColumn<ScheduleListDto, String> titleColumn, typeColumn, dateColumn, approvalColumn, grantedStatusColumn;
+    @FXML private TableView<ScheduleListDTO> scheduleTable;
+    @FXML private TableColumn<ScheduleListDTO, String> titleColumn, typeColumn, dateColumn, approvalColumn, grantedStatusColumn;
     private static final ScheduleService scheduleService = ScheduleService.getInstance();
 
     /**
         결재 내역 조회
     */
     public void loadScheduleList() {
-        List<ScheduleListDto> resultList = scheduleService.getScheduleList(DashboardController.empId);
-        ObservableList<ScheduleListDto> observableList = FXCollections.observableArrayList();
+        List<ScheduleListDTO> resultList = scheduleService.getScheduleList(DashboardController.empId);
+        ObservableList<ScheduleListDTO> observableList = FXCollections.observableArrayList();
 
         observableList.addAll(resultList);
 
@@ -43,7 +43,7 @@ public class ScheduleListController {
     */
     @FXML
     private void handleRemove() {
-        ScheduleListDto selectedDto = scheduleTable.getSelectionModel().getSelectedItem();
+        ScheduleListDTO selectedDto = scheduleTable.getSelectionModel().getSelectedItem();
 
         long scheduleId = selectedDto.getScheduleId();
 
@@ -62,7 +62,7 @@ public class ScheduleListController {
     /**
         날짜 포맷팅
      */
-    private String formatDateRange(ScheduleListDto dto) {
+    private String formatDateRange(ScheduleListDTO dto) {
         return String.format("%d-%02d-%02d ~ %d-%02d-%02d",
                 dto.getStartDate().getYear(), dto.getStartDate().getMonthValue(), dto.getStartDate().getDayOfMonth(),
                 dto.getEndDate().getYear(), dto.getEndDate().getMonthValue(), dto.getEndDate().getDayOfMonth());

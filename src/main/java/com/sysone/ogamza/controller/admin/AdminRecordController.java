@@ -1,7 +1,7 @@
-package com.sysone.ogamza.controller;
+package com.sysone.ogamza.controller.admin;
 
-import com.sysone.ogamza.entity.Record;
-import com.sysone.ogamza.service.AdminRecordService;
+import com.sysone.ogamza.dto.admin.RecordDTO;
+import com.sysone.ogamza.service.admin.AdminRecordService;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -25,25 +25,25 @@ import java.time.LocalDate;
 public class AdminRecordController {
 
     @FXML
-    private TableView<Record> recordTable;
+    private TableView<RecordDTO> recordTable;
 
     @FXML
-    private TableColumn<Record, Long> colId;
+    private TableColumn<RecordDTO, Long> colId;
 
     @FXML
-    private TableColumn<Record, String> colName;
+    private TableColumn<RecordDTO, String> colName;
 
     @FXML
-    private TableColumn<Record, Long> colDept;
+    private TableColumn<RecordDTO, Long> colDept;
 
     @FXML
-    private TableColumn<Record, String> colPosition;
+    private TableColumn<RecordDTO, String> colPosition;
 
     @FXML
-    private TableColumn<Record, String> colTime;
+    private TableColumn<RecordDTO, String> colTime;
 
     @FXML
-    private TableColumn<Record, String> colApproval;
+    private TableColumn<RecordDTO, String> colApproval;
 
     @FXML
     private ComboBox<String> departmentComboBox;
@@ -65,7 +65,7 @@ public class AdminRecordController {
 
     private final AdminRecordService adminRecordService;
 
-    private final ObservableList<Record> masterData;
+    private final ObservableList<RecordDTO> masterData;
 
     /**
      * 기본 생성자
@@ -154,25 +154,25 @@ public class AdminRecordController {
         String selectedApproval = approvalComboBox.getValue();
         String keyword = searchField.getText().toLowerCase().trim();
 
-        ObservableList<Record> filtered = masterData.filtered(record -> {
+        ObservableList<RecordDTO> filtered = masterData.filtered(recordDTO -> {
             boolean dateMatch = true;
-            if (start != null && end != null && record.getTaggingTime() != null) {
-                LocalDate date = record.getTaggingTime().toLocalDate();
+            if (start != null && end != null && recordDTO.getTaggingTime() != null) {
+                LocalDate date = recordDTO.getTaggingTime().toLocalDate();
                 dateMatch = (date.isEqual(start) || date.isAfter(start)) &&
                         (date.isEqual(end) || date.isBefore(end));
             }
 
-            boolean deptMatch = selectedDept.equals("부서 전체") || record.getDepartmentName().equals(selectedDept);
-            boolean posMatch = selectedPos.equals("직급 전체") || record.getPosition().equals(selectedPos);
-            boolean approvalMatch = selectedApproval.equals("출입여부 전체") || record.getApprovalStatus().equals(selectedApproval);
+            boolean deptMatch = selectedDept.equals("부서 전체") || recordDTO.getDepartmentName().equals(selectedDept);
+            boolean posMatch = selectedPos.equals("직급 전체") || recordDTO.getPosition().equals(selectedPos);
+            boolean approvalMatch = selectedApproval.equals("출입여부 전체") || recordDTO.getApprovalStatus().equals(selectedApproval);
 
             boolean keywordMatch = keyword.isEmpty() || (
-                    String.valueOf(record.getEmployeeId()).contains(keyword) ||
-                            record.getEmployeeName().toLowerCase().contains(keyword) ||
-                            record.getDepartmentName().toLowerCase().contains(keyword) ||
-                            record.getPosition().toLowerCase().contains(keyword) ||
-                            record.getApprovalStatus().toLowerCase().contains(keyword) ||
-                            record.getTaggingTime().toString().toLowerCase().contains(keyword)
+                    String.valueOf(recordDTO.getEmployeeId()).contains(keyword) ||
+                            recordDTO.getEmployeeName().toLowerCase().contains(keyword) ||
+                            recordDTO.getDepartmentName().toLowerCase().contains(keyword) ||
+                            recordDTO.getPosition().toLowerCase().contains(keyword) ||
+                            recordDTO.getApprovalStatus().toLowerCase().contains(keyword) ||
+                            recordDTO.getTaggingTime().toString().toLowerCase().contains(keyword)
             );
 
             return dateMatch && deptMatch && posMatch && approvalMatch && keywordMatch;

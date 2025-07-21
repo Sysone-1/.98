@@ -1,4 +1,4 @@
-package com.sysone.ogamza.dto;
+package com.sysone.ogamza.dto.user;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
-public class ScheduleContentDto {
+public class ScheduleContentDTO {
     private long empId;
     private String title;
     private String scheduleType;
@@ -16,7 +16,7 @@ public class ScheduleContentDto {
     private String content;
     private int isGranted;
 
-    public ScheduleContentDto(long empId, String title, String scheduleType, LocalDateTime startDate, LocalDateTime endDate, String content, int isGranted) {
+    public ScheduleContentDTO(long empId, String title, String scheduleType, LocalDateTime startDate, LocalDateTime endDate, String content, int isGranted) {
         this.empId = empId;
         this.startDate = startDate;
         this.endDate = endDate;

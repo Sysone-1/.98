@@ -1,11 +1,11 @@
-package com.sysone.ogamza.model.user;
+package com.sysone.ogamza.dao.user;
 
 import lombok.Builder;
 import lombok.Data;
 
 @Builder
 @Data
-public class UserInfo {
+public class UserInfoDAO {
 
     private String name;
     private String departmentName;

@@ -1,8 +1,8 @@
-package com.sysone.ogamza.service;
+package com.sysone.ogamza.service.user;
 
 import com.sysone.ogamza.controller.user.DashboardController;
 import com.sysone.ogamza.controller.user.ScheduleContentController;
-import com.sysone.ogamza.dto.DashboardScheduleDto;
+import com.sysone.ogamza.dto.user.DashboardScheduleDTO;
 import com.sysone.ogamza.dao.user.DashboardDAO;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Cursor;
@@ -105,10 +105,10 @@ public class DashboardService {
         주 기준 일정 조회
     */
     public List<String> getWeekSchedules(long id) {
-        List<DashboardScheduleDto> resultList = dashboardDao.findSchedulesByDateAndEmpId(id);
+        List<DashboardScheduleDTO> resultList = dashboardDao.findSchedulesByDateAndEmpId(id);
         List<String> scheduleList = new ArrayList<>();
 
-        for (DashboardScheduleDto dto : resultList) {
+        for (DashboardScheduleDTO dto : resultList) {
             if (dto.getIsGranted() == 1) {
                 scheduleList.add(String.format("%02d월 %02d일 %s",
                         dto.getStartDate().getMonthValue(),

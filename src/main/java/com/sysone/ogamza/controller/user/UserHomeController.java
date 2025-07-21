@@ -1,7 +1,7 @@
 package com.sysone.ogamza.controller.user;
 
-import com.sysone.ogamza.model.user.UserInfo;
-import com.sysone.ogamza.repository.user.EmojiDAO;
+import com.sysone.ogamza.dao.user.UserInfoDAO;
+import com.sysone.ogamza.dao.user.EmojiDAO;
 import com.sysone.ogamza.service.user.UserHomeService;
 import com.sysone.ogamza.view.user.CalendarView;
 import com.sysone.ogamza.view.user.EmojiView;
@@ -73,7 +73,7 @@ public class UserHomeController implements Initializable {
 
     public void getHomeInfo(int userId){
         // 유저 정보 불러오기
-        UserInfo user = UserHomeService.getInstance().getUserHomeInfo(userId);
+        UserInfoDAO user = UserHomeService.getInstance().getUserHomeInfo(userId);
         //이미지 셋팅
         Image userProfile = new Image(getClass().getResource(user.getProfile()).toExternalForm());
         employeeProfile.setImage(userProfile);

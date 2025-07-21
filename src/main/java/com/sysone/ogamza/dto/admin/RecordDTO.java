@@ -1,4 +1,4 @@
-package com.sysone.ogamza.entity;
+package com.sysone.ogamza.dto.admin;
 
 import java.time.LocalDateTime;
 

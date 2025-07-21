@@ -1,4 +1,4 @@
-package com.sysone.ogamza.sql;
+package com.sysone.ogamza.sql.user;
 
 public class ScheduleSql {
     public static final String FIND_SCHEDULE_GRANTED_CONTENT =

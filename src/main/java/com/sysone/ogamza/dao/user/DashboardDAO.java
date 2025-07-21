@@ -1,7 +1,7 @@
-package com.sysone.ogamza.repository;
+package com.sysone.ogamza.dao.user;
 
-import com.sysone.ogamza.dto.DashboardScheduleDto;
-import com.sysone.ogamza.sql.DashboardSql;
+import com.sysone.ogamza.dto.user.DashboardScheduleDTO;
+import com.sysone.ogamza.sql.user.DashboardSql;
 import com.sysone.ogamza.utils.db.OracleConnector;
 import lombok.Getter;
 
@@ -48,8 +48,8 @@ public class DashboardDAO {
     /**
         List<String>로 해당 주에 등록된 일정 반환 하는 함수
     */
-    public List<DashboardScheduleDto> findSchedulesByDateAndEmpId(long id) {
-        List<DashboardScheduleDto> scheduleList = new ArrayList<>();
+    public List<DashboardScheduleDTO> findSchedulesByDateAndEmpId(long id) {
+        List<DashboardScheduleDTO> scheduleList = new ArrayList<>();
 
         try (Connection conn = OracleConnector.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(DashboardSql.FIND_SCHEDULE_LIST);
@@ -58,7 +58,7 @@ public class DashboardDAO {
 
             try (ResultSet rs = pstmt.executeQuery()) {
                 while (rs.next()) {
-                    scheduleList.add(new DashboardScheduleDto(
+                    scheduleList.add(new DashboardScheduleDTO(
                             rs.getString("TITLE"),
                             rs.getTimestamp("START_DATE").toLocalDateTime(),
                             rs.getInt("IS_GRANTED")

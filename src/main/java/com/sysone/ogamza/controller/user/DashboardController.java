@@ -1,6 +1,6 @@
-package com.sysone.ogamza.controller;
+package com.sysone.ogamza.controller.user;
 
-import com.sysone.ogamza.service.DashboardService;
+import com.sysone.ogamza.service.user.DashboardService;
 import com.sysone.ogamza.view.ArcProgress;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -162,7 +162,7 @@ public class DashboardController {
         @FXML
         private void handleAddScheduleClick(ActionEvent event) {
             try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/ScheduleRegister.fxml"));
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/user/ScheduleRegister.fxml"));
                 Parent formRoot = loader.load();
 
                 Stage dialogStage = new Stage();
@@ -189,7 +189,7 @@ public class DashboardController {
         @FXML
         private void handleFetchScheduleClick(ActionEvent event) {
             try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/ScheduleList.fxml"));
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/user/ScheduleList.fxml"));
                 Parent formRoot = loader.load();
 
                 ScheduleListController controller = loader.getController();

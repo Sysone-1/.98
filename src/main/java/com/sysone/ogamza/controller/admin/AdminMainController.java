@@ -1,4 +1,4 @@
-package com.sysone.ogamza.controller;
+package com.sysone.ogamza.controller.admin;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -22,7 +22,7 @@ public class AdminMainController {
     public void initialize() {
         // 시작 시 로그인 페이지로 로딩
         System.out.println(" 로그인 페이지 로딩 ");
-        loadPage("/fxml/AdminHome.fxml");
+        loadPage("/fxml/admin/AdminHome.fxml");
 
         Rectangle clip = new Rectangle(anchorPane.getPrefWidth(), anchorPane.getPrefHeight());
         clip.setArcWidth(50);
@@ -33,7 +33,7 @@ public class AdminMainController {
 
     public void goHome(MouseEvent event) {
         System.out.println(" 메인 홈 이동 ");
-        loadPage("/fxml/AdminHome.fxml");
+        loadPage("/fxml/admin/AdminHome.fxml");
     }
 
     public void goSettings(MouseEvent event) {
@@ -48,7 +48,7 @@ public class AdminMainController {
     }
 
     public void goRecord(MouseEvent event) {
-        loadPage("/fxml/AdminRecord.fxml");
+        loadPage("/fxml/admin/AdminRecord.fxml");
         System.out.println(" 레코드 이동 ");
     }
 

@@ -1,6 +1,6 @@
-package com.sysone.ogamza.controller;
+package com.sysone.ogamza.controller.user;
 
-import com.sysone.ogamza.service.ScheduleService;
+import com.sysone.ogamza.service.user.ScheduleService;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
