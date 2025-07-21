@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TableColumn?>
+
+<BorderPane prefHeight="743.0" prefWidth="1126.0" style="-fx-background-color:#F3F5F9;" xmlns=
+        "http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller=
+                    "com.sysone.ogamza.controller.AdminRecordController">
+
+    <!-- 중앙 콘텐츠 -->
+    <center>
+        <VBox spacing="10">
+            <padding>
+                <Insets top="20.0" right="20.0" bottom="20.0" left="20.0" />
+            </padding>
+
+            <!-- 기간 설정 -->
+            <Label text="기간 설정" style="-fx-font-size: 14px; -fx-font-weight: bold;"/>
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <DatePicker fx:id="startDatePicker"/>
+                <Label text="~"/>
+                <DatePicker fx:id="endDatePicker"/>
+                <Button text="초기화" onAction="#onResetDateButtonClicked" />
+            </HBox>
+
+            <!-- 필터링 -->
+            <Label text="필터링" style="-fx-font-size: 14px; -fx-font-weight: bold;"/>
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <ComboBox fx:id="departmentComboBox" promptText="부서 선택" prefWidth="120"/>
+                <ComboBox fx:id="positionComboBox" promptText="직급 선택" prefWidth="120"/>
+                <ComboBox fx:id="approvalComboBox" promptText="출입여부" prefWidth="120"/>
+            </HBox>
+
+
+
+            <Label minHeight="50" />
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <TextField fx:id="searchField" promptText="검색어를 입력하세요" prefWidth="200"/>
+                <Button text="검색" onAction="#onSearchButtonClicked"/>
+            </HBox>
+
+
+            <!-- 테이블 -->
+            <TableView fx:id="recordTable" prefHeight="400">
+                <columns>
+                    <TableColumn fx:id="colId" text="사번"/>
+                    <TableColumn fx:id="colName" text="이름"/>
+                    <TableColumn fx:id="colDept" text="부서"/>
+                    <TableColumn fx:id="colPosition" text="직급"/>
+                    <TableColumn fx:id="colTime" text="태깅 시각"/>
+                    <TableColumn fx:id="colApproval" text="출입여부"/>
+                </columns>
+            </TableView>
+
+        </VBox>
+    </center>
+</BorderPane>
