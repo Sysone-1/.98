@@ -44,7 +44,7 @@ public class MainController {
     }
 
     public void goDashboard(MouseEvent event){
-        loadPage("/fxml/user/Dashboard.fxml");
+        loadPage("/fxml/Dashboard.fxml");
         System.out.println(" 대시보드 이동 ");
     }
 
