@@ -1,4 +1,4 @@
-package com.sysone.ogamza.controller.user;
+package com.sysone.ogamza.controller.admin;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -10,7 +10,7 @@ import javafx.scene.shape.Rectangle;
 
 import java.io.IOException;
 
-public class MainController {
+public class AdminMainController {
 
     @FXML
     private StackPane contentArea;
@@ -22,7 +22,7 @@ public class MainController {
     public void initialize() {
         // 시작 시 로그인 페이지로 로딩
         System.out.println(" 로그인 페이지 로딩 ");
-        loadPage("/fxml/user/UserHome.fxml");
+        loadPage("/fxml/admin/AdminHome.fxml");
 
         Rectangle clip = new Rectangle(anchorPane.getPrefWidth(), anchorPane.getPrefHeight());
         clip.setArcWidth(50);
@@ -33,28 +33,22 @@ public class MainController {
 
     public void goHome(MouseEvent event) {
         System.out.println(" 메인 홈 이동 ");
-        loadPage("/fxml/user/UserHome.fxml");
+        loadPage("/fxml/admin/AdminHome.fxml");
     }
 
     public void goSettings(MouseEvent event) {
         System.out.println(" 셋팅 이동 ");
 
-        loadPage("/fxml/user/Settings.fxml");
-        System.out.println("Setting 이동");
+        loadPage("/fxml/AdminSettings.fxml");
     }
 
-    public void goDashboard(MouseEvent event){
-        loadPage("/fxml/user/Dashboard.fxml");
+    public void goDashboard(MouseEvent event) {
+        loadPage("/fxml/AdminDashboard.fxml");
         System.out.println(" 대시보드 이동 ");
     }
 
-    public void goTestNFC(MouseEvent event){
-        loadPage("/fxml/user/NFCTest.fxml");
-        System.out.println(" NFCTest 이동 ");
-    }
-
-    public void goRecord(MouseEvent event){
-        loadPage("/fxml/user/Record.fxml");
+    public void goRecord(MouseEvent event) {
+        loadPage("/fxml/admin/AdminRecord.fxml");
         System.out.println(" 레코드 이동 ");
     }
 
@@ -77,3 +71,4 @@ public class MainController {
 
 
 }
+

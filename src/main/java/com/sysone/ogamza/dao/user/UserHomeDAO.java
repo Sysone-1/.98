@@ -38,7 +38,7 @@ public class UserHomeDAO {
 
 
     // 럭키 데이터 모든 사원의 정보 bulk update
-    public int updateFortune(List<TodayFortuneDTO> todayFortuneDTOS)throws SQLException{
+    public int updateFortune(List<TodayFortuneDTO> todayFortunes)throws SQLException{
 
         String insertTemp = UserHomeSQL.INSERT_TEMP;
         String mergeData = UserHomeSQL.MERGE_DATA;
@@ -48,7 +48,7 @@ public class UserHomeDAO {
             PreparedStatement mergePstmt = conn.prepareStatement(mergeData)){
             conn.setAutoCommit(false);
 
-            for(TodayFortuneDTO data : todayFortuneDTOS) {
+            for(TodayFortuneDTO data : todayFortunes) {
                 insertPstmt.setInt(1, data.getEmployeeId());
                 insertPstmt.setInt(2, data.getLuckyNumber());
                 insertPstmt.setString(3, data.getLuckyShape());

@@ -1,7 +1,6 @@
 package com.sysone.ogamza.controller.user;
 
 import com.sysone.ogamza.dao.user.RankingDAO;
-import com.sysone.ogamza.dao.user.UserHomeDAO;
 import com.sysone.ogamza.dto.user.RankingDTO;
 import com.sysone.ogamza.dto.user.UserInfoDTO;
 import com.sysone.ogamza.dao.user.EmojiDAO;

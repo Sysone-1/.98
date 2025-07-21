@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="724.0" prefWidth="1150.0" style="-fx-background-color: #F1F9FF;" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sysone.ogamza.controller.user.UserHomeController">
+
+    <children>
+      <HBox layoutX="26.0" layoutY="30.0" prefHeight="43.0" prefWidth="200.0" styleClass="helloMentBox">
+         <children>
+              
+              <Label fx:id="welcomeLabel" text="안녕하세요 :)" textFill="#0099ff">
+               <font>
+                  <Font name="System Bold Italic" size="25.0" />
+               </font>
+            </Label>
+         </children>
+      </HBox>
+      <VBox id="employeeBox" layoutX="47.0" layoutY="80.0" prefHeight="287.0" prefWidth="247.0" style="-fx-background-color: #ffffff; -fx-background-radius: 20;">
+         <effect>
+            <DropShadow color="#C4CACF" offsetX="2" offsetY="4" radius="4" />
+         </effect>
+         <children>
+            <VBox prefHeight="287.0" prefWidth="247.0" style="-fx-background-radius: 50;">
+               <children>
+                  <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" translateX="70.0" translateY="40.0">
+                     <image>
+                        <Image url="@../../images/employee.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </VBox>
+            <VBox prefHeight="100.0" prefWidth="100.0" style="-fx-alignment: center; -fx-padding: 20; -fx-spacing: 5;">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 26; -fx-font-weight: 700;" text="김선호" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 18;" text="HR Depart" />
+               </children>
+            </VBox>
+         </children>
+      </VBox>
+      <VBox layoutX="374.0" layoutY="80.0" prefHeight="287.0" prefWidth="312.0" style="-fx-background-color: #ffffff; -fx-background-radius: 20; -fx-alignment: center;">
+         <effect>
+            <DropShadow color="#C4CACF" offsetX="2" offsetY="4" radius="4" />
+         </effect>
+         <children>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="달력을 넣어봅니다">
+               <font>
+                  <Font name="Inter Regular" size="13.0" />
+               </font></Text>
+         </children>
+      </VBox>
+      <VBox layoutX="767.0" layoutY="142.0" prefHeight="213.0" prefWidth="318.0" style="-fx-background-color: #ffffff; -fx-background-radius: 20; -fx-spacing: 10;">
+         <children>
+            <VBox prefHeight="200.0" prefWidth="100.0" style="-fx-pref-height: 65; -fx-pref-width: 302; -fx-background-color: #C9D4E4; -fx-background-radius: 20;">
+               <effect>
+                  <DropShadow color="#C4CACF" offsetX="2" offsetY="4" radius="4" />
+               </effect>
+               <children>
+                  <HBox id="rankingBox" prefHeight="100.0" prefWidth="200.0" style="-fx-spacing: 150; -fx-alignment: center;">
+                     <children>
+                        <Text id="rankingNum" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 35; -fx-font-weight: 700;" text="1" />
+                        <Text id="rankingDept" layoutX="10.0" layoutY="23.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 26; -fx-font-weight: 700;" text="HR Dept" />
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+            <VBox id="rankingBox" layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0" style="-fx-pref-height: 65; -fx-pref-width: 302; -fx-background-color: #D6E1F1; -fx-background-radius: 20;">
+               <effect>
+                  <DropShadow color="#C4CACF" offsetX="2" offsetY="4" radius="4" />
+               </effect>
+               <children>
+                  <HBox prefHeight="100.0" prefWidth="200.0" style="-fx-spacing: 150; -fx-alignment: center;">
+                     <children>
+                        <Text id="rankingNum" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 35; -fx-font-weight: 700;" text="2" />
+                        <Text id="rankingDept" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 26; -fx-font-weight: 700;" text="SW Dept" />
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+            <VBox id="rankingBox" layoutX="10.0" layoutY="75.0" prefHeight="200.0" prefWidth="100.0" style="-fx-pref-height: 65; -fx-pref-width: 302; -fx-background-color: #E2ECFB; -fx-background-radius: 20;">
+               <effect>
+                  <DropShadow color="#C4CACF" offsetX="2" offsetY="4" radius="4" />
+               </effect>
+               <children>
+                  <HBox prefHeight="100.0" prefWidth="200.0" style="-fx-spacing: 150; -fx-alignment: center;">
+                     <children>
+                        <Text id="rankingNum" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 35; -fx-font-weight: 700;" text="3" />
+                        <Text id="rankingDept" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 26; -fx-font-weight: 700;" text="PM Dept" />
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+         </children>
+      </VBox>
+      <HBox layoutX="774.0" layoutY="86.0" prefHeight="43.0" prefWidth="200.0" style="-fx-spacing: 10;">
+         <children>
+            <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../images/crown.png" />
+               </image>
+            </ImageView>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 26; -fx-text-alignment: center;" text="근태 랭킹" />
+         </children>
+      </HBox>
+      <VBox layoutX="59.0" layoutY="402.0" prefHeight="200.0" prefWidth="100.0" style="-fx-pref-height: 40;">
+         <children>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 23; -fx-font-weight: 600;" text="Today Message" />
+         </children>
+      </VBox>
+      <VBox layoutX="47.0" layoutY="450.0" prefHeight="200.0" prefWidth="100.0" style="-fx-pref-width: 597; -fx-pref-height: 225; -fx-background-radius: 20; -fx-background-color: #ffffff; -fx-alignment: center;">
+         <effect>
+            <DropShadow color="#C4CACF" offsetX="2" offsetY="4" radius="4" />
+         </effect>
+         <children>
+            <VBox prefHeight="200.0" prefWidth="100.0" style="-fx-alignment: center;">
+               <children>
+                  <HBox prefHeight="100.0" prefWidth="200.0" style="-fx-alignment: center; -fx-spacing: 20;">
+                     <children>
+                        <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../images/left-quote.png" />
+                           </image>
+                        </ImageView>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 28; -fx-font-family: 'ylee MHIM'; -fx-text-alignment: center;" text="잠올땐 자라" />
+                        <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../images/right-quote.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+         </children></VBox>
+      <VBox id="todayMood" layoutX="767.0" layoutY="442.0" prefHeight="200.0" prefWidth="100.0" style="-fx-background-color: #ffffff; -fx-background-radius: 50; -fx-pref-width: 337; -fx-pref-height: 30; -fx-alignment: center;">
+         <effect>
+            <DropShadow color="#C4CACF" offsetX="2" offsetY="4" radius="4" />
+         </effect>
+         <children>
+            <VBox id="moodBox" prefHeight="200.0" prefWidth="100.0" style="-fx-padding: 15;">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 21;" text="(Today Mood)" />
+               </children>
+            </VBox>
+         </children>
+      </VBox>
+      <VBox id="LuckyContainer" layoutX="767.0" layoutY="518.0" prefHeight="157.0" prefWidth="100.0" style="-fx-background-color: #ffffff; -fx-background-radius: 20; -fx-pref-width: 337; -fx-pref-height: 150;">
+         <effect>
+            <DropShadow color="#C4CACF" offsetX="2" offsetY="4" radius="4" />
+         </effect>
+         <children>
+            <HBox id="luckyBox" prefHeight="154.0" prefWidth="337.0" style="-fx-alignment: center; -fx-spacing: 70;">
+               <children>
+                  <VBox id="luckyColorBox" style="-fx-alignment: center; -fx-spacing: 10;">
+                     <children>
+                        <Circle fill="#ffa3f4" radius="35.0" strokeType="INSIDE" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Lucky Color">
+                           <font>
+                              <Font size="19.0" />
+                           </font>
+                        </Text>
+                     </children>
+                  </VBox>
+                  <VBox id="luckyNumBox" layoutX="10.0" layoutY="10.0" style="-fx-alignment: center; -fx-spacing: 10;">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 60; -fx-font-weight: bold; -fx-font-family: 'KoPubWorldBatang Light';" text="99" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Lucky Number">
+                           <font>
+                              <Font size="19.0" />
+                           </font>
+                        </Text>
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+    </children>
+</AnchorPane>
