@@ -1,5 +1,7 @@
 package com.sysone.ogamza.dao.user;
 
+import com.sysone.ogamza.dto.user.TodayFortuneDTO;
+import com.sysone.ogamza.dto.user.UserInfoDTO;
 import com.sysone.ogamza.sql.user.UserHomeSQL;
 import com.sysone.ogamza.utils.db.OracleConnector;
 
@@ -36,7 +38,7 @@ public class UserHomeDAO {
 
 
     // 럭키 데이터 모든 사원의 정보 bulk update
-    public int updateFortune(List<TodayFortuneDAO> todayFortunes)throws SQLException{
+    public int updateFortune(List<TodayFortuneDTO> todayFortunes)throws SQLException{
 
         String insertTemp = UserHomeSQL.INSERT_TEMP;
         String mergeData = UserHomeSQL.MERGE_DATA;
@@ -46,7 +48,7 @@ public class UserHomeDAO {
             PreparedStatement mergePstmt = conn.prepareStatement(mergeData)){
             conn.setAutoCommit(false);
 
-            for(TodayFortuneDAO data : todayFortunes) {
+            for(TodayFortuneDTO data : todayFortunes) {
                 insertPstmt.setInt(1, data.getEmployeeId());
                 insertPstmt.setInt(2, data.getLuckyNumber());
                 insertPstmt.setString(3, data.getLuckyShape());
@@ -65,7 +67,7 @@ public class UserHomeDAO {
         }
     }
     // 유저 홈 정보 출력
-    public UserInfoDAO getUserHome(int userId) throws SQLException{
+    public UserInfoDTO getUserHome(int userId) throws SQLException{
         String sql = UserHomeSQL.SELECT_HOME;
 
         try(Connection conn = OracleConnector.getConnection();
@@ -74,7 +76,7 @@ public class UserHomeDAO {
             ResultSet resultSet = pstmt.executeQuery();
 
             if(resultSet.next()) {
-                return UserInfoDAO.builder()
+                return UserInfoDTO.builder()
                         .name(resultSet.getString("employeeName"))
                         .departmentName(resultSet.getString("deptName"))
                         .profile(resultSet.getString("pic_dir"))

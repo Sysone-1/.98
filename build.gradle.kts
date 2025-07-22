@@ -17,9 +17,10 @@ repositories {
 }
 
 dependencies {
-    implementation("org.openjfx:javafx-controls:$javafxVersion")
     implementation("org.openjfx:javafx-fxml:$javafxVersion")
     implementation( "com.zaxxer:HikariCP:5.1.0")
+    implementation ("org.slf4j:slf4j-api:1.7.32")
+    implementation ("org.slf4j:slf4j-simple:1.7.32")
     implementation ("com.oracle.database.jdbc:ojdbc11-production:21.18.0.0")
 
     implementation ("org.controlsfx:controlsfx:11.2.0")
