@@ -17,7 +17,6 @@ repositories {
 }
 
 dependencies {
-    implementation("org.openjfx:javafx-controls:$javafxVersion")
     implementation("org.openjfx:javafx-fxml:$javafxVersion")
     implementation( "com.zaxxer:HikariCP:5.1.0")
     implementation ("com.oracle.database.jdbc:ojdbc11-production:21.18.0.0")
