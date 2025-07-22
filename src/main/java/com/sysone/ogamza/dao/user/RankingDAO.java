@@ -32,6 +32,13 @@ public class RankingDAO {
                             .score(resultSet.getInt("TOTAL_SCORE"))
                             .ranking(resultSet.getInt("RANKING"))
                             .build());
+
+
+                System.out.printf("부서: %s, 점수: %d, 순위: %d\n",
+                        resultSet.getString("NAME"),
+                        resultSet.getInt("TOTAL_SCORE"),
+                        resultSet.getInt("RANKING"));
+
             }
             return response;
         }

@@ -66,7 +66,7 @@
                   <HBox id="rankingBox" prefHeight="100.0" prefWidth="200.0" style="-fx-spacing: 150; -fx-alignment: center;">
                      <children>
                         <Text fx:id="rankingNum1" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 35; -fx-font-weight: 700;" text="1" />
-                        <Text fx:id="rankingDept1" layoutX="10.0" layoutY="23.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 26; -fx-font-weight: 700;" text="HR Dept" />
+                        <Text fx:id="rankingDept1" layoutX="10.0" layoutY="23.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 26; -fx-font-weight: bold;" text="HR Dept" />
                      </children>
                   </HBox>
                </children>
@@ -79,7 +79,7 @@
                   <HBox prefHeight="100.0" prefWidth="200.0" style="-fx-spacing: 150; -fx-alignment: center;">
                      <children>
                         <Text fx:id="rankingNum2" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 35; -fx-font-weight: 700;" text="2" />
-                        <Text fx:id="rankingDept2" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 26; -fx-font-weight: 700;" text="SW Dept" />
+                        <Text fx:id="rankingDept2" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 26; -fx-font-weight: bold;" text="SW Dept" />
                      </children>
                   </HBox>
                </children>
@@ -92,7 +92,7 @@
                   <HBox prefHeight="100.0" prefWidth="200.0" style="-fx-spacing: 150; -fx-alignment: center;">
                      <children>
                         <Text fx:id="rankingNum3" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 35; -fx-font-weight: 700;" text="3" />
-                        <Text fx:id="rankingDept3" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 26; -fx-font-weight: 700;" text="PM Dept" />
+                        <Text fx:id="rankingDept3" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 26; -fx-font-weight: bold;" text="PM Dept" />
                      </children>
                   </HBox>
                </children>
@@ -125,17 +125,7 @@
                <children>
                   <HBox prefHeight="100.0" prefWidth="200.0" style="-fx-alignment: center; -fx-spacing: 20;">
                      <children>
-                        <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../images/left-quote.png" />
-                           </image>
-                        </ImageView>
-                        <Text fx:id="randomMsg" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 28; -fx-font-family: 'ylee MHIM'; -fx-text-alignment: center;" text="잠올땐 자라" />
-                        <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../images/right-quote.png" />
-                           </image>
-                        </ImageView>
+                        <Text fx:id="randomMsg" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 28; -fx-font-family: 'ylee MHIM'; -fx-text-alignment: center;" text="오늘도 화이팅" wrappingWidth="500" />
                      </children>
                   </HBox>
                </children>
@@ -156,35 +146,39 @@
       </VBox>
 
 
-       <VBox id="LuckyContainer" layoutX="767.0" layoutY="520.0" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="160.0" prefWidth="100.0" style="-fx-background-color: #ffffff; -fx-background-radius: 20; -fx-pref-width: 337; -fx-pref-height: 155;">
+       <VBox id="LuckyContainer" layoutX="767.0" layoutY="520.0" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="160.0" prefWidth="100.0" style="-fx-background-color: #ffffff; -fx-background-radius: 20; -fx-pref-width: 337; -fx-pref-height: 155; -fx-spacing: 10; -fx-alignment: center;">
          <effect>
             <DropShadow color="#C4CACF" offsetX="2" offsetY="4" radius="4" />
          </effect>
          <children>
-            <HBox id="luckyBox" prefHeight="154.0" prefWidth="337.0" style="-fx-alignment: center; -fx-spacing: 70;">
+            <VBox id="luckyColorBox" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="70.0" prefWidth="337.0" style="-fx-alignment: center;">
                <children>
-                  <VBox id="luckyColorBox" style="-fx-alignment: center; -fx-spacing: 10;">
+                  <HBox minHeight="-Infinity" prefHeight="60.0" prefWidth="341.0" style="-fx-spacing: 110; -fx-alignment: center;">
                      <children>
                         <Group fx:id="luckyShape" />
+                        <Text fx:id="luckyNumber" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 60; -fx-font-weight: bold; -fx-font-family: 'KoPubWorldBatang Light';" text="99" />
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+            <VBox prefHeight="50.0" prefWidth="100.0">
+               <children>
+                  <HBox id="luckyBox" prefHeight="53.0" prefWidth="337.0" style="-fx-alignment: center; -fx-spacing: 50;">
+                     <children>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Lucky Color">
                            <font>
                               <Font size="19.0" />
                            </font>
                         </Text>
-                     </children>
-                  </VBox>
-                  <VBox id="luckyNumBox" layoutX="10.0" layoutY="10.0" style="-fx-alignment: center; -fx-spacing: 10;">
-                     <children>
-                        <Text fx:id="luckyNumber" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 60; -fx-font-weight: bold; -fx-font-family: 'KoPubWorldBatang Light';" text="99" />
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Lucky Number">
                            <font>
                               <Font size="19.0" />
                            </font>
                         </Text>
                      </children>
-                  </VBox>
+                  </HBox>
                </children>
-            </HBox>
+            </VBox>
          </children>
       </VBox>
     </children>

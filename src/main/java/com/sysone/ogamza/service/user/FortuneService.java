@@ -2,6 +2,8 @@ package com.sysone.ogamza.service.user;
 
 import com.sysone.ogamza.dto.user.TodayFortuneDTO;
 import com.sysone.ogamza.dao.user.UserHomeDAO;
+import com.sysone.ogamza.utils.api.GPTService;
+import com.sysone.ogamza.utils.api.GptPrompt;
 import javafx.scene.paint.Color;
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -11,6 +13,7 @@ import java.util.Random;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
+
 public class FortuneService {
 
     private static final FortuneService instance = new FortuneService();
@@ -58,30 +61,44 @@ public class FortuneService {
     // 데이터 셋팅
     public List<TodayFortuneDTO> setLuckyDataList(){
         try{
-            // 사원 아이디 불러오기
+            // 1. 사원 ID 리스트
             List<Integer> ids = UserHomeDAO.getInstance().findAllId();
-            System.out.println("사원 수: " + ids.size()); // ✅ 몇 명인지 확인
+            int employeeCount = ids.size();
+            System.out.println("사원 수: " + employeeCount);
 
+            // 2. 프롬프트 생성 + GPT 호출
+            String prompt = GptPrompt.getPromptForToday(employeeCount);
+            List<String> messages = GPTService.askGPT(prompt);
+
+            if (messages.size() != employeeCount) {
+                System.out.println("응답 메시지 수와 사원 수가 일치하지 않습니다!");
+            }
+
+            // 3. 데이터 셋팅
             List<TodayFortuneDTO> fortuneList = new ArrayList<>();
-            for(int id : ids){
+            for (int i = 0; i < employeeCount; i++) {
+                int employeeId = ids.get(i);
+                String message = i < messages.size() ? messages.get(i) : "오늘도 힘내세요! 😊";
+
                 fortuneList.add(TodayFortuneDTO.builder()
-                        .employeeId(id)
+                        .employeeId(employeeId)
                         .luckyNumber(setLuckyNumber())
                         .luckyShape(setLuckyShape())
                         .luckyColor(setLuckyColor())
-                        .randomMessage(setRandomMessage())
-                                .build());
+                        .randomMessage(message)
+                        .build());
             }
 
-            System.out.println("데이터 셋팅 : " + fortuneList);
+            System.out.println("Fortune 데이터 셋팅 완료: " + fortuneList);
             return fortuneList;
 
-        }catch (Exception e){
+        } catch (Exception e) {
             System.out.println("lucky Data 셋팅에 실패하였습니다.");
             e.printStackTrace();
             return null;
         }
     }
+
 
     // 행운의 번호
     public int setLuckyNumber(){
@@ -108,13 +125,4 @@ public class FortuneService {
         );
         return randomColor.toString();
     }
-
-
-    // 랜덤 메세지
-    public String setRandomMessage(){
-        String msg = "나는 어제로 돌아갈 수 없다.";
-
-        return msg;
-    }
-
 }

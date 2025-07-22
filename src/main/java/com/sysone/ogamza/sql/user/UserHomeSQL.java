@@ -50,14 +50,17 @@ public class UserHomeSQL {
             """;
 
 
-    public static final String SELECT_RANKING=
+    public static final String SELECT_RANKING =
             """
-                    SELECT RANK() OVER (ORDER BY TOTAL_SCORE ASC) AS RANKING,
-                                   DEPARTMENT_ID,
-                                   NAME,
-                                   TOTAL_SCORE
-                    FROM DEPT_RANKING
-                    ORDER BY TOTAL_SCORE ASC
-                    FETCH FIRST 3 ROWS ONLY;
+            SELECT *
+            FROM (
+                SELECT RANK() OVER (ORDER BY TOTAL_SCORE ASC) AS RANKING,
+                       DEPARTMENT_ID,
+                       NAME,
+                       TOTAL_SCORE
+                FROM DEPT_RANKING
+            )
+            WHERE RANKING <= 3
+            ORDER BY RANKING
             """;
 }
