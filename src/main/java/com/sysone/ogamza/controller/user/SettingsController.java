@@ -54,8 +54,6 @@ public class SettingsController {
         if (controller != null) {
             controller.getModalStage().showAndWait();
         }
-
-
     }
 
     @FXML
