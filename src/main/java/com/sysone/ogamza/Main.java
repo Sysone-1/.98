@@ -1,22 +1,46 @@
 package com.sysone.ogamza;
 
+import com.sysone.ogamza.service.user.FortuneService;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
-public class
-Main extends Application {
+import java.util.Objects;
+
+public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        // TODO: 로그인 페이지 완성되면 Login.fxml로 변경
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/admin/AdminMainLayout.fxml"));
+        /* 글꼴 등록 : 첫 실행 때 한 번만 호출해주면 됨.
+           이후부터 Font.font("Inter",...)
+        */
+      Font.loadFont(
+                getClass().getResourceAsStream("/fonts/Inter-VariableFont_opsz,wght.ttf"),
+                10
+        );
+      Font.loadFont(getClass().getResourceAsStream("/fonts/SUIT-Regular.tff"),10);
+      Font.loadFont(getClass().getResourceAsStream("/fonts/KoPubWorld Batang Light.ttf"),10);
+      Font.loadFont(getClass().getResourceAsStream("/fonts/ylee Mortal Heart, Immortal Memory v.1.11 (TTF).ttf"),10);
+        // 안전한 폰트 로딩
+
+        /* 2) FXML 파일 로드 */
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Login.fxml"));
         Parent root = loader.load();
+
+        /* 3) Scene + CSS */
+        Scene scene = new Scene(root, 1280, 832);
+        scene.getStylesheets().add (
+            Objects.requireNonNull(getClass().getResource("/css/main.css")).toExternalForm());
+
+        /* 4) Stage 세팅 */
         primaryStage.setTitle("ontime.89");
-        primaryStage.setScene(new Scene(root, 1284, 832));
+        primaryStage.setScene(scene);
         primaryStage.show();
+
+        FortuneService.getInstance().todayLuck();
     }
 
     public static void main(String[] args) {
