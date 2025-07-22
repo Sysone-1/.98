@@ -20,9 +20,8 @@ public class MainController {
 
     @FXML
     public void initialize() {
-        // 시작 시 로그인 페이지로 로딩
-        System.out.println(" 로그인 페이지 로딩 ");
-        loadPage("/fxml/user/UserHome.fxml");
+        System.out.println(" 메인 페이지 로딩 ");
+        goHome(null);
 
         Rectangle clip = new Rectangle(anchorPane.getPrefWidth(), anchorPane.getPrefHeight());
         clip.setArcWidth(50);

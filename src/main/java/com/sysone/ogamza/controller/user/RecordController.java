@@ -1,5 +1,7 @@
 package com.sysone.ogamza.controller.user;
 
+import com.sysone.ogamza.LoginUserDTO;
+import com.sysone.ogamza.Session;
 import com.sysone.ogamza.dao.user.UserRecordDAO;
 import com.sysone.ogamza.dto.user.UserRecordDTO;
 import javafx.application.Platform;
@@ -29,6 +31,13 @@ public class RecordController {
 
     @FXML
     public void initialize(){
+
+        LoginUserDTO user = Session.getInstance().getLoginUser();
+        if (user == null) {
+            System.err.println("⚠️ 로그인 유저 정보 없음! 세션이 비어 있음");
+            return;
+        }
+
         id.setCellValueFactory(new PropertyValueFactory<>("employeeId"));
         name.setCellValueFactory(new PropertyValueFactory<>("name"));
         date.setCellValueFactory(new PropertyValueFactory<>("workDate"));
@@ -39,7 +48,7 @@ public class RecordController {
         ObservableList<UserRecordDTO> records = FXCollections.observableArrayList();
 
         try {
-        List<UserRecordDTO> datas = UserRecordDAO.getInstance().getWorkingRecord(1002);
+        List<UserRecordDTO> datas = UserRecordDAO.getInstance().getWorkingRecord(user.getId());
             for(UserRecordDTO data : datas ){
                 records.add(data);
             }

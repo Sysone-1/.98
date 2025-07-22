@@ -62,7 +62,13 @@ public class EmojiView {
 
         for (String emoji : emojis) {
             Button btn = new Button(emoji);
-            btn.setFont(Font.font(15));
+            String os = System.getProperty("os.name").toLowerCase();
+            if (os.contains("win")) {
+                btn.setFont(Font.font("Segoe UI Emoji", 15));
+            } else {
+                btn.setFont(Font.font("Apple Color Emoji", 15));
+            }
+
             btn.setPrefSize(40, 40);
             btn.setStyle("-fx-background-color: transparent");
 
