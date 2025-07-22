@@ -22,7 +22,7 @@ public class AlramController implements ModalControllable {
 
     private Stage modalStage;
 
-    private final LocalTime offTime = LocalTime.of(17, 24);
+    private final LocalTime offTime = LocalTime.of(18, 0);
 
     //수정
     private boolean toggleSwitchState;
@@ -134,10 +134,11 @@ public class AlramController implements ModalControllable {
     private void showNotification() {
         // JavaFX에서 UI 업데이트를 안전하게 하기 위해 Platform.runLater() 사용
         Platform.runLater(() -> {
+            String message = String.format("%s 퇴근 예정입니다. 오늘 하루도 수고하셨습니다!",selectedTime);
             // ControlsFX 토스트 알림 생성
             Notifications.create()
                     .title("퇴근 알림")
-                    .text("오늘 하루도 수고하셨어요 !")
+                    .text(message)
                     .showInformation();  // 정보형 알림
         });
     }
