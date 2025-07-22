@@ -38,11 +38,8 @@ public class AlramController implements ModalControllable {
     public void initialize() {
         //초기화 시 ToggleSwitch 상태에 따라 ComboBox 활성화 여부
         toggleSwitch.selectedProperty().addListener((observable, oldvalue, newvalue) -> {
-            if (newvalue) {
-                timeComboBox.setDisable(false); //Switch가 켜지면 콤보박스 활성화
-            } else {
-                timeComboBox.setDisable(true); //Switch가 꺼지면 콤보박스 비활성화
-            }
+            //Switch가 꺼지면 콤보박스 비활성화
+            timeComboBox.setDisable(!newvalue); //Switch가 켜지면 콤보박스 활성화
         });
 
         //초기 상태에 따른 ComboBox 설정 (ToggleSwitch까 꺼져 있으면 ComboBox도 비활성화)
@@ -84,20 +81,16 @@ public class AlramController implements ModalControllable {
     }
 
     private long getMinutesBeforeOffTime(String selectedTime) {
-        switch (selectedTime) {
-            case "3분전":
-                return 3;
-            case "5분전":
-                return 5;
-            case "10분전":
-                return 10;
-            default:
-                return 3;
-        }
+        return switch (selectedTime) {
+            case "3분전" -> 3;
+            case "5분전" -> 5;
+            case "10분전" -> 10;
+            default -> 3;
+        };
     }
 
     private void scheduleNotification(long minuteBeforeOffTime) {
-        LocalTime notificationTime = offTime.minus(minuteBeforeOffTime, ChronoUnit.MINUTES);
+        LocalTime notificationTime = offTime.minusMinutes(minuteBeforeOffTime);
 
         //알람을 일정 시간 후에 트리거하기 위해 ScheduledExcutorService 사용
         scheduleAlarm(notificationTime);
@@ -126,8 +119,7 @@ public class AlramController implements ModalControllable {
 
     private long calculateDelay(LocalTime notificationTime) {
         LocalTime now = LocalTime.now();
-        long delay = ChronoUnit.MILLIS.between(now, notificationTime);
-        return delay; // 음수도 그대로 반환
+        return ChronoUnit.MILLIS.between(now, notificationTime); // 음수도 그대로 반환
     }
 
     // 알림을 트리거하는 함수
