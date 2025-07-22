@@ -4,7 +4,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="743.0" prefWidth="1126.0" style="-fx-background-color:#F1F9FF;" stylesheets="@../../css/recordDTO.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sysone.ogamza.controller.user.RecordController">
+<AnchorPane prefHeight="743.0" prefWidth="1126.0" style="-fx-background-color:#F1F9FF;" stylesheets="@../../css/record.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sysone.ogamza.controller.user.RecordController">
    <children>
    
        <!-- 헤더 레이블 : 좌·상 24px -->
