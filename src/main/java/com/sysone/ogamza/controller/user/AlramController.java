@@ -14,7 +14,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-public class AlramController {
+public class AlramController implements ModalControllable {
     @FXML
     private ToggleSwitch toggleSwitch;
     @FXML
@@ -22,16 +22,18 @@ public class AlramController {
 
     private Stage modalStage;
 
-    private final LocalTime offTime = LocalTime.of(23,30);
+    private final LocalTime offTime = LocalTime.of(18, 0);
 
     //수정
     private boolean toggleSwitchState;
     private String selectedTime;
 
+    private ScheduledExecutorService scheduler;
+
     @FXML
     public void initialize() {
         //초기화 시 ToggleSwitch 상태에 따라 ComboBox 활성화 여부
-        toggleSwitch.selectedProperty().addListener((observable,oldvalue,newvalue) -> {
+        toggleSwitch.selectedProperty().addListener((observable, oldvalue, newvalue) -> {
             if (newvalue) {
                 timeComboBox.setDisable(false); //Switch가 켜지면 콤보박스 활성화
             } else {
@@ -40,7 +42,7 @@ public class AlramController {
         });
 
         //초기 상태에 따른 ComboBox 설정 (ToggleSwitch까 꺼져 있으면 ComboBox도 비활성화)
-        if(!toggleSwitch.isSelected()) {
+        if (!toggleSwitch.isSelected()) {
             timeComboBox.setDisable(true);
         }
 
@@ -49,26 +51,25 @@ public class AlramController {
     }
 
     @FXML
-    public void onCancel(ActionEvent actionEvent) {
-
-    }
-
-    @FXML
     public void onSave(ActionEvent actionEvent) {
         //알림 설정 저장
         toggleSwitchState = toggleSwitch.isSelected();
         //선택된 알람 시간
         selectedTime = timeComboBox.getSelectionModel().getSelectedItem();
-        //알림 시간 계산 후 알림 트리거
-        long minuteBeforeOffTime = getMinutesBeforeOffTime(selectedTime);
-        scheduleNotification(minuteBeforeOffTime);
+        //토글이 켜져 있을 떄만 알림 트리거
+        if (toggleSwitchState && selectedTime != null) {
+            //알림 시간 계산 후 알림 트리거
+            long minuteBeforeOffTime = getMinutesBeforeOffTime(selectedTime);
+            scheduleNotification(minuteBeforeOffTime);
+        }
         //모달 창 닫기
         if (modalStage != null) {
             modalStage.close();
         }
     }
+
     private long getMinutesBeforeOffTime(String selectedTime) {
-        switch(selectedTime) {
+        switch (selectedTime) {
             case "3분전":
                 return 3;
             case "5분전":
@@ -76,7 +77,7 @@ public class AlramController {
             case "10분전":
                 return 10;
             default:
-                return 0;
+                return 3;
         }
     }
 
@@ -90,10 +91,20 @@ public class AlramController {
     // 알림을 일정 시간 후에 트리거하도록 예약하는 함수
     private void scheduleAlarm(LocalTime notificationTime) {
         long delay = calculateDelay(notificationTime); // 알림을 트리거할 시간까지의 차이 계산
-        ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+        if (delay < 0) {
+            System.out.println("알림 시간이 지남 - 알림 예약 취소");
+            return;
+        }
+
+        if (scheduler != null && !scheduler.isShutdown()) {
+            scheduler.shutdownNow();
+        }
+        scheduler = Executors.newScheduledThreadPool(1);
         scheduler.schedule(() -> {
             // 알림 트리거 (여기서는 예시로 출력)
             showNotification();
+            // 알림 완료 후 스케줄러 종료 (자원 해제)
+            scheduler.shutdown();
         }, delay, TimeUnit.MILLISECONDS);
 
     }
@@ -101,7 +112,7 @@ public class AlramController {
     private long calculateDelay(LocalTime notificationTime) {
         LocalTime now = LocalTime.now();
         long delay = ChronoUnit.MILLIS.between(now, notificationTime);
-        return delay < 0 ? 0 : delay;  // 알림 시간이 이미 지났다면 0으로 설정
+        return delay; // 음수도 그대로 반환
     }
 
     // 알림을 트리거하는 함수
@@ -116,29 +127,40 @@ public class AlramController {
         });
     }
 
-    // Stage를 저장하는 메서드
-    public void setModalStage(Stage stage) {
-        this.modalStage = stage;
-    }
+
     //추가
     public String getSelectedTime() {
         return timeComboBox.getSelectionModel().getSelectedItem();
     }
+
     //추가
     public boolean getToggleSwitchState() {
         return toggleSwitch.isSelected();
     }
+
     //추가
     public void setSavedSetting(boolean toggleSwitchState, String selectedTime) {
         this.toggleSwitchState = toggleSwitchState;
         this.selectedTime = selectedTime;
 
     }
+
     //추가
     public void restoreSavedSetting() {
         Platform.runLater(() -> {
             toggleSwitch.setSelected(toggleSwitchState);
             timeComboBox.setValue(selectedTime);
         });
+    }
+
+    // ModalControllable 인터페이스 구현
+    @Override
+    public void setModalStage(Stage stage) {
+        this.modalStage = stage;
+    }
+
+    @Override
+    public Stage getModalStage() {
+        return modalStage;
     }
 }
