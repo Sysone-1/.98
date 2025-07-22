@@ -40,9 +40,9 @@ dependencies {
     compileOnly ("org.projectlombok:lombok:1.18.32")
     annotationProcessor ("org.projectlombok:lombok:1.18.32")
     // gpt
-    implementation ("com.fasterxml.jackson.core:jackson-databind:2.17.0")
-}
+    implementation("com.fasterxml.jackson.core:jackson-databind:2.17.0")
 
+}
 
 application {
     mainClass.set("com.sysone.ogamza.Main")

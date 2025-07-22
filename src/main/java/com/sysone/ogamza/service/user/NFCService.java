@@ -1,21 +1,34 @@
 package com.sysone.ogamza.service.user;
 
+import com.sysone.ogamza.dao.user.DashboardDAO;
+import com.sysone.ogamza.dao.user.NFCDAO;
+import com.sysone.ogamza.dto.user.DepartmentDTO;
+import com.sysone.ogamza.dto.user.EmployeeCreateDTO;
 import com.sysone.ogamza.enums.NFCErrCode;
 import com.sysone.ogamza.nfc.NFCReader;
+import lombok.Getter;
 
 import javax.smartcardio.Card;
 import javax.smartcardio.CardChannel;
 import javax.smartcardio.CardTerminal;
+import java.io.ByteArrayOutputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
+import java.util.List;
 import java.util.logging.Logger;
 
 public class NFCService {
+
+    @Getter
+    private static final NFCService instance = new NFCService();
+    private static final NFCDAO nfcDao = NFCDAO.getInstance();
+
+    private NFCService() {}
     private static final Logger logger = Logger.getLogger(NFCService.class.getName());
     private Card card;
     private CardChannel channel;
 
-    /*
+    /**
         카드 리더기 가져와서 공유 채널 세팅
     */
     private void connectCardReader() {
@@ -32,7 +45,7 @@ public class NFCService {
         }
     }
 
-    /*
+    /**
         카드 연결
         16바이트 단위로 블록을 나누어 저장 (MIFARE 한 블록 = 16 bytes)
         블록 단위 인증 후 write
@@ -61,7 +74,19 @@ public class NFCService {
         }
     }
 
-   /*
+    public String createEmployee(EmployeeCreateDTO dto) {
+        return nfcDao.insertEmployee(dto);
+    }
+
+    public String deleteEmployee(EmployeeCreateDTO dto) {
+        return nfcDao.deleteEmployee(dto);
+    }
+
+    public List<DepartmentDTO> getDepartment() {
+        return nfcDao.findDepartment();
+    }
+
+   /**
         카드 연결
         지정된 시작 블록부터 count개의 블록 읽기
         인증 후 블록 단위로 읽음
@@ -70,7 +95,7 @@ public class NFCService {
     public String readDataFromCard(int startBlock, int count) {
         try {
             connectCardReader();
-            StringBuilder sb = new StringBuilder();
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
             int block = startBlock;
 
             for (int i = 0; i < count; i++) {
@@ -80,13 +105,33 @@ public class NFCService {
                 byte[] data = NFCReader.readBlock(block);
                 if (data == null) return null;
 
-                sb.append(new String(data, StandardCharsets.UTF_8));
+                baos.write(data);
                 block++;
             }
-            return sb.toString().trim();
+            byte[] allData = baos.toByteArray();
+            String result = new String(allData, StandardCharsets.UTF_8).trim();
+
+            System.out.println(result);
+            return result;
         } catch (Exception e) {
             logger.warning(NFCErrCode.BLOCK_READ_FAILED.getMessage() + " readDataFromCard");
             return null;
         }
+    }
+
+    public String getEmployeeInfo(byte[] cardId ) {
+        return nfcDao.findEmployeeById(cardId);
+    }
+
+    public boolean insertAccessTime(int empId) {
+        return nfcDao.insertAccessTime(empId);
+    }
+
+    public boolean insertUnauthorizedAccessTime() {
+        return nfcDao.insertUnauthorizedAccessTime();
+    }
+
+    public String getProfileDir(int empId) {
+        return nfcDao.findPicdir(empId);
     }
 }
