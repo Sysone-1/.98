@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.Group?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.effect.DropShadow?>
@@ -7,6 +8,8 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
@@ -63,11 +66,18 @@
                   <DropShadow color="#C4CACF" offsetX="2" offsetY="4" radius="4" />
                </effect>
                <children>
-                  <HBox id="rankingBox" prefHeight="100.0" prefWidth="200.0" style="-fx-spacing: 150; -fx-alignment: center;">
+                  <HBox id="rankingBox" prefHeight="100.0" prefWidth="200.0" style="-fx-alignment: center;">
                      <children>
-                        <Text fx:id="rankingNum1" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 35; -fx-font-weight: 700;" text="1" />
-                        <Text fx:id="rankingDept1" layoutX="10.0" layoutY="23.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 26; -fx-font-weight: bold;" text="HR Dept" />
-                     </children>
+                        <StackPane alignment="CENTER_LEFT" prefHeight="65.0" prefWidth="66.0" style="-fx-alignment: center_left;">
+                           <children>
+                              <Text fx:id="rankingNum1" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 35; -fx-font-weight: 700;" text="3" />
+                           </children>
+                        </StackPane>
+                        <StackPane prefHeight="150.0" prefWidth="200.0">
+                           <children>
+                              <Text fx:id="rankingDept1" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 26; -fx-font-weight: bold;" text="인사팀" StackPane.alignment="CENTER_RIGHT" />
+                           </children>
+                        </StackPane></children>
                   </HBox>
                </children>
             </VBox>
@@ -76,11 +86,18 @@
                   <DropShadow color="#C4CACF" offsetX="2" offsetY="4" radius="4" />
                </effect>
                <children>
-                  <HBox prefHeight="100.0" prefWidth="200.0" style="-fx-spacing: 150; -fx-alignment: center;">
+                  <HBox prefHeight="100.0" prefWidth="200.0" style=" -fx-alignment: center;">
                      <children>
-                        <Text fx:id="rankingNum2" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 35; -fx-font-weight: 700;" text="2" />
-                        <Text fx:id="rankingDept2" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 26; -fx-font-weight: bold;" text="SW Dept" />
-                     </children>
+                        <StackPane alignment="CENTER_LEFT" prefHeight="65.0" prefWidth="66.0" style="-fx-alignment: center_left;">
+                           <children>
+                              <Text fx:id="rankingNum2" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 35; -fx-font-weight: 700;" text="3" />
+                           </children>
+                        </StackPane>
+                        <StackPane prefHeight="150.0" prefWidth="200.0">
+                           <children>
+                              <Text fx:id="rankingDept2" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 26; -fx-font-weight: bold;" text="인사팀" StackPane.alignment="CENTER_RIGHT" />
+                           </children>
+                        </StackPane></children>
                   </HBox>
                </children>
             </VBox>
@@ -89,10 +106,18 @@
                   <DropShadow color="#C4CACF" offsetX="2" offsetY="4" radius="4" />
                </effect>
                <children>
-                  <HBox prefHeight="100.0" prefWidth="200.0" style="-fx-spacing: 150; -fx-alignment: center;">
+                  <HBox prefHeight="100.0" prefWidth="200.0" style="-fx-alignment: center;">
                      <children>
-                        <Text fx:id="rankingNum3" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 35; -fx-font-weight: 700;" text="3" />
-                        <Text fx:id="rankingDept3" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 26; -fx-font-weight: bold;" text="PM Dept" />
+                        <StackPane alignment="CENTER_LEFT" prefHeight="65.0" prefWidth="66.0" style="-fx-alignment: center_left;">
+                           <children>
+                              <Text fx:id="rankingNum3" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 35; -fx-font-weight: 700;" text="3" />
+                           </children>
+                        </StackPane>
+                        <StackPane prefHeight="150.0" prefWidth="200.0">
+                           <children>
+                              <Text fx:id="rankingDept3" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 26; -fx-font-weight: bold;" text="인사팀" StackPane.alignment="CENTER_RIGHT" />
+                           </children>
+                        </StackPane>
                      </children>
                   </HBox>
                </children>

@@ -90,6 +90,9 @@ public class UserHomeController implements Initializable {
         }
     }
 
+
+
+
     public void getHomeInfo(int userId){
         // 유저 정보 불러오기
         UserInfoDTO user = UserHomeService.getInstance().getUserHomeInfo(userId);
