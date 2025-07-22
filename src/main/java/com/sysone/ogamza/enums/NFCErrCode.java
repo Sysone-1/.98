@@ -9,6 +9,7 @@ public enum NFCErrCode {
     AUTH_FAILED("❌ 카드 인증 중 오류 발생"),
     NO_READER("❌ 연결된 리더기가 없습니다.");
 
+
     private final String message;
 
     NFCErrCode(String message) {

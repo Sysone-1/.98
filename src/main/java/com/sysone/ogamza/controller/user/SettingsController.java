@@ -9,13 +9,15 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.concurrent.ScheduledExecutorService;
 
 public class SettingsController {
+
     //추가
     private boolean toggleSwitchState = false;
     private String selectedTime = "3분전";
     //함수
-    private void openModal(String fxmlPath, String title) {
+    private <T> T openModal(String fxmlPath, String title) {
         try {
             //파일을 불러옴
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
@@ -33,35 +35,43 @@ public class SettingsController {
             //모달 크기 변경 금지
             modalStage.setResizable(false);
 
-            // AlarmController 인스턴스 가져오기
-            AlramController alarmController = loader.getController();
-
-            //추가
-            alarmController.setSavedSetting(toggleSwitchState, selectedTime);
-
-            //AlramController에 stage 객체 전달
-            alarmController.setModalStage(modalStage);
-            alarmController.restoreSavedSetting();
-            //모달 창이 닫힐 때까지 대기
-            modalStage.showAndWait();
-
-            //상태 저장 (닫힌 이후 값 갱신)
-            toggleSwitchState = alarmController.getToggleSwitchState();
-            selectedTime = alarmController.getSelectedTime();
+            // 컨트롤러에게 모달 Stage 전달
+            T controller = loader.getController();
+            if (controller instanceof ModalControllable) {
+                ((ModalControllable)controller).setModalStage(modalStage);
+            }
+            return controller;
         }catch(IOException e) {
             e.printStackTrace();
+            return null;
         }
 
     }
 
     @FXML
     public void openEditMemberModal(MouseEvent mouseEvent) {
-        openModal("/fxml/user/EditMemberModal.fxml","회원정보 수정");
+        EditMemberModalController controller =  openModal("/fxml/user/EditMemberModal.fxml","회원정보 수정");
+        if (controller != null) {
+            controller.getModalStage().showAndWait();
+        }
+
 
     }
 
+    @FXML
     public void openAlarmModal(MouseEvent mouseEvent) {
-        openModal("/fxml/user/Alarm.fxml","퇴근 알림 설정");
+        AlramController controller =  openModal("/fxml/user/Alarm.fxml","퇴근 알림 설정");
+        if (controller != null) {
+            controller.setSavedSetting(toggleSwitchState, selectedTime);
+            controller.restoreSavedSetting();
+
+            // 모달 띄우기
+            controller.getModalStage().showAndWait();
+
+            //모달 닫힌 뒤 값 반영
+            toggleSwitchState = controller.getToggleSwitchState();
+            selectedTime = controller.getSelectedTime();
+        }
 
     }
 }
