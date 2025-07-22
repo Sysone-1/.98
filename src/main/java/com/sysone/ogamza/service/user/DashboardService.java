@@ -59,9 +59,10 @@ public class DashboardService {
 
         long hours = duration.toHours();
         long minutes = duration.toMinutes();
+        System.out.println(minutes);
 
-        String worked = (minutes % 60 == 0) ? (hours != 0) ? (hours - 1) + "시간" : "0시간" : (hours - 1) + "시간 " + (minutes % 60) + "분";
-        String remaining = (hours >= 9) ? "0시간 0분" : (minutes !=  0) ? (8 - hours) + "시간 " + (60 - ((minutes % 60))) + "분" : "8시간 0분";
+        String worked = (minutes % 60 == 0) ? (hours != 0) ? (hours - 1) + "시간" : "0시간" : (hours != 0) ? (hours - 1) + "시간 " + (minutes % 60) + "분" : "0시간 " + (minutes % 60) + "분";
+        String remaining = (hours >= 9) ? "0시간 0분" : (minutes !=  0) ? (hours != 0) ? (8 - hours) + "시간 " + (60 - ((minutes % 60))) + "분" : "7시간 " + (60 - ((minutes % 60))) + "분" : "8시간 0분";
 
         return new String[]{worked, remaining, String.valueOf(minutes)};
     }

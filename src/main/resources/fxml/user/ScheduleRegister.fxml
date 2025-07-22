@@ -117,7 +117,7 @@
                   </children>
                </VBox>
                <VBox prefHeight="16.0" prefWidth="115.0" style="-fx-max-width: 80; -fx-background-radius: 30; -fx-alignment: center;">
-                  <Button layoutX="978.0" layoutY="357.0" mnemonicParsing="false" onAction="#handleCancel" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: #E74C3C; -fx-background-radius: 30; -fx-cursor: hand;" text="취소" textFill="WHITE">
+                  <Button layoutX="978.0" layoutY="357.0" mnemonicParsing="false" onAction="#handleCancel" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: #E74C3C; -fx-background-radius: 30; -fx-cursor: hand;" text="닫기" textFill="WHITE">
                      <font>
                         <Font name="SansSerif Bold" size="16.0" />
                      </font></Button>

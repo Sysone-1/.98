@@ -38,7 +38,7 @@ public class DashboardController {
     @FXML private ScrollPane scheduleScrollPane;
 
     private static final DashboardService dashboardService = DashboardService.getInstance();
-    public static final long empId = 1001L;
+    public static final long empId = 1009L;
 
 
         @FXML
@@ -212,5 +212,75 @@ public class DashboardController {
                 e.printStackTrace();
             }
         }
+
+    /**
+        임시 회원 등록 버튼 핸들러
+     */
+    @FXML
+    private void handleAddEmployee(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/user/EmployeeRegister.fxml"));
+            Parent formRoot = loader.load();
+
+            Stage dialogStage = new Stage();
+            dialogStage.initModality(Modality.APPLICATION_MODAL);
+            dialogStage.setTitle("사원 등록");
+
+            Window parentWindow = ((Node) event.getSource()).getScene().getWindow();
+            dialogStage.initOwner(parentWindow);
+
+            Scene dialogScene = new Scene(formRoot);
+            dialogStage.setScene(dialogScene);
+            dialogStage.setResizable(false);
+
+            dialogStage.showAndWait();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
+
+    /**
+        임시 카드 태그 버튼 핸들러
+     */
+    @FXML
+    private void handleTagCard(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/user/EmployeeTag.fxml"));
+            Parent formRoot = loader.load();
+
+            // 컨트롤러 가져오기
+            NFCCardTagController tagController = loader.getController();
+
+            // 다이얼로그 스테이지 설정
+            Stage dialogStage = new Stage();
+            dialogStage.initModality(Modality.APPLICATION_MODAL);
+            dialogStage.setTitle("카드 태그");
+
+            // 부모 창 설정
+            Window parentWindow = ((Node) event.getSource()).getScene().getWindow();
+            dialogStage.initOwner(parentWindow);
+
+            // 장면 설정
+            Scene dialogScene = new Scene(formRoot);
+            dialogStage.setScene(dialogScene);
+            dialogStage.setResizable(false);
+
+            // 창 닫힐 때 NFC 루프 종료
+            dialogStage.setOnCloseRequest(e -> {
+                tagController.stopListeningLoop();
+            });
+
+            // NFC 감지 루프 시작
+            tagController.startListeningLoop();
+
+            // 창 열기 (모달)
+            dialogStage.showAndWait();
+
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
 
