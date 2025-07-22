@@ -17,7 +17,7 @@
 <?import javafx.scene.shape.SVGPath?>
 <?import javafx.scene.chart.PieChart?>
 
-<AnchorPane prefHeight="832" prefWidth="1284" style="-fx-background-color: #F1F9FF;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sysone.ogamza.controller.admin.AdminHomeController">
+<AnchorPane prefHeight="841.0" prefWidth="1361.0" style="-fx-background-color: #F1F9FF;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sysone.ogamza.controller.admin.AdminHomeController">
     <children>
         <Rectangle arcHeight="30.0" arcWidth="30.0" fill="WHITE" height="154.0" layoutX="165.0" layoutY="55.0" stroke="BLACK" strokeType="INSIDE" width="863.0" />
         <Circle fill="#dbe8f6" layoutX="699.0" layoutY="114.0" radius="46.0" stroke="BLACK" strokeType="INSIDE" />
@@ -74,7 +74,7 @@
                     <children>
                         <VBox alignment="CENTER" spacing="8">
                             <children>
-                                <SVGPath fx:id="absentSummaryIcon" content="M12 12c2.21 0 4-1.79 4-4 0-.89-.29-1.71-.78-2.39L4.61 16.22A3.982 3.982 0 018 16c0 2.21 1.79 4 4 4 1.24 0 2.37-.56 3.13-1.44l1.43 1.43C15.35 20.92 13.74 22 12 22c-4.42 0-8-3.58-8-8 0-1.74 1.08-3.35 2.57-4.13L12.01 12z" style="-fx-scale-x:2.5; -fx-scale-y:2.5; -fx-fill:#F44336;" />
+                                <SVGPath fx:id="absentSummaryIcon" content="M19 3h-1V1h-2v2H8V1H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1 .9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zm-7-7l2.5 2.5-2.5 2.5 1.5 1.5 2.5-2.5 2.5 2.5 1.5-1.5-2.5-2.5 2.5-2.5-1.5-1.5-2.5 2.5-2.5-2.5-1.5 1.5z" style="-fx-scale-x:2.2; -fx-scale-y:2.2; -fx-fill:#F44336;" />
                             </children>
                         </VBox>
                     </children>
@@ -85,7 +85,8 @@
                     <children>
                         <VBox alignment="CENTER" spacing="8">
                             <children>
-                                <SVGPath fx:id="vacationSummaryIcon" content="M13 11V5c0-.55-.45-1-1-1s-1 .45-1 1v6H4c0 4.42 3.58 8 8 8s8-3.58 8-8h-6zM6 11h5V5H6v6z" style="-fx-scale-x:2.5; -fx-scale-y:2.5; -fx-fill:#2196F3;" />
+                                <SVGPath fx:id="vacationSummaryIcon" content="M19 3h-1V1h-2v2H8V1H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1 .9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zm-9-4l3 3 5-5-1.41-1.41L13 15.17l-2.59-2.58L9 14z" style="-fx-scale-x:2.0; -fx-scale-y:2.0; -fx-fill:#2962FF;" />
+
                             </children>
                         </VBox>
                     </children>
@@ -107,22 +108,6 @@
         <Text layoutX="439.0" layoutY="185.0" text="출퇴근 변경 신청" />
         <Text layoutX="665.0" layoutY="186.0" text="출장 신청 " />
         <Text layoutX="880.0" layoutY="186.0" text="결재 완료" />
-        <Pane fx:id="gaugeContainerpink" layoutX="713" layoutY="484" prefHeight="200" prefWidth="200">
-            <children>
-
-
-                <!-- ────────────── 전체 차트 + 부서별 차트 영역 ────────────── -->
-                <!-- layoutX/Y 는 필요 시 조정 -->
-                <HBox alignment="CENTER" layoutX="-234.0" layoutY="-40.0" spacing="30" />
-
-                <!-- 부서별 근무 현황 -->
-                <VBox alignment="CENTER" layoutX="-48.0" layoutY="-24.0">
-                    <children>
-                        <ComboBox fx:id="departmentComboBox" onAction="#handleDepartmentChange" promptText="부서 선택" />
-                        <PieChart fx:id="departmentChart" animated="true" prefHeight="280" prefWidth="280" />
-                    </children>
-                </VBox>
-            </children></Pane>
 
         <!-- 범례 -->
         <Rectangle arcHeight="20" arcWidth="20" fill="#53ac56" height="14" layoutX="371" layoutY="521" stroke="BLACK" strokeType="INSIDE" width="34" />
@@ -144,7 +129,7 @@
                 <Font name="System Bold" size="24.0" />
             </font>
         </Text>
-        <Text layoutX="66.0" layoutY="439.0" strokeType="OUTSIDE" strokeWidth="0.0" text="근무 현황" wrappingWidth="126.390625">
+        <Text layoutX="66.0" layoutY="423.0" strokeType="OUTSIDE" strokeWidth="0.0" text="근무 현황" wrappingWidth="126.390625">
             <font>
                 <Font name="System Bold" size="24.0" />
             </font>
@@ -187,7 +172,20 @@
 
         <!-- AdminHome.fxml -->
         <PieChart fx:id="attendanceChart" animated="true" layoutX="56.0" layoutY="471.0" legendSide="RIGHT" prefHeight="300" prefWidth="300" />
-        <PieChart fx:id="overallChart" animated="true" layoutX="97.0" layoutY="476.0" prefHeight="280" prefWidth="280" />
+        <PieChart fx:id="overallChart" animated="true" layoutX="96.0" layoutY="441.0" prefHeight="250.0" prefWidth="270.0" />
+      <Text layoutX="981.0" layoutY="581.0" text="결근" />
+      <Text layoutX="981.0" layoutY="607.0" text="휴가" />
+      <Text layoutX="981.0" layoutY="553.0" text="지각" />
+      <Text layoutX="981.0" layoutY="525.0" text="출근" />
+      <Rectangle arcHeight="20" arcWidth="20" fill="#2196f3" height="14" layoutX="937.0" layoutY="593.0" stroke="BLACK" strokeType="INSIDE" width="34" />
+      <Rectangle arcHeight="20" arcWidth="20" fill="#df4136" height="14" layoutX="937.0" layoutY="567.0" stroke="BLACK" strokeType="INSIDE" width="34" />
+      <Rectangle arcHeight="20" arcWidth="20" fill="#ef9414" height="14" layoutX="936.0" layoutY="539.0" stroke="BLACK" strokeType="INSIDE" width="34" />
+      <Rectangle arcHeight="20" arcWidth="20" fill="#53ac56" height="14.0" layoutX="936.0" layoutY="511.0" stroke="BLACK" strokeType="INSIDE" width="34.0" />
+
+                <!-- 부서별 근무 현황 -->
+          <VBox alignment="CENTER" layoutX="1056.0" layoutY="268.0" />
+            <PieChart fx:id="departmentChart" animated="false" layoutX="652.0" layoutY="430.0" prefHeight="250.0" prefWidth="270.0" />
+            <ComboBox fx:id="departmentComboBox" layoutX="581.0" layoutY="454.0" onAction="#handleDepartmentChange" promptText="부서 선택" />
 
     </children>
 </AnchorPane>

@@ -179,6 +179,9 @@ public class AdminHomeController implements Initializable {
                             : deptName + " 부서 (" + stats[0] + "명)";
                     departmentChart.setTitle(title);
 
+                    overallChart.setLegendVisible(false);
+                    departmentChart.setLegendVisible(false);
+
                     // 차트 visibility 확실히 설정
                     departmentChart.setVisible(true);
                     departmentChart.setManaged(true);
@@ -279,7 +282,7 @@ public class AdminHomeController implements Initializable {
                     Platform.runLater(() -> {
                         for (PieChart.Data data : overallChart.getData()) {
                             if (data.getNode() != null) {
-                                data.getNode().setStyle("-fx-pie-color: #CCCCCC;");
+                                data.getNode().setStyle("-fx-pie-color:");
                             }
                         }
                     });
