@@ -7,7 +7,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="743.0" prefWidth="1151.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sysone.ogamza.controller.LoginController">
+<AnchorPane prefHeight="743.0" prefWidth="1151.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sysone.ogamza.LoginController">
    <children>
        <ImageView fitHeight="70.0" fitWidth="287.0" layoutX="513.0" layoutY="213.0">
            <image>
