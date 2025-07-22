@@ -11,6 +11,7 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.IOException;
@@ -19,7 +20,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.util.List;
 
 public class NFCRegisterController {
 
@@ -83,12 +83,31 @@ public class NFCRegisterController {
 
         if (nfcService.writeDataToCard(data.getBytes(StandardCharsets.UTF_8))) {
             System.out.println("✅ 카드에 정보 저장 완료");
+
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("등록 완료");
+            alert.setHeaderText(null);
+            alert.setContentText("사원 등록이 완료되었습니다.");
+            alert.showAndWait();
+
+
+            Stage stage = (Stage) nameField.getScene().getWindow();
+            stage.close();
         } else {
             System.out.println("❌ 카드 쓰기에 실패했습니다.");
+
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("에러");
+            alert.setHeaderText(null);
+            alert.setContentText("카드 쓰기에 실패했습니다.");
+            alert.showAndWait();
         }
         scannedUID = null;
     }
 
+    /**
+        입력값 누락 검사
+     */
     private boolean isInputValid() {
         return !nameField.getText().trim().isEmpty()
                 && departmentComboBox.getValue() != null
@@ -100,6 +119,9 @@ public class NFCRegisterController {
                 && scannedUID != null;
     }
 
+    /**
+        employee dto 생성
+     */
     private EmployeeCreateDTO buildEmployeeCreateDTO() {
         EmployeeCreateDTO dto = new EmployeeCreateDTO();
         dto.setName(nameField.getText().trim());
@@ -114,11 +136,17 @@ public class NFCRegisterController {
         return dto;
     }
 
+    /**
+        부서 번호로 부서 이름 조회
+     */
     private String getSelectedDepartmentName() {
         DepartmentDTO selected = departmentComboBox.getValue();
         return selected != null ? selected.getName() : "";
     }
 
+    /**
+        프로필 사진 넣기
+     */
     @FXML
     private void handleImageBrowse(ActionEvent event) {
         FileChooser fileChooser = new FileChooser();

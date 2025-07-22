@@ -54,6 +54,9 @@ public class NFCCardTagController {
 
                     try {
                         Thread.sleep(2000);
+                        empName.setText(" ");
+                        department.setText(" ");
+                        profileImageView.setVisible(false);
                     } catch (InterruptedException e) {
                         break;
                     }

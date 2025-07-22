@@ -214,7 +214,7 @@ public class DashboardController {
         }
 
     /**
-     임시 회원 등록 버튼 핸들러
+        임시 회원 등록 버튼 핸들러
      */
     @FXML
     private void handleAddEmployee(ActionEvent event) {
@@ -241,7 +241,7 @@ public class DashboardController {
     }
 
     /**
-     임시 카드 태그 버튼 핸들러
+        임시 카드 태그 버튼 핸들러
      */
     @FXML
     private void handleTagCard(ActionEvent event) {
