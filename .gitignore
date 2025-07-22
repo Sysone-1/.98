@@ -40,3 +40,10 @@ bin/
 
 ### Mac OS ###
 .DS_Store
+
+### DB 와 Wallet ###
+# Oracle Wallet 전체 무시
+/src/main/resources/wallet/
+
+# 실제 DB 설정(properties) 파일 무시
+/src/main/resources/db-config.properties

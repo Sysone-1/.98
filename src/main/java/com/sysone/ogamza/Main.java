@@ -12,7 +12,7 @@ Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         // TODO: 로그인 페이지 완성되면 Login.fxml로 변경
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/MainLayout.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/admin/AdminMainLayout.fxml"));
         Parent root = loader.load();
         primaryStage.setTitle("ontime.89");
         primaryStage.setScene(new Scene(root, 1284, 832));
