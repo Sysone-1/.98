@@ -2,16 +2,16 @@ package com.sysone.ogamza.utils.db;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
-
 import java.io.InputStream;
 import java.lang.reflect.Method;
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.Optional;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.Properties;
 
 public class OracleConnector {
-
     private static HikariDataSource dataSource;
 
     static {
@@ -42,7 +42,6 @@ public class OracleConnector {
             e.printStackTrace();
         }
     }
-
     public static Connection getConnection() throws SQLException {
         return dataSource.getConnection();
     }

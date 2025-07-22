@@ -1,5 +1,6 @@
 package com.sysone.ogamza.controller.admin;
 
+import com.sysone.ogamza.LogoutUtil;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -52,8 +53,10 @@ public class AdminMainController {
         System.out.println(" 레코드 이동 ");
     }
 
-    public void logout(MouseEvent mouseEvent) {
-        System.out.println(" 로그아웃 ");
+    @FXML
+    public void logout(MouseEvent event) {
+        System.out.println("로그아웃");
+        LogoutUtil.logout(event);
     }
 
 
@@ -71,4 +74,3 @@ public class AdminMainController {
 
 
 }
-

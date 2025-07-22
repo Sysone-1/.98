@@ -1,5 +1,6 @@
 package com.sysone.ogamza.controller.user;
 
+import com.sysone.ogamza.LogoutUtil;
 import com.sysone.ogamza.LoginUserDTO;
 import com.sysone.ogamza.Session;
 import javafx.fxml.FXML;
@@ -11,7 +12,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Circle;
-import javafx.scene.shape.Rectangle;
+
 import javafx.scene.text.Text;
 
 import java.io.IOException;
@@ -63,7 +64,6 @@ public class MainController {
         System.out.println(" 셋팅 이동 ");
 
         loadPage("/fxml/user/Settings.fxml");
-        System.out.println("Setting 이동");
     }
 
     public void goDashboard(MouseEvent event){
@@ -71,18 +71,15 @@ public class MainController {
         System.out.println(" 대시보드 이동 ");
     }
 
-    public void goTestNFC(MouseEvent event){
-        loadPage("/fxml/user/NFCTest.fxml");
-        System.out.println(" NFCTest 이동 ");
-    }
-
     public void goRecord(MouseEvent event){
         loadPage("/fxml/user/Record.fxml");
         System.out.println(" 레코드 이동 ");
     }
 
-    public void logout(MouseEvent mouseEvent) {
+    @FXML
+    public void logout(MouseEvent event) {
         System.out.println(" 로그아웃 ");
+        LogoutUtil.logout(event);
     }
 
 
