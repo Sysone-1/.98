@@ -37,10 +37,10 @@
             <Label fx:id="nameLabel" text="김선호" GridPane.rowIndex = "0" GridPane.columnIndex="1"
             style="-fx-font-size: 16px"/>
 
-            <!-- 나이 -->
-            <Label text="나이" GridPane.rowIndex="1" GridPane.columnIndex="0"
+            <!-- 직책 -->
+            <Label text="직급" GridPane.rowIndex="1" GridPane.columnIndex="0"
             style="-fx-font-size: 16px"/>
-            <Label fx:id="ageLabel" text="30세" GridPane.rowIndex = "1" GridPane.columnIndex="1"
+            <Label fx:id="positionLabel" text="30세" GridPane.rowIndex = "1" GridPane.columnIndex="1"
             style="-fx-font-size: 16px"/>
 
             <!-- 비밀번호 -->
@@ -109,10 +109,6 @@
 
         <!-- 버튼 영역 -->
         <HBox alignment="CENTER" spacing="10">
-            <Button text="취소" fx:id="cancelButton"
-                    style="-fx-background-color: #4f4f4f; -fx-text-fill: white; -fx-background-radius: 8;
-                    -fx-pref-height:27px; -fx-pref-width: 60px; -fx-font-size:16px"
-                    onAction="#handleCancel"/>
             <Button text="저장" fx:id="saveButton"
                     style="-fx-background-color: #009DFF; -fx-text-fill: white; -fx-background-radius: 8;
                     -fx-pref-height:27px; -fx-pref-width: 60px; -fx-font-size:16px"
