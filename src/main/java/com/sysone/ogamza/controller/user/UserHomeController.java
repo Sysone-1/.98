@@ -1,5 +1,7 @@
 package com.sysone.ogamza.controller.user;
 
+import com.sysone.ogamza.LoginUserDTO;
+import com.sysone.ogamza.Session;
 import com.sysone.ogamza.dao.user.RankingDAO;
 import com.sysone.ogamza.dto.user.RankingDTO;
 import com.sysone.ogamza.dto.user.UserInfoDTO;
@@ -45,6 +47,12 @@ public class UserHomeController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        LoginUserDTO user = Session.getInstance().getLoginUser();
+        if (user == null) {
+            System.err.println("⚠️ 로그인 유저 정보 없음! 세션이 비어 있음");
+            return;
+        }
+
         CalendarView calendarView = new CalendarView();
         calendarContainer.getChildren().add(calendarView);
 
@@ -54,13 +62,13 @@ public class UserHomeController implements Initializable {
         AnchorPane.setLeftAnchor(calendarView, 0.0);
         AnchorPane.setRightAnchor(calendarView, 0.0);
 
-        getHomeInfo(1009);
+        getHomeInfo(user.getId());
         emoji.setMouseTransparent(false); // 혹시라도 true로 되어 있으면
         emoji.setPickOnBounds(true); // 텍스트 바깥 여백도 클릭 가능하게
         new EmojiView(emoji, todayMood, selected -> {
             emoji.setText(selected);
             try{
-                int response = EmojiDAO.getInstance().updateEmoji(1009, selected);
+                int response = EmojiDAO.getInstance().updateEmoji(user.getId(), selected);
                 if(response == 0 ){
                     throw new RuntimeException("0행 업데이트되었습니다.");
                 }
@@ -82,11 +90,26 @@ public class UserHomeController implements Initializable {
         }
     }
 
+
+
+
     public void getHomeInfo(int userId){
         // 유저 정보 불러오기
         UserInfoDTO user = UserHomeService.getInstance().getUserHomeInfo(userId);
         //이미지 셋팅
-        Image userProfile = new Image(getClass().getResource(user.getProfile()).toExternalForm());
+        String defaultPath = "/images/eunwoo.png";
+        String userPath = user.getProfile();
+        URL imageUrl = getClass().getResource(userPath);
+        if (imageUrl == null) {
+            System.err.println("⚠프로필 이미지 없음: " + userPath + " → 기본 이미지로 대체");
+            imageUrl = getClass().getResource(defaultPath);
+        }
+
+        if (imageUrl == null) {
+            throw new RuntimeException(" 기본 이미지도 없음! " + defaultPath);
+        }
+
+        Image userProfile = new Image(imageUrl.toExternalForm());
         employeeProfile.setImage(userProfile);
 
         // 이름 / 부서 설정

@@ -30,15 +30,16 @@ public class AlramController implements ModalControllable {
 
     private ScheduledExecutorService scheduler;
 
+    //변경 설정 전 설정 상태 저장용
+    private boolean prevToggleSwitchState;
+    private String prevSelectedTime;
+
     @FXML
     public void initialize() {
         //초기화 시 ToggleSwitch 상태에 따라 ComboBox 활성화 여부
         toggleSwitch.selectedProperty().addListener((observable, oldvalue, newvalue) -> {
-            if (newvalue) {
-                timeComboBox.setDisable(false); //Switch가 켜지면 콤보박스 활성화
-            } else {
-                timeComboBox.setDisable(true); //Switch가 꺼지면 콤보박스 비활성화
-            }
+            //Switch가 꺼지면 콤보박스 비활성화
+            timeComboBox.setDisable(!newvalue); //Switch가 켜지면 콤보박스 활성화
         });
 
         //초기 상태에 따른 ComboBox 설정 (ToggleSwitch까 꺼져 있으면 ComboBox도 비활성화)
@@ -56,33 +57,40 @@ public class AlramController implements ModalControllable {
         toggleSwitchState = toggleSwitch.isSelected();
         //선택된 알람 시간
         selectedTime = timeComboBox.getSelectionModel().getSelectedItem();
-        //토글이 켜져 있을 떄만 알림 트리거
-        if (toggleSwitchState && selectedTime != null) {
-            //알림 시간 계산 후 알림 트리거
-            long minuteBeforeOffTime = getMinutesBeforeOffTime(selectedTime);
-            scheduleNotification(minuteBeforeOffTime);
+
+        if(isSettingChanged()) {
+            //토글이 켜져 있을 떄만 알림 트리거
+            if (toggleSwitchState && selectedTime != null) {
+                //알림 시간 계산 후 알림 트리거
+                long minuteBeforeOffTime = getMinutesBeforeOffTime(selectedTime);
+                scheduleNotification(minuteBeforeOffTime);
+            }
+            //변경된 값을 이전 값으로 저장
+            prevToggleSwitchState = toggleSwitchState;
+            prevSelectedTime = selectedTime;
         }
+
         //모달 창 닫기
         if (modalStage != null) {
             modalStage.close();
         }
     }
 
+    private boolean isSettingChanged() {
+        return prevToggleSwitchState != toggleSwitchState || !selectedTime.equals(prevSelectedTime);
+    }
+
     private long getMinutesBeforeOffTime(String selectedTime) {
-        switch (selectedTime) {
-            case "3분전":
-                return 3;
-            case "5분전":
-                return 5;
-            case "10분전":
-                return 10;
-            default:
-                return 3;
-        }
+        return switch (selectedTime) {
+            case "3분전" -> 3;
+            case "5분전" -> 5;
+            case "10분전" -> 10;
+            default -> 3;
+        };
     }
 
     private void scheduleNotification(long minuteBeforeOffTime) {
-        LocalTime notificationTime = offTime.minus(minuteBeforeOffTime, ChronoUnit.MINUTES);
+        LocalTime notificationTime = offTime.minusMinutes(minuteBeforeOffTime);
 
         //알람을 일정 시간 후에 트리거하기 위해 ScheduledExcutorService 사용
         scheduleAlarm(notificationTime);
@@ -111,18 +119,18 @@ public class AlramController implements ModalControllable {
 
     private long calculateDelay(LocalTime notificationTime) {
         LocalTime now = LocalTime.now();
-        long delay = ChronoUnit.MILLIS.between(now, notificationTime);
-        return delay; // 음수도 그대로 반환
+        return ChronoUnit.MILLIS.between(now, notificationTime); // 음수도 그대로 반환
     }
 
     // 알림을 트리거하는 함수
     private void showNotification() {
         // JavaFX에서 UI 업데이트를 안전하게 하기 위해 Platform.runLater() 사용
         Platform.runLater(() -> {
+            String message = String.format("%s 퇴근 예정입니다. 오늘 하루도 수고하셨습니다!",selectedTime);
             // ControlsFX 토스트 알림 생성
             Notifications.create()
                     .title("퇴근 알림")
-                    .text("오늘 하루도 수고하셨어요 !")
+                    .text(message)
                     .showInformation();  // 정보형 알림
         });
     }
@@ -142,6 +150,9 @@ public class AlramController implements ModalControllable {
     public void setSavedSetting(boolean toggleSwitchState, String selectedTime) {
         this.toggleSwitchState = toggleSwitchState;
         this.selectedTime = selectedTime;
+
+        this.prevToggleSwitchState = toggleSwitchState;
+        this.prevSelectedTime = selectedTime;
 
     }
 

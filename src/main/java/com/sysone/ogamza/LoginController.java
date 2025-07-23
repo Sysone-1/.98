@@ -39,6 +39,7 @@ public class LoginController {
             Session.getInstance().setLoginUser(user);
             //관리자 여부에 따라 분기
             String fxmlPath = (user.getIsAdmin() == 1) ? "/fxml/admin/AdminMainLayout.fxml" : "/fxml/user/UserMainLayout.fxml";
+
             // 로그인 성공 시 MainLayout.fxml 로딩
             Parent mainRoot = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(fxmlPath)));
             // 현재 창을 가져와서 새 Scene 설정

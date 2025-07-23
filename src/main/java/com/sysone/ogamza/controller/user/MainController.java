@@ -1,33 +1,57 @@
 package com.sysone.ogamza.controller.user;
 
+import com.sysone.ogamza.LogoutUtil;
+import com.sysone.ogamza.LoginUserDTO;
+import com.sysone.ogamza.Session;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.Circle;
+
+import javafx.scene.text.Text;
 
 import java.io.IOException;
+import java.net.URL;
 
 public class MainController {
 
-    @FXML
-    private StackPane contentArea;
-
-    @FXML
-    private AnchorPane anchorPane;
+    @FXML private StackPane contentArea;
+    @FXML private ImageView headerProfile;
+    @FXML private Circle profileBorder;
+    @FXML private Text name;
+    @FXML private Text dept;
 
     @FXML
     public void initialize() {
-        // 시작 시 로그인 페이지로 로딩
-        System.out.println(" 로그인 페이지 로딩 ");
-        loadPage("/fxml/user/UserHome.fxml");
+        LoginUserDTO user = Session.getInstance().getLoginUser();
+        if (user == null) {
+            System.err.println("⚠️ 로그인 유저 정보 없음! 세션이 비어 있음");
+            return;
+        }
 
-        Rectangle clip = new Rectangle(anchorPane.getPrefWidth(), anchorPane.getPrefHeight());
-        clip.setArcWidth(50);
-        clip.setArcHeight(50);
-        anchorPane.setClip(clip);
+        System.out.println(" 메인 페이지 로딩 ");
+        goHome(null);
+
+        String path = user.getProfile();
+        URL imageUrl = getClass().getResource(path);
+        if (imageUrl == null) {
+            imageUrl = getClass().getResource("/images/eunwoo.png"); // 기본 이미지 fallback
+        }
+        if (imageUrl != null) {
+            headerProfile.setImage(new Image(imageUrl.toExternalForm()));
+        }
+
+        double r = profileBorder.getRadius();
+        Circle clip2 = new Circle(r, r, r);
+        headerProfile.setClip(clip2);
+
+        name.setText(user.getName());
+        dept.setText(user.getDeptName());
 
     }
 
@@ -40,7 +64,6 @@ public class MainController {
         System.out.println(" 셋팅 이동 ");
 
         loadPage("/fxml/user/Settings.fxml");
-        System.out.println("Setting 이동");
     }
 
     public void goDashboard(MouseEvent event){
@@ -53,8 +76,10 @@ public class MainController {
         System.out.println(" 레코드 이동 ");
     }
 
-    public void logout(MouseEvent mouseEvent) {
+    @FXML
+    public void logout(MouseEvent event) {
         System.out.println(" 로그아웃 ");
+        LogoutUtil.logout(event);
     }
 
 

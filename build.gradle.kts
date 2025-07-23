@@ -43,7 +43,6 @@ dependencies {
     implementation ("com.fasterxml.jackson.core:jackson-databind:2.17.0")
 }
 
-
 application {
     mainClass.set("com.sysone.ogamza.Main")
 
