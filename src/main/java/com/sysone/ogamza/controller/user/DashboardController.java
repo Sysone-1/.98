@@ -17,8 +17,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.ImagePattern;
-import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -62,18 +60,17 @@ public class DashboardController {
             tooltip.setShowDelay(Duration.millis(100));
             Tooltip.install(tooltipImage, tooltip);
         });
-
     }
   
     /**
-     출근 시간 조회 및 setText
+        출근 시간 조회 및 setText
      */
     private void loadAccessTime() {
         accessTime.setText(dashboardService.getTodayAccessTime(empId));
     }
 
     /**
-     퇴근 시간 조회 및 setText
+        퇴근 시간 조회 및 setText
      */
     private void loadLeaveTime() {
         String time = dashboardService.getTodayLeaveTime(empId);
@@ -81,7 +78,7 @@ public class DashboardController {
     }
 
     /**
-     근로 시간 및 잔여 근로 시간 조회
+        근로 시간 및 잔여 근로 시간 조회
      */
     private void loadWorkingHours() {
         String[] timeArray = dashboardService.getWorkingTime(empId);
@@ -93,7 +90,7 @@ public class DashboardController {
     }
 
     /**
-     총연차, 사용 연차, 남은 연차 조회
+        총연차, 사용 연차, 남은 연차 조회
      */
     private void loadVacationDays() {
         int total = dashboardService.getVacationDays(empId);
@@ -115,7 +112,7 @@ public class DashboardController {
     }
 
     /**
-     총 근무 시간, 남은 근무 시간, 남은 연장 근무 시간, 남은 휴일 연장 근무 시간 조회
+        총 근무 시간, 남은 근무 시간, 남은 연장 근무 시간, 남은 휴일 연장 근무 시간 조회
      */
     private void loadTotalWorkingHours() {
         LocalDateTime now = LocalDateTime.now();
@@ -154,21 +151,21 @@ public class DashboardController {
     }
 
     /**
-     일정 등록 리스트 조회
+        일정 등록 리스트 조회
      */
     private void loadTodayScheduleList() {
         scheduleListBox.getChildren().clear();
 
         List<String> scheduleList = dashboardService.getWeekSchedules(empId);
         scheduleListBox.setAlignment(scheduleList.isEmpty() ? Pos.CENTER : Pos.TOP_CENTER);
-        scheduleListBox.setBackground(new Background(new BackgroundFill(Color.WHITE, new CornerRadii(30), Insets.EMPTY)));
+        scheduleListBox.setBackground(new Background(new BackgroundFill(Color.WHITE, new CornerRadii(8), Insets.EMPTY)));
 
         if (scheduleList.isEmpty()) {
             scheduleListBox.getChildren().add(noScheduleText);
 
         } else {
             scheduleScrollPane.setPadding(new Insets(20, 10, 20, 10));
-            scheduleListBox.setPadding(new Insets(10, 10, 0, 10));
+            scheduleListBox.setPadding(new Insets(0, 10, 10, 10));
 
             for (int i = 0; i < scheduleList.size(); i++) {
                 Label item = dashboardService.getLabel(scheduleList.get(i), i);
@@ -178,7 +175,7 @@ public class DashboardController {
     }
 
     /**
-     일정 결재 클릭 핸들러
+        결재 상신 클릭 핸들러
      */
     @FXML
     private void handleAddScheduleClick(ActionEvent event) {
@@ -206,7 +203,7 @@ public class DashboardController {
     }
 
     /**
-     결재 내역 클릭 핸들러
+        결재 내역 클릭 핸들러
      */
     @FXML
     private void handleFetchScheduleClick(ActionEvent event) {

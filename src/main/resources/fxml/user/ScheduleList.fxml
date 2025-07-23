@@ -10,7 +10,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="449.0" prefWidth="570.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sysone.ogamza.controller.user.ScheduleListController">
+<AnchorPane prefHeight="449.0" prefWidth="570.0" style="-fx-background-color: #ffffff;" stylesheets="@../../css/scheduleList.css" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sysone.ogamza.controller.user.ScheduleListController">
     <VBox layoutX="4.0" layoutY="3.0" prefHeight="446.0" prefWidth="562.0" style="-fx-background-color: F4F9FF; -fx-background-radius: 30;">
         <children>
             <VBox prefHeight="87.0" prefWidth="492.0" style="-fx-alignment: top-center; -fx-padding: 30 0 20 0;">
@@ -22,6 +22,15 @@
                     </Text>
                 </children>
             </VBox>
+              <VBox maxWidth="552.0" prefHeight="31.0" prefWidth="552.0" style="-fx-max-width: 1000; -fx-background-radius: 30; -fx-alignment: center; -fx-padding: 0 0 10 440;">
+                  <children>
+                      <Button mnemonicParsing="false" onAction="#handleRemove" prefHeight="31.0" prefWidth="99.0" style="-fx-background-color: #6E9BC7; -fx-background-radius: 8; -fx-cursor: hand;" text="상신 취소" textFill="WHITE">
+                          <font>
+                              <Font name="SansSerif Bold" size="16.0" />
+                          </font>
+                      </Button>
+                  </children>
+              </VBox>
          <VBox prefHeight="307.0" prefWidth="352.0" style="-fx-padding: 0 10 0 10;">
             <children>
                <TableView fx:id="scheduleTable" prefHeight="292.0" prefWidth="127.0">
@@ -38,25 +47,7 @@
                </TableView>
             </children>
          </VBox>
-            <HBox prefHeight="89.0" prefWidth="352.0" style="-fx-alignment: center; -fx-spacing: 30;">
-                <children>
-                    <VBox prefHeight="16.0" prefWidth="115.0" style="-fx-max-width: 80; -fx-background-radius: 30; -fx-alignment: center;">
-                        <children>
-                            <Button mnemonicParsing="false" onAction="#handleRemove" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: #1E90FF; -fx-background-radius: 30; -fx-cursor: hand;" text="취소" textFill="WHITE">
-                                <font>
-                                    <Font name="SansSerif Bold" size="16.0" />
-                                </font>
-                            </Button>
-                        </children>
-                    </VBox>
-                    <VBox prefHeight="16.0" prefWidth="115.0" style="-fx-max-width: 80; -fx-background-radius: 30; -fx-alignment: center;">
-                        <Button layoutX="978.0" layoutY="357.0" mnemonicParsing="false" onAction="#handleCancel" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: #E74C3C; -fx-background-radius: 30; -fx-cursor: hand;" text="닫기" textFill="WHITE">
-                            <font>
-                                <Font name="SansSerif Bold" size="16.0" />
-                            </font></Button>
-                    </VBox>
-                </children>
-            </HBox>
+            <HBox prefHeight="89.0" prefWidth="352.0" style="-fx-alignment: center; -fx-spacing: 30;" />
         </children>
     </VBox>
 </AnchorPane>

@@ -28,10 +28,10 @@ public class ScheduleService {
         ScheduleContentDTO dto = scheduleDAO.findScheduleContentById(id, index);
 
         List<String> scheduleList = new ArrayList<>();
-        int sYear = dto.getStartDate().getYear();
+        int sYear = dto.getStartDate().getYear() % 100;
         int sMonth = dto.getStartDate().getMonthValue();
         int sDay = dto.getStartDate().getDayOfMonth();
-        int eYear = dto.getEndDate().getYear();
+        int eYear = dto.getEndDate().getYear() % 100;
         int eMonth = dto.getEndDate().getMonthValue();
         int eDay = dto.getEndDate().getDayOfMonth();
         String title = dto.getTitle();
@@ -40,7 +40,7 @@ public class ScheduleService {
 
         scheduleList.add(title);
         scheduleList.add(type);
-        scheduleList.add(String.format("%d-%02d-%02d ~ %d-%02d-%02d", sYear, sMonth, sDay, eYear, eMonth, eDay));
+        scheduleList.add(String.format("%d.%02d.%02d ~ %d.%02d.%02d", sYear, sMonth, sDay, eYear, eMonth, eDay));
         scheduleList.add(content);
 
         return scheduleList;
