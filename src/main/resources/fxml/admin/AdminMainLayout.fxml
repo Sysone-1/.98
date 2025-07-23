@@ -57,7 +57,7 @@
                <children>
                   <ImageView fitHeight="40.0" fitWidth="40.0" onMouseClicked="#goSettings" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../images/setting.png" />
+                        <Image url="@../../images/userquery.png" />
                      </image>
                   </ImageView>
                   <Label style="-fx-text-fill: #ffffff;" text="Setting" textFill="WHITE">
