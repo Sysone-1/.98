@@ -1,6 +1,5 @@
 package com.sysone.ogamza.service.user;
 
-import com.sysone.ogamza.dao.user.DashboardDAO;
 import com.sysone.ogamza.dao.user.NFCDAO;
 import com.sysone.ogamza.dto.user.DepartmentDTO;
 import com.sysone.ogamza.dto.user.EmployeeCreateDTO;
@@ -74,14 +73,23 @@ public class NFCService {
         }
     }
 
+    /**
+        사원 등록
+     */
     public String createEmployee(EmployeeCreateDTO dto) {
         return nfcDao.insertEmployee(dto);
     }
 
+    /**
+        사원 탈퇴
+     */
     public String deleteEmployee(EmployeeCreateDTO dto) {
         return nfcDao.deleteEmployee(dto);
     }
 
+    /**
+        부서 ID로 부서명 조회
+    */
     public List<DepartmentDTO> getDepartment() {
         return nfcDao.findDepartment();
     }
@@ -119,18 +127,30 @@ public class NFCService {
         }
     }
 
+    /**
+        카드 ID에 따른 사원 ID 조회
+     */
     public String getEmployeeInfo(byte[] cardId ) {
         return nfcDao.findEmployeeById(cardId);
     }
 
+    /**
+        출입 시간 등록
+     */
     public boolean insertAccessTime(int empId) {
         return nfcDao.insertAccessTime(empId);
     }
 
+    /**
+        미인가 출입 시간 등록
+    */
     public boolean insertUnauthorizedAccessTime() {
         return nfcDao.insertUnauthorizedAccessTime();
     }
 
+    /**
+        프로필 사진 경로 조회
+     */
     public String getProfileDir(int empId) {
         return nfcDao.findPicdir(empId);
     }

@@ -15,32 +15,28 @@
 
 <AnchorPane prefHeight="728.0" prefWidth="1155.0" stylesheets="@../../css/dashboard.css" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sysone.ogamza.controller.user.DashboardController">
    <children>
-      <Label layoutX="58.0" layoutY="28.0" prefHeight="33.0" prefWidth="83.0" text="Day">
+      <Label layoutX="53.0" layoutY="19.0" prefHeight="33.0" prefWidth="83.0" text="Day">
          <font>
-            <Font name="SansSerif Bold" size="28.0" />
+            <Font name="SansSerif Bold" size="36.0" />
          </font>
       </Label>
-      <Button fx:id="fetchScheduleButton" layoutX="978.0" layoutY="357.0" mnemonicParsing="false" onAction="#handleFetchScheduleClick" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: #6161B1; -fx-background-radius: 30; -fx-cursor: hand;" text="결재 내역" textFill="WHITE">
+      <Button fx:id="fetchScheduleButton" layoutX="978.0" layoutY="15.0" mnemonicParsing="false" onAction="#handleFetchScheduleClick" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: #6161B1; -fx-background-radius: 30; -fx-cursor: hand;" text="결재 내역" textFill="WHITE">
          <font>
             <Font name="SansSerif Bold" size="20.0" />
          </font></Button>
-      <Button fx:id="addScheduleButton" layoutX="847.0" layoutY="357.0" mnemonicParsing="false" onAction="#handleAddScheduleClick" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: #6363E5; -fx-background-radius: 30; -fx-cursor: hand;" text="일정 결재" textFill="WHITE">
+      <Button fx:id="addScheduleButton" layoutX="852.0" layoutY="15.0" mnemonicParsing="false" onAction="#handleAddScheduleClick" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: #6363E5; -fx-background-radius: 30; -fx-cursor: hand;" text="일정 상신" textFill="WHITE">
          <font>
             <Font name="SansSerif Bold" size="20.0" />
          </font>
       </Button>
-      <Label layoutX="60.0" layoutY="357.0" prefHeight="33.0" prefWidth="110.0" text="Week ">
+      <Label layoutX="60.0" layoutY="354.0" prefHeight="33.0" prefWidth="110.0" text="Week ">
          <font>
-            <Font name="SansSerif Bold" size="28.0" />
+            <Font name="SansSerif Bold" size="36.0" />
          </font>
       </Label>
-      <Label layoutX="141.0" layoutY="362.0" prefHeight="33.0" prefWidth="118.0" text="선택적근로시간 ">
+      <Label layoutX="594.0" layoutY="354.0" prefHeight="42.0" prefWidth="180.0" text="Schedule">
          <font>
-            <Font name="SansSerif Bold" size="16.0" />
-         </font></Label>
-      <Label layoutX="582.0" layoutY="359.0" prefHeight="33.0" prefWidth="158.0" text="Schedule">
-         <font>
-            <Font name="SansSerif Bold" size="28.0" />
+            <Font name="SansSerif Bold" size="36.0" />
          </font>
       </Label>
       <HBox layoutX="53.0" layoutY="70.0" prefHeight="228.0" prefWidth="985.0" style="-fx-background-color: white; -fx-pref-width: 1050; -fx-pref-height: 250; -fx-background-radius: 20; -fx-padding: 20;">
@@ -143,9 +139,9 @@
                                        <VBox prefHeight="139.0" prefWidth="198.0" style="-fx-alignment: center;">
                                           <children>
                                              <HBox prefHeight="162.0" prefWidth="198.0" style="-fx-alignment: center; -fx-max-height: 1000;" />
-                                             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="잔여근로" wrappingWidth="48.0">
+                                             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="잔여근로" wrappingWidth="64.00000381469727">
                                                 <font>
-                                                   <Font name="SansSerif Regular" size="12.0" />
+                                                   <Font name="SansSerif Regular" size="16.0" />
                                                 </font>
                                              </Text>
                                              <HBox prefHeight="100.0" prefWidth="200.0" style="-fx-alignment: center; -fx-max-height: 20;" />
@@ -465,7 +461,7 @@
                       <content>
                         <VBox fx:id="scheduleListBox" prefHeight="228.0" prefWidth="514.0" spacing="10" style="-fx-background-color: white; -fx-background-radius: 30; -fx-padding: 15 15 10 15;">
                            <children>
-                              <Text fx:id="noScheduleText" strokeType="OUTSIDE" strokeWidth="0.0" text="등록된 일정이 없습니다.">
+                              <Text fx:id="noScheduleText" strokeType="OUTSIDE" strokeWidth="0.0" text="금주에 계획된 일정이 없습니다.">
                                  <font>
                                     <Font name="SansSerif Regular" size="24.0" />
                                  </font>
@@ -478,12 +474,17 @@
             </VBox>
          </children>
       </VBox>
-      <Button fx:id="addScheduleButton1" layoutX="721.0" layoutY="357.0" mnemonicParsing="false" onAction="#handleAddEmployee" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: #1E90FF; -fx-background-radius: 30; -fx-cursor: hand;" text="회원등록" textFill="WHITE">
+      <Button fx:id="addScheduleButton1" layoutX="601.0" layoutY="678.0" mnemonicParsing="false" onAction="#handleAddEmployee" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: #1E90FF; -fx-background-radius: 30; -fx-cursor: hand;" text="회원등록" textFill="WHITE">
          <font>
             <Font name="SansSerif Bold" size="20.0" />
          </font>
       </Button>
-      <Button fx:id="addScheduleButton11" layoutX="721.0" layoutY="320.0" mnemonicParsing="false" onAction="#handleTagCard" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: #1E90FF; -fx-background-radius: 30; -fx-cursor: hand;" text="카드 태그" textFill="WHITE">
+      <Button fx:id="addScheduleButton11" layoutX="451.0" layoutY="678.0" mnemonicParsing="false" onAction="#handleTagCard" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: #1E90FF; -fx-background-radius: 30; -fx-cursor: hand;" text="카드 태그" textFill="WHITE">
+         <font>
+            <Font name="SansSerif Bold" size="20.0" />
+         </font>
+      </Button>
+      <Button fx:id="addScheduleButton111" layoutX="977.0" layoutY="360.0" mnemonicParsing="false" onAction="#handleCalendarDetail" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: #1E90FF; -fx-background-radius: 30; -fx-cursor: hand;" text="전체 일정" textFill="WHITE">
          <font>
             <Font name="SansSerif Bold" size="20.0" />
          </font>

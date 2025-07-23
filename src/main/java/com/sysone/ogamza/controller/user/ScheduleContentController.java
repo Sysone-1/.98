@@ -1,5 +1,6 @@
 package com.sysone.ogamza.controller.user;
 
+import com.sysone.ogamza.dto.user.ScheduleContentDTO;
 import com.sysone.ogamza.service.user.ScheduleService;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -13,8 +14,23 @@ public class ScheduleContentController {
 
     @FXML private Text title, type, date, content;
     private static final ScheduleService scheduleService = ScheduleService.getInstance();
-
     private int scheduleIndex;
+
+    private Stage stage;
+
+    public void setStage(Stage stage) {
+        this.stage = stage;
+    }
+
+    /**
+        일정 상세 달력에서 사용할 data setting
+     */
+    public void setData(ScheduleContentDTO dto) {
+        title.setText(dto.getTitle());
+        type.setText(dto.getScheduleType());
+        date.setText(dto.getStartDate().toLocalDate().toString() + " ~ " + dto.getEndDate().toLocalDate().toString());
+        content.setText(dto.getContent());
+    }
 
     /**
         선택한 일정 리스트 항목에 대한 인덱스 setting
