@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.chart.PieChart?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.ScrollPane?>
+
+<ScrollPane fx:controller="com.sysone.ogamza.controller.admin.AdminDashboardController"
+            xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+            fitToWidth="true" fitToHeight="true">
+    <BorderPane style="-fx-background-color:#F3F5F9;">
+        <top>
+            <VBox alignment="CENTER" spacing="20" style="-fx-padding: 20;">
+                <!-- 차트 그룹 포함 -->
+                <fx:include source="ChartGroup.fxml"/>
+
+                <!-- 근무 현황 테이블 -->
+                <TableView fx:id="statusTable"
+                           prefWidth="800" prefHeight="50"
+                           style="-fx-background-color:white;">
+                    <columns>
+                        <TableColumn fx:id="colAttendanceRate" text="출근율" prefWidth="100"/>
+                        <TableColumn fx:id="colTotal" text="총원" prefWidth="100"/>
+                        <TableColumn fx:id="colPresent" text="출근" prefWidth="100"/>
+                        <TableColumn fx:id="colLate" text="지각" prefWidth="100"/>
+                        <TableColumn fx:id="colAbsent" text="결근" prefWidth="100"/>
+                        <TableColumn fx:id="colVacation" text="휴가" prefWidth="100"/>
+                        <TableColumn fx:id="colOut" text="외근" prefWidth="100"/>
+                        <TableColumn fx:id="colEtc" text="기타" prefWidth="100"/>
+                    </columns>
+                </TableView>
+            </VBox>
+        </top>
+
+        <!-- 초과근무 통계 -->
+        <center>
+            <VBox spacing="10" style="-fx-padding: 20;">
+                <HBox spacing="10" alignment="CENTER_LEFT">
+                    <Label text="주간 초과근무 통계" style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
+                    <ComboBox fx:id="departmentComboBox" promptText="부서 선택"/>
+                </HBox>
+
+                <!-- 범례 박스 -->
+                <HBox fx:id="overtimeLegendBox" spacing="20" alignment="CENTER_LEFT"
+                      style="-fx-padding: 20 0 0 0;"/>
+
+                <!-- 통계 그래프 영역 -->
+                <VBox fx:id="overtimeGraphBox" spacing="10"/>
+            </VBox>
+        </center>
+    </BorderPane>
+</ScrollPane>
