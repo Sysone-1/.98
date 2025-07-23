@@ -63,8 +63,8 @@ public class UserHomeController implements Initializable {
         AnchorPane.setRightAnchor(calendarView, 0.0);
 
         getHomeInfo(user.getId());
-        emoji.setMouseTransparent(false); // 혹시라도 true로 되어 있으면
-        emoji.setPickOnBounds(true); // 텍스트 바깥 여백도 클릭 가능하게
+        todayMood.setMouseTransparent(false); // 혹시라도 true로 되어 있으면
+        todayMood.setPickOnBounds(true); // 텍스트 바깥 여백도 클릭 가능하게
         new EmojiView(emoji, todayMood, selected -> {
             emoji.setText(selected);
             try{
@@ -89,8 +89,6 @@ public class UserHomeController implements Initializable {
             System.out.println("랭킹 불러오기 실패 :: "+ e.getMessage());
         }
     }
-
-
 
 
     public void getHomeInfo(int userId){
@@ -136,7 +134,7 @@ public class UserHomeController implements Initializable {
         luckyShape.getChildren().add(todayShape);
 
         // random message
-        randomMsg.setText(user.getRandomMessage());
+        randomMsg.setText("\"" + user.getRandomMessage() + "\"");
 
         // emoji
         emoji.setText(user.getEmoji());

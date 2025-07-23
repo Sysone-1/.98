@@ -6,8 +6,8 @@ import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 
 import java.time.LocalDate;
 import java.time.YearMonth;
@@ -27,16 +27,16 @@ public class CalendarView extends VBox {
     private YearMonth currentYearMonth = YearMonth.now();
 
     public CalendarView() {
-        setSpacing(10);
-        setPadding(new Insets(20));
-        setStyle("-fx-background-color: white; -fx-border-radius: 12; -fx-background-radius: 12;");
+        setPrefSize(247, 230);
+        setSpacing(5);
+        setPadding(new Insets(10));
+        setStyle("-fx-background-color: white; -fx-background-radius: 10;");
 
         setupHeader();
         renderMonthView();
 
-        contentWrapper.setSpacing(15); // spacing between title and calendar
+        contentWrapper.setSpacing(10);
         contentWrapper.getChildren().addAll(header, contentGrid);
-
         container.getChildren().add(contentWrapper);
         getChildren().add(container);
     }
@@ -50,17 +50,17 @@ public class CalendarView extends VBox {
         Label prev = new Label("<");
         Label next = new Label(">");
 
-        prev.setFont(Font.font(16));
-        next.setFont(Font.font(16));
+        prev.setFont(Font.font("SUIT", FontWeight.BOLD, 16));
+        next.setFont(Font.font("SUIT", FontWeight.BOLD, 16));
         prev.setOnMouseClicked(e -> navigate(-1));
         next.setOnMouseClicked(e -> navigate(1));
 
-        titleLabel.setFont(Font.font(20));
+        titleLabel.setFont(Font.font("SUIT", FontWeight.BOLD, 18));
         titleLabel.setTextFill(Color.BLACK);
         titleLabel.setOnMouseClicked(this::switchViewMode);
 
         header.setAlignment(Pos.CENTER);
-        header.setSpacing(10);
+        header.setSpacing(5);
         header.getChildren().addAll(prev, spacer1, titleLabel, spacer2, next);
     }
 
@@ -93,21 +93,17 @@ public class CalendarView extends VBox {
         currentMode = ViewMode.MONTH;
         titleLabel.setText(currentYearMonth.getYear() + "년 " + currentYearMonth.getMonthValue() + "월");
         contentGrid.getChildren().clear();
-        contentGrid.setHgap(5);
-        contentGrid.setVgap(5);
+        contentGrid.setHgap(2);
+        contentGrid.setVgap(2);
+        contentGrid.setAlignment(Pos.CENTER);
 
         String[] days = {"일", "월", "화", "수", "목", "금", "토"};
         for (int i = 0; i < days.length; i++) {
             Label dayLabel = new Label(days[i]);
-            dayLabel.setFont(Font.font(14));
-            dayLabel.setPrefWidth(40);
+            dayLabel.setFont(Font.font("SUIT", FontWeight.BOLD, 13));
+            dayLabel.setPrefWidth(31);
             dayLabel.setAlignment(Pos.CENTER);
-
-            // 일요일 빨간색, 토요일 파란색
-            if (i == 0) dayLabel.setTextFill(Color.RED);
-            else if (i == 6) dayLabel.setTextFill(Color.BLUE);
-            else dayLabel.setTextFill(Color.BLACK);
-
+            dayLabel.setTextFill(i == 0 ? Color.RED : (i == 6 ? Color.BLUE : Color.BLACK));
             contentGrid.add(dayLabel, i, 0);
         }
 
@@ -118,19 +114,17 @@ public class CalendarView extends VBox {
         int row = 1, col = startCol;
         for (int day = 1; day <= daysInMonth; day++) {
             Label dayLabel = new Label(String.valueOf(day));
-            dayLabel.setFont(Font.font(14));
-            dayLabel.setPrefSize(40, 40);
+            dayLabel.setFont(Font.font("SUIT", FontWeight.NORMAL, 13));
+            dayLabel.setPrefSize(28, 28);
             dayLabel.setAlignment(Pos.CENTER);
 
-            int colIndex = col;
             if (LocalDate.now().equals(currentYearMonth.atDay(day))) {
-                Circle dot = new Circle(3, Color.BLACK);
-                StackPane dotPane = new StackPane(dayLabel, dot);
-                StackPane.setAlignment(dot, Pos.BOTTOM_CENTER);
-                contentGrid.add(dotPane, colIndex, row);
-            } else {
-                contentGrid.add(dayLabel, colIndex, row);
+                dayLabel.setTextFill(Color.WHITE);
+                dayLabel.setStyle("-fx-background-color: #3B82F6; -fx-background-radius: 100%;");
+                dayLabel.setFont(Font.font("SUIT", FontWeight.BOLD, 13));
             }
+
+            contentGrid.add(dayLabel, col, row);
 
             col++;
             if (col > 6) {
@@ -142,16 +136,17 @@ public class CalendarView extends VBox {
 
     private void renderMonthSelector() {
         currentMode = ViewMode.SELECT_MONTH;
-        titleLabel.setText(String.valueOf(currentYearMonth.getYear()));
+        titleLabel.setText(currentYearMonth.getYear() + "");
         contentGrid.getChildren().clear();
-        contentGrid.setHgap(10);
-        contentGrid.setVgap(10);
+        contentGrid.setHgap(5);
+        contentGrid.setVgap(5);
 
         for (int i = 1; i <= 12; i++) {
             Label month = new Label(i + "월");
-            month.setPrefSize(60, 40);
+            month.setFont(Font.font(13));
+            month.setPrefSize(50, 35);
             month.setAlignment(Pos.CENTER);
-            month.setStyle("-fx-border-color: #ccc; -fx-background-color: #f4f4f4; -fx-border-radius: 4; -fx-background-radius: 4;");
+            month.setStyle("-fx-border-color: #ccc; -fx-background-color: transparent; -fx-border-radius: 3; -fx-background-radius: 3;");
             int finalI = i;
             month.setOnMouseClicked(e -> {
                 currentYearMonth = YearMonth.of(currentYearMonth.getYear(), finalI);
@@ -167,14 +162,15 @@ public class CalendarView extends VBox {
         titleLabel.setText(baseYear + " ~ " + (baseYear + 9));
 
         contentGrid.getChildren().clear();
-        contentGrid.setHgap(10);
-        contentGrid.setVgap(10);
+        contentGrid.setHgap(5);
+        contentGrid.setVgap(5);
 
         IntStream.range(baseYear, baseYear + 12).forEach(y -> {
             Label year = new Label(String.valueOf(y));
-            year.setPrefSize(60, 40);
+            year.setFont(Font.font(13));
+            year.setPrefSize(50, 35);
             year.setAlignment(Pos.CENTER);
-            year.setStyle("-fx-border-color: #ccc; -fx-background-color: #f4f4f4; -fx-border-radius: 4; -fx-background-radius: 4;");
+            year.setStyle("-fx-border-color: #ccc; -fx-background-color: transparent; -fx-border-radius: 3; -fx-background-radius: 3;");
             year.setOnMouseClicked(e -> {
                 currentYearMonth = YearMonth.of(y, currentYearMonth.getMonth());
                 renderMonthSelector();
@@ -182,4 +178,7 @@ public class CalendarView extends VBox {
             contentGrid.add(year, (y - baseYear) % 4, (y - baseYear) / 4);
         });
     }
+
+
+
 }
