@@ -48,6 +48,7 @@ public class ScheduleDAO {
         return null;
     }
 
+
     /**
         결재 내역 조회
      */
@@ -118,6 +119,45 @@ public class ScheduleDAO {
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
+        }
+    }
+
+    /**
+     List<String>로 해당 주에 등록된 일정 반환 하는 함수
+     */
+    public List<ScheduleContentDTO> findSchedulesByEmpId(long id) {
+        List<ScheduleContentDTO> scheduleList = new ArrayList<>();
+
+        try (Connection conn = OracleConnector.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(ScheduleSql.FIND_SCHEDULE_GRANTED_LIST);
+        ) {
+            pstmt.setLong(1, id);
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    scheduleList.add(new ScheduleContentDTO(
+                            rs.getInt("ID"),
+                            rs.getString("TITLE"),
+                            rs.getString("SCHEDULE_TYPE"),
+                            rs.getTimestamp("START_DATE").toLocalDateTime(),
+                            rs.getTimestamp("END_DATE").toLocalDateTime(),
+                            rs.getString("CONTENT"),
+                            rs.getInt("IS_GRANTED")
+                    ));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return scheduleList;
+    }
+
+    public void insertWorkingTime() {
+        try (Connection conn = OracleConnector.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(ScheduleSql.INSERT_WORKING_TIME)) {
+            stmt.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 }

@@ -1,5 +1,6 @@
 package com.sysone.ogamza.controller.user;
 
+import com.sysone.ogamza.Session;
 import com.sysone.ogamza.service.user.DashboardService;
 import com.sysone.ogamza.view.ArcProgress;
 import javafx.event.ActionEvent;
@@ -11,10 +12,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.CornerRadii;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
@@ -38,12 +36,11 @@ public class DashboardController {
     @FXML private ScrollPane scheduleScrollPane;
 
     private static final DashboardService dashboardService = DashboardService.getInstance();
-    public static final long empId = 1009L;
-
+    private static final Session employeeSession = Session.getInstance();
+    public static final long empId = employeeSession.getLoginUser().getId();
 
     @FXML
     public void initialize() {
-
         loadAccessTime();
         loadLeaveTime();
         loadWorkingHours();
@@ -51,7 +48,7 @@ public class DashboardController {
         loadTotalWorkingHours();
         loadTodayScheduleList();
     }
-
+  
     /**
      출근 시간 조회 및 setText
      */
@@ -165,9 +162,10 @@ public class DashboardController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/user/ScheduleRegister.fxml"));
             Parent formRoot = loader.load();
 
+
             Stage dialogStage = new Stage();
             dialogStage.initModality(Modality.APPLICATION_MODAL);
-            dialogStage.setTitle("일정 결재");
+            dialogStage.setTitle("일정 상신");
 
             Window parentWindow = ((Node) event.getSource()).getScene().getWindow();
             dialogStage.initOwner(parentWindow);
@@ -274,6 +272,34 @@ public class DashboardController {
             tagController.startListeningLoop();
 
             // 창 열기 (모달)
+            dialogStage.showAndWait();
+
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+        달력 상세 보기
+     */
+    @FXML
+    private void handleCalendarDetail(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/user/CalendarDetail.fxml"));
+            Parent formRoot = loader.load();
+
+            Stage dialogStage = new Stage();
+            dialogStage.initModality(Modality.APPLICATION_MODAL);
+            dialogStage.setTitle("달력 상세");
+
+            Window parentWindow = ((Node) event.getSource()).getScene().getWindow();
+            dialogStage.initOwner(parentWindow);
+
+            Scene dialogScene = new Scene(formRoot);
+            dialogStage.setScene(dialogScene);
+            dialogStage.setResizable(false);
+
             dialogStage.showAndWait();
 
 
