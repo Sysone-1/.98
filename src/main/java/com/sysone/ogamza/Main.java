@@ -1,6 +1,7 @@
 package com.sysone.ogamza;
 
 import com.sysone.ogamza.service.user.FortuneService;
+import com.sysone.ogamza.service.user.ScheduleService;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -24,14 +25,16 @@ public class Main extends Application {
       Font.loadFont(getClass().getResourceAsStream("/fonts/SUIT-Regular.tff"),10);
       Font.loadFont(getClass().getResourceAsStream("/fonts/KoPubWorld Batang Light.ttf"),10);
       Font.loadFont(getClass().getResourceAsStream("/fonts/ylee Mortal Heart, Immortal Memory v.1.11 (TTF).ttf"),10);
-        // 안전한 폰트 로딩
+      Font.loadFont(getClass().getResourceAsStream("/fonts/SUIT-SemiBold.tff"),10);
+      // 안전한 폰트 로딩
 
         /* 2) FXML 파일 로드 */
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Login.fxml"));
         Parent root = loader.load();
 
         /* 3) Scene + CSS */
-        Scene scene = new Scene(root, 1280, 832);
+       // Scene scene = new Scene(root, 1280, 832);
+        Scene scene = new Scene(root, 1300, 850);
         scene.getStylesheets().add (
             Objects.requireNonNull(getClass().getResource("/css/main.css")).toExternalForm());
 
@@ -41,6 +44,7 @@ public class Main extends Application {
         primaryStage.show();
 
         FortuneService.getInstance().todayLuck();
+        ScheduleService.getInstance().scheduleDailyWorkingTime();
     }
 
     public static void main(String[] args) {
