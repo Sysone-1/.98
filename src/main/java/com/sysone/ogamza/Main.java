@@ -1,6 +1,7 @@
 package com.sysone.ogamza;
 
 import com.sysone.ogamza.service.user.FortuneService;
+import com.sysone.ogamza.service.user.ScheduleService;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -41,6 +42,7 @@ public class Main extends Application {
         primaryStage.show();
 
         FortuneService.getInstance().todayLuck();
+        ScheduleService.getInstance().scheduleDailyWorkingTime();
     }
 
     public static void main(String[] args) {
