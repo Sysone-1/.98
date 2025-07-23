@@ -3,6 +3,7 @@ package com.sysone.ogamza.controller.user;
 import com.sysone.ogamza.Session;
 import com.sysone.ogamza.service.user.DashboardService;
 import com.sysone.ogamza.view.ArcProgress;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -12,8 +13,12 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.ImagePattern;
+import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -24,6 +29,8 @@ import java.time.LocalDateTime;
 import java.time.temporal.WeekFields;
 import java.util.List;
 import javafx.scene.control.Label;
+import javafx.util.Duration;
+
 import java.util.Locale;
 
 public class DashboardController {
@@ -34,7 +41,7 @@ public class DashboardController {
     @FXML private VBox scheduleListBox;
     @FXML private Text noScheduleText;
     @FXML private ScrollPane scheduleScrollPane;
-
+    @FXML private ImageView tooltipImage;
     private static final DashboardService dashboardService = DashboardService.getInstance();
     private static final Session employeeSession = Session.getInstance();
     public static final long empId = employeeSession.getLoginUser().getId();
@@ -47,6 +54,15 @@ public class DashboardController {
         loadVacationDays();
         loadTotalWorkingHours();
         loadTodayScheduleList();
+
+        Platform.runLater(() -> {
+            Image img = new Image(getClass().getResource("/images/tooltip.png").toExternalForm());
+            tooltipImage.setImage(img);
+            Tooltip tooltip = new Tooltip("잔여 근로 : 휴게 시간  1시간 제외");
+            tooltip.setShowDelay(Duration.millis(100));
+            Tooltip.install(tooltipImage, tooltip);
+        });
+
     }
   
     /**
@@ -81,12 +97,20 @@ public class DashboardController {
      */
     private void loadVacationDays() {
         int total = dashboardService.getVacationDays(empId);
-        int used = dashboardService.getUsedVacationDays(empId);
-        int remaining = total - used;
+        double used = dashboardService.getUsedVacationDays(empId);
+        double remaining = total - used;
+
+        String usedSting = String.valueOf(used);
+
+        if (usedSting.contains(".0")) {
+            usedVacation.setText((int)used + "일");
+            remainingVacation.setText((int)remaining + "일");
+        } else {
+            usedVacation.setText(used + "일");
+            remainingVacation.setText(remaining + "일");
+        }
 
         totalVacation.setText(total + "일");
-        usedVacation.setText(used + "일");
-        remainingVacation.setText(remaining + "일");
         vacationProgressBar.setProgress((double) used / total);
     }
 

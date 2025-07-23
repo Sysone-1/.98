@@ -23,11 +23,11 @@ public class DashboardSql {
                 "FROM EMPLOYEE " +
                 "WHERE ID = ?";
     public static final String FIND_USED_VACATION_NUM =
-                "SELECT COUNT(*) AS TOTAL_USED_VACATION " +
+                "SELECT SCHEDULE_TYPE, START_DATE, END_DATE " +
                 "FROM SCHEDULE " +
-                "WHERE EMPLOYEE_ID = ? AND " +
-                "SCHEDULE_TYPE = '연차' AND " +
-                "IS_GRANTED = 1";
+                "WHERE EMPLOYEE_ID = ?";
+
+
 
     public static final String FIND_TOTAL_WORKING_TIME =
                 "SELECT SUM(WORKING_TIME) AS TOTAL_WORKING_TIME " +
