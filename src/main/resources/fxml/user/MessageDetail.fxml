@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.sysone.ogamza.controller.user.MessageDetailController"
+            prefWidth="420" prefHeight="300"
+            style="-fx-background-color: #E3F2FD;">
+
+    <VBox spacing="12.0" AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
+
+        <!-- 상단 타이틀 -->
+        <Label text="📨 쪽지 상세"
+               style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #0D47A1;" />
+
+        <!-- 보낸 사람 -->
+        <HBox spacing="10">
+            <Label text="보낸 사람:" style="-fx-font-weight: bold;"/>
+            <Label fx:id="senderNameLabel" text="홍길동 대리"/>
+        </HBox>
+
+        <!-- 보낸 날짜 -->
+        <HBox spacing="10">
+            <Label text="보낸 날짜:" style="-fx-font-weight: bold;"/>
+            <Label fx:id="sendDateLabel" text="2025-07-23 10:12"/>
+        </HBox>
+
+        <!-- 내용 -->
+        <Label text="내용:" style="-fx-font-weight: bold;"/>
+        <TextArea fx:id="contentArea"
+                  prefRowCount="8"
+                  editable="false"
+                  wrapText="true"
+                  style="-fx-control-inner-background: #ffffff;"/>
+
+        <!-- 버튼 영역 -->
+        <HBox alignment="CENTER_RIGHT">
+            <Button fx:id="closeButton" text="닫기"
+                    onAction="#handleClose"
+                    style="-fx-background-color: #2196F3; -fx-text-fill: white; -fx-font-weight: bold;"/>
+        </HBox>
+
+    </VBox>
+</AnchorPane>

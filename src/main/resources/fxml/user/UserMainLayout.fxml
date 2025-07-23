@@ -1,12 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.shape.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="860.0" prefWidth="1330.0" style="-fx-background-color: #D9D9D9;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sysone.ogamza.controller.user.MainController">
+<AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="860.0" prefWidth="1330.0" style="-fx-background-color: #D9D9D9;" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sysone.ogamza.controller.user.MainController">
    <children>
       <VBox layoutX="20.0" layoutY="10.0" prefHeight="832.0" prefWidth="1280.0" style="-fx-background-radius: 30 30 30 30; -fx-background-color: #F1F9FF; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0.5, 0, 4);">
          <children>
@@ -62,40 +68,68 @@
                   <VBox prefWidth="1151.0">
                      <!-- 헤더 -->
                      <VBox prefHeight="90.0" prefWidth="1151.0" style="-fx-background-color: #ffffff;-fx-background-radius: 0 30 0 0; ">
-                        <HBox>
+                        <HBox maxHeight="-Infinity" minHeight="-Infinity" prefHeight="100.0" prefWidth="1151.0">
                            <children>
-                              <VBox prefHeight="110.0" prefWidth="250.0" style="-fx-alignment: center; -fx-padding: 20;">
+                              <VBox prefHeight="100.0" prefWidth="250.0" style="-fx-alignment: center; -fx-padding: 20;">
                                  <children>
                                     <ImageView fitHeight="150.0" fitWidth="180.0" onMouseClicked="#goHome" pickOnBounds="true" preserveRatio="true" style="-fx-cursor: hand;">
                                        <image><Image url="@../../images/userLogo.png" /></image>
                                     </ImageView>
                                  </children>
                               </VBox>
-                              <Region fx:id="spacer" HBox.hgrow="ALWAYS" />
-                              <HBox alignment="CENTER_LEFT" spacing="15" style="-fx-padding: 20;">
+                              <Region fx:id="spacer" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="100.0" prefWidth="600.0" HBox.hgrow="ALWAYS" />
+                              <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="100.0" prefWidth="323.0" spacing="40.0" style="-fx-padding: 20;">
                                  <children>
-                                    <StackPane prefHeight="60.0" prefWidth="60.0">
-                                       <children>
-                                          <Circle fx:id="profileBorder" fill="transparent" radius="40.0" />
-                                          <ImageView fx:id="headerProfile" fitHeight="80.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="false">
-                                             <image><Image url="@../../images/eunwoo.png" /></image>
-                                          </ImageView>
-                                       </children>
+                                    <StackPane>
+                                       <!-- 쪽지 아이콘 -->
+                                       <ImageView fx:id="messageInBox"
+                                                  fitHeight="40.0" fitWidth="40.0"
+                                                  onMouseClicked="#handleMessageInBox"
+                                                  pickOnBounds="true" preserveRatio="true">
+                                          <image>
+                                             <Image url="@../../images/quotes_14662021.gif" />
+                                          </image>
+                                       </ImageView>
+
+                                       <!-- 뱃지 라벨 -->
+                                       <Label fx:id="unreadCountLabel"
+                                              text="0"
+                                              style="-fx-background-color: red; -fx-text-fill: white; -fx-font-size: 10px; -fx-font-weight: bold; -fx-background-radius: 10; -fx-padding: 2 5 2 5;"
+                                              visible="false"
+                                              StackPane.alignment="TOP_RIGHT"
+                                              translateX="-5"
+                                              translateY="5" />
                                     </StackPane>
-                                    <VBox alignment="CENTER_LEFT" spacing="5">
+
+                                    <HBox prefHeight="100.0" prefWidth="200.0" spacing="20.0">
                                        <children>
-                                          <Text fx:id="name" style="-fx-font-size: 16px; -fx-font-weight: bold;" text="Text" />
-                                          <Text fx:id="dept" style="-fx-text-fill: gray;" text="Text" />
+                                          
+                                          <StackPane prefHeight="60.0" prefWidth="60.0">
+                                             <children>
+                                                <Circle fx:id="profileBorder" fill="transparent" radius="40.0" />
+                                                <ImageView fx:id="headerProfile" fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="false">
+                                                   <image>
+                                                      <Image url="@../../images/eunwoo.png" />
+                                                   </image>
+                                                </ImageView>
+                                             </children>
+                                          </StackPane>
+                                          <VBox alignment="CENTER_LEFT" spacing="5">
+                                             <children>
+                                                <Text fx:id="name" style="-fx-font-size: 16px; -fx-font-weight: bold;" text="Text" />
+                                                <Text fx:id="dept" style="-fx-text-fill: gray;" text="Text" />
+                                             </children>
+                                          </VBox>
                                        </children>
-                                    </VBox>
+                                    </HBox>
                                  </children>
                               </HBox>
                            </children>
                         </HBox>
                      </VBox>
 
-                     <!-- 콘텐츠 영역 -->
-                     <StackPane fx:id="contentArea" prefHeight="660.0" prefWidth="1120.0" style="-fx-padding: 10;" />
+                                          <!-- 콘텐츠 영역 -->
+                     <StackPane fx:id="contentArea" prefHeight="735.0" prefWidth="1151.0" style="-fx-padding: 10;" />
                   </VBox>
                </children>
             </HBox>

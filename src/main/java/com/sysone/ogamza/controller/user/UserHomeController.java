@@ -18,6 +18,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Shape;
 import javafx.scene.text.Text;
 
@@ -28,7 +29,6 @@ import java.util.ResourceBundle;
 public class UserHomeController implements Initializable {
 
     @FXML private AnchorPane calendarContainer;
-    @FXML private Group shapeGroup;
     @FXML private ImageView employeeProfile;
     @FXML private Text employeeName;
     @FXML private Text departmentName;
@@ -120,7 +120,13 @@ public class UserHomeController implements Initializable {
         luckyNumber.setText(String.valueOf(user.getLuckyNumber()));
         Shape todayShape = UserShape.getShape(user.getLuckyShape());
         Color todayColor = Color.web(user.getLuckyColor());
-            // painting
+
+        if (todayShape == null) {
+            System.err.println("⚠️ 알 수 없는 도형입니다: " + user.getLuckyShape());
+            todayShape = new Circle(35);
+        }
+
+        // painting
         todayShape.setFill(todayColor);
             // clear old one and create new one
         luckyShape.getChildren().clear();
