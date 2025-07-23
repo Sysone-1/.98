@@ -20,11 +20,11 @@
             <Font name="SansSerif Bold" size="28.0" />
          </font>
       </Label>
-      <Button fx:id="fetchScheduleButton" layoutX="978.0" layoutY="357.0" mnemonicParsing="false" onAction="#handleFetchScheduleClick" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: green; -fx-background-radius: 30; -fx-cursor: hand;" text="결재 내역" textFill="WHITE">
+      <Button fx:id="fetchScheduleButton" layoutX="978.0" layoutY="357.0" mnemonicParsing="false" onAction="#handleFetchScheduleClick" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: #6161B1; -fx-background-radius: 30; -fx-cursor: hand;" text="결재 내역" textFill="WHITE">
          <font>
             <Font name="SansSerif Bold" size="20.0" />
          </font></Button>
-      <Button fx:id="addScheduleButton" layoutX="847.0" layoutY="357.0" mnemonicParsing="false" onAction="#handleAddScheduleClick" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: #1E90FF; -fx-background-radius: 30; -fx-cursor: hand;" text="일정 결재" textFill="WHITE">
+      <Button fx:id="addScheduleButton" layoutX="847.0" layoutY="357.0" mnemonicParsing="false" onAction="#handleAddScheduleClick" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: #6363E5; -fx-background-radius: 30; -fx-cursor: hand;" text="일정 결재" textFill="WHITE">
          <font>
             <Font name="SansSerif Bold" size="20.0" />
          </font>
