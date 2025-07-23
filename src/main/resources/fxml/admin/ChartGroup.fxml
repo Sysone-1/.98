@@ -12,7 +12,7 @@
       fx:controller="com.sysone.ogamza.controller.admin.ChartGroupController"
       spacing="40"
       alignment="CENTER"
-      prefHeight="400"
+      prefHeight="10"
       style="-fx-padding: 20;">
     <children>
         <!-- 왼쪽: 근무 현황 차트 및 범례를 감싸는 VBox -->
@@ -20,7 +20,7 @@
 
             <!-- The single, correctly managed overallChart -->
             <PieChart fx:id="overallChart"
-                      prefHeight="260"
+                      prefHeight="200"
                       prefWidth="260"
                       animated="true"/>
 

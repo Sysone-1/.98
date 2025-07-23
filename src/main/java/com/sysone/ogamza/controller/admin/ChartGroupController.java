@@ -341,15 +341,27 @@ public class ChartGroupController implements Initializable {
             Platform.runLater(() -> {
                 try {
                     if (vacationCountText != null) {
-                        int vacationCount = requestService.getPendingCount(RequestType.VACATION);
+                        int vacationCount = requestService.getPendingCount(RequestType.ANNUAL);
                         vacationCountText.setText(String.valueOf(vacationCount));
                     }
+
+                    if (vacationCountText != null) {
+                        int vacationCount = requestService.getPendingCount(RequestType.HALFDAY);
+                        vacationCountText.setText(String.valueOf(vacationCount));
+                    }
+
                     if (clockChangeCountText != null) {
-                        int clockCount = requestService.getPendingCount(RequestType.CLOCK_CHANGE);
+                        int clockCount = requestService.getPendingCount(RequestType.OVERTIME);
                         clockChangeCountText.setText(String.valueOf(clockCount));
                     }
+
+                    if (clockChangeCountText != null) {
+                        int clockCount = requestService.getPendingCount(RequestType.HOLIDAY);
+                        clockChangeCountText.setText(String.valueOf(clockCount));
+                    }
+
                     if (outworkCountText != null) {
-                        int outworkCount = requestService.getPendingCount(RequestType.OUTWORK);
+                        int outworkCount = requestService.getPendingCount(RequestType.FIELDWORK);
                         outworkCountText.setText(String.valueOf(outworkCount));
                     }
                     if (completedCountText != null) {
@@ -368,9 +380,9 @@ public class ChartGroupController implements Initializable {
     }
 
     private void setupClickEvents() {
-        bindIfNotNull(vacationCountText, RequestType.VACATION);
-        bindIfNotNull(clockChangeCountText, RequestType.CLOCK_CHANGE);
-        bindIfNotNull(outworkCountText, RequestType.OUTWORK);
+        bindIfNotNull(vacationCountText, RequestType.ANNUAL);
+        bindIfNotNull(clockChangeCountText, RequestType.OVERTIME);
+        bindIfNotNull(outworkCountText, RequestType.FIELDWORK);
 
         if (completedCountText != null) {
             completedCountText.setOnMouseClicked(e -> openCompletedRequestList());

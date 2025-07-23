@@ -38,9 +38,8 @@ public class AdminMainController {
     }
 
     public void goSettings(MouseEvent event) {
-        System.out.println(" 셋팅 이동 ");
-
-        loadPage("/fxml/admin/AdminSettings.fxml");
+        System.out.println(" 사원조회 이동 ");
+        loadPage("/fxml/admin/EmployeeManagement.fxml");
     }
 
     public void goDashboard(MouseEvent event) {

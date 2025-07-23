@@ -60,7 +60,7 @@
                         <Image url="@../../images/userquery.png" />
                      </image>
                   </ImageView>
-                  <Label style="-fx-text-fill: #ffffff;" text="Setting" textFill="WHITE">
+                  <Label style="-fx-text-fill: #ffffff;" text="employee" textFill="WHITE">
                      <font>
                         <Font name="Inter Regular" size="18.0" />
                      </font>
