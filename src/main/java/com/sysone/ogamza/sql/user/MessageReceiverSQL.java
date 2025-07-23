@@ -36,4 +36,13 @@ public class MessageReceiverSQL {
                WHERE receiver_id = ? 
                AND is_read = 0
             """;
+
+    public static final String SELECT_SENT=
+            """
+                SELECT m.id, e.name, d.name AS dept_name, m.content, m.send_date, m.is_read
+                FROM message m
+                JOIN employee e ON e.id = m.receiver_id
+                JOIN department d ON d.id = e.department_id
+                WHERE sender_id = ?    
+            """;
 }

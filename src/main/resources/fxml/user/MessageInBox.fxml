@@ -16,7 +16,7 @@
         <HBox alignment="CENTER_LEFT" minHeight="-Infinity" prefHeight="60" prefWidth="400.0" spacing="100.0" style="-fx-padding: 10;">
             <Pane HBox.hgrow="ALWAYS" />
             <Label style="-fx-font-size: 20px; -fx-font-weight: bold;" text="쪽지보관함" />
-         <ImageView fitHeight="60.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+         <ImageView fitHeight="60.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true" onMouseClicked="#handleWriteMessage" style="-fx-cursor:hand;">
             <image>
                <Image url="@../../images/writing.gif" />
             </image>
@@ -25,8 +25,8 @@
 
         <!-- 탭 메뉴 -->
         <HBox layoutY="60" maxHeight="1.7976931348623157E308" prefHeight="40.0" prefWidth="400.0" spacing="0">
-            <ToggleButton fx:id="receivedTab" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="40.0" prefWidth="200.0" selected="true" style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-background-color: #2196F3; -fx-text-fill: white;" text="받은 쪽지" HBox.hgrow="ALWAYS" />
-            <ToggleButton fx:id="sentTab" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="40.0" prefWidth="200.0" style="-fx-font-size: 14px; -fx-background-color: #E0E0E0; -fx-text-fill: black;" text="보낸 쪽지" HBox.hgrow="ALWAYS" />
+            <ToggleButton fx:id="receivedTab" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="40.0" prefWidth="200.0" selected="true" style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-background-color: #2196F3; -fx-text-fill: white; -fx-cursor:hand;" text="받은 쪽지" HBox.hgrow="ALWAYS" />
+            <ToggleButton fx:id="sentTab" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="40.0" prefWidth="200.0" style="-fx-font-size: 14px; -fx-background-color: #E0E0E0; -fx-text-fill: black; -fx-cursor:hand;" text="보낸 쪽지" HBox.hgrow="ALWAYS" />
         </HBox>
 
         <!-- 쪽지 리스트 -->

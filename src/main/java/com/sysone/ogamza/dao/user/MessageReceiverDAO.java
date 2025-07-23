@@ -2,7 +2,7 @@ package com.sysone.ogamza.dao.user;
 
 import com.sysone.ogamza.dto.user.MessageDetailDTO;
 import com.sysone.ogamza.dto.user.MessageInBoxDTO;
-import com.sysone.ogamza.service.user.MessageService;
+import com.sysone.ogamza.dto.user.MessageSentBoxDTO;
 import com.sysone.ogamza.sql.user.MessageReceiverSQL;
 import com.sysone.ogamza.utils.db.OracleConnector;
 
@@ -19,6 +19,7 @@ public class MessageReceiverDAO {
     public static MessageReceiverDAO getInstance(){return instance;}
 
 
+    // 받은 쪽지
     public List<MessageInBoxDTO> getMessageBoxList (int receiverId)throws SQLException {
         String sql = MessageReceiverSQL.SELECT_RECEIVER;
 
@@ -42,6 +43,7 @@ public class MessageReceiverDAO {
         }
     }
 
+    // 쪽지 상세
     public MessageDetailDTO getMessageDetail(int msgId)throws SQLException{
         String sql = MessageReceiverSQL.SELECT_MESSAGE;
         String updateRead = MessageReceiverSQL.UPDATE_READ;
@@ -67,22 +69,45 @@ public class MessageReceiverDAO {
         }
     }
 
+    // 읽지않은 쪽지
     public int getUnreadMessageCount(int employeeId) throws SQLException{
         String sql = MessageReceiverSQL.SELECT_COUNT;
 
         try (Connection conn = OracleConnector.getConnection();
-            PreparedStatement pstmt = conn.prepareStatement(sql)){
+            PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setInt(1, employeeId);
             ResultSet resultSet = pstmt.executeQuery();
 
-            if(resultSet.next()) {
+            if (resultSet.next()) {
                 return resultSet.getInt("COUNT");
-            }else {
+            } else {
                 return 0;
             }
         }
+    }
 
+    // 보낸 쪽지
+    public List<MessageSentBoxDTO> getSentList(int employeeId)throws SQLException{
+        String sql = MessageReceiverSQL.SELECT_SENT;
+
+        try(Connection conn = OracleConnector.getConnection();
+            PreparedStatement pstmt = conn.prepareStatement(sql)){
+
+            pstmt.setInt(1, employeeId);
+            ResultSet resultSet = pstmt.executeQuery();
+            List<MessageSentBoxDTO> response = new ArrayList<>();
+            while (resultSet.next()){
+                response.add(MessageSentBoxDTO.builder()
+                        .messageId(resultSet.getInt("ID"))
+                        .receiverName(resultSet.getString("NAME"))
+                        .receiverDept(resultSet.getString("DEPT_NAME"))
+                        .content(resultSet.getString("CONTENT"))
+                        .sentAt(resultSet.getDate("SEND_DATE").toLocalDate())
+                        .build());
+            }
+            return response;
+        }
     }
 
 }

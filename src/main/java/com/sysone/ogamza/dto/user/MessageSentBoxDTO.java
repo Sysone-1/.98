@@ -7,14 +7,15 @@ import java.time.LocalDate;
 
 @Builder
 @Data
-public class MessageInBoxDTO implements MessageBoxViewDTO{
+public class MessageSentBoxDTO implements MessageBoxViewDTO {
+
     private int messageId;
-    private String senderProfile;
-    private String senderName;
-    private String senderDept;
+    private String receiverName;
+    private String receiverDept;
     private String content;
-    private LocalDate sendDate;
+    private LocalDate sentAt;
     private int isRead;
+
 
     @Override
     public int getMessageId(){
@@ -23,18 +24,18 @@ public class MessageInBoxDTO implements MessageBoxViewDTO{
 
     @Override
     public String getProfileImagePath() {
-        return senderProfile;
+        return null;
     }
 
 
     @Override
     public String getName() {
-        return senderName;
+        return receiverName;
     }
 
     @Override
     public String getDeptName(){
-        return senderDept;
+        return receiverDept;
     }
 
     @Override
@@ -44,7 +45,7 @@ public class MessageInBoxDTO implements MessageBoxViewDTO{
 
     @Override
     public LocalDate getSendDate(){
-        return sendDate;
+        return sentAt;
     }
 
     @Override
@@ -53,7 +54,8 @@ public class MessageInBoxDTO implements MessageBoxViewDTO{
     }
 
     @Override
-    public void setIsRead(int num ){
-         this.isRead = num;
+    public void setIsRead(int num){
+        this.isRead = num;
     }
+
 }

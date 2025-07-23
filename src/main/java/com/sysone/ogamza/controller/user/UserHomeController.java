@@ -112,6 +112,7 @@ public class UserHomeController implements Initializable {
         Image userProfile = new Image(imageUrl.toExternalForm());
         employeeProfile.setImage(userProfile);
 
+
         // 이름 / 부서 설정
         employeeName.setText(user.getName());
         departmentName.setText(user.getDepartmentName());

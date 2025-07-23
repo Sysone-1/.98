@@ -54,8 +54,8 @@ public class UserShape {
                                 50, 100,
                                 0, 50
                 );
-                shape.setScaleX(1.6);
-                shape.setScaleY(1.6);
+                shape.setScaleX(0.8);
+                shape.setScaleY(0.8);
                 break;
             case "번개": // 번개
                 svg.setContent("M10 0 L30 0 L15 25 L35 25 L10 70 L20 40 L0 40 Z");

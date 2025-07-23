@@ -17,6 +17,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 
 import javafx.scene.text.Text;
@@ -28,11 +29,11 @@ import javafx.util.Duration;
 import java.io.IOException;
 import java.net.URL;
 
+
 public class MainController {
 
     @FXML private StackPane contentArea;
-    @FXML private ImageView headerProfile;
-    @FXML private Circle profileBorder;
+    @FXML private StackPane profileContainer;
     @FXML private Text name;
     @FXML private Text dept;
     @FXML private Label unreadCountLabel;
@@ -53,16 +54,18 @@ public class MainController {
         String path = user.getProfile();
         URL imageUrl = getClass().getResource(path);
         if (imageUrl == null) {
-            imageUrl = getClass().getResource("/images/eunwoo.png"); // 기본 이미지 fallback
+            imageUrl = getClass().getResource("/images/eunwoo.png");
         }
+
         if (imageUrl != null) {
-            headerProfile.setImage(new Image(imageUrl.toExternalForm()));
+            Image image = new Image(imageUrl.toExternalForm());
+
+            Circle profileCircle = new Circle(25);
+            profileCircle.setFill(new ImagePattern(image));
+
+            profileContainer.getChildren().clear();
+            profileContainer.getChildren().add(profileCircle);
         }
-
-        double r = profileBorder.getRadius();
-        Circle clip2 = new Circle(r, r, r);
-        headerProfile.setClip(clip2);
-
         name.setText(user.getName());
         dept.setText(user.getDeptName());
 
