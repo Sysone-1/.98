@@ -1,11 +1,11 @@
 .date-picker {
-    -fx-background-color: #f0f8ff;
+    -fx-background-color: white;
     -fx-font-size: 12px;
 }
 
 .date-picker .arrow-button {
-    -fx-background-color: #007acc;
-    -fx-background-radius: 30;
+    -fx-background-color: #6E9BC7;
+    -fx-background-radius: 8;
     -fx-translate-x: 4px;
     -fx-cursor: hand;
 }
@@ -17,10 +17,9 @@
 }
 
 .date-picker .text-field {
-    -fx-background-color: white;
-    -fx-background-radius: 30;
+    -fx-background-color: #F6FAFF;
+    -fx-background-radius: 8;
     -fx-text-fill: #333333;
-    -fx-border-color: #BBBBBB;
     -fx-border-radius: 30;
     -fx-font-size: 12px;
 }
@@ -31,7 +30,7 @@
 }
 
 .combo-box .arrow-button {
-    -fx-background-color: #1E90FF;
+    -fx-background-color: #6E9BC7;
     -fx-background-radius: 0 10 10 0;
 }
 

@@ -9,6 +9,8 @@ import javafx.scene.Cursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.effect.DropShadow;
+import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import lombok.Getter;
@@ -16,9 +18,7 @@ import lombok.Getter;
 import java.io.IOException;
 import java.time.DayOfWeek;
 import java.time.Duration;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -160,14 +160,21 @@ public class DashboardService {
         Label item = new Label(schedule);
         item.setStyle(
                 "-fx-pref-width:500;" +
-                        "-fx-pref-height:50;" +
-                        "-fx-background-color: #1E90FF;" +
-                        "-fx-text-fill: white;" +
-                        "-fx-padding: 10 20 10 20;" +
-                        "-fx-font-weight: bold;" +
-                        "-fx-background-radius: 15;" +
-                        "-fx-font-size: 16px;"
+                "-fx-pref-height:50;" +
+                "-fx-background-color: #F3F1F1;" +
+                "-fx-text-fill: black;" +
+                "-fx-padding: 10 20 10 20;" +
+                "-fx-background-radius: 8;" +
+                "-fx-font-size: 18px;"
         );
+        DropShadow shadow = new DropShadow();
+        shadow.setColor(Color.GRAY);
+        shadow.setOffsetX(2);
+        shadow.setOffsetY(2);
+        shadow.setRadius(5);
+
+        item.setEffect(shadow);
+
         item.setUserData(index);
         item.setCursor(Cursor.HAND);
 

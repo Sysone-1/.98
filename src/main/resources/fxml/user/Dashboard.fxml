@@ -16,31 +16,31 @@
 
 <AnchorPane prefHeight="728.0" prefWidth="1155.0" stylesheets="@../../css/dashboard.css" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sysone.ogamza.controller.user.DashboardController">
    <children>
-      <Label layoutX="53.0" layoutY="19.0" prefHeight="33.0" prefWidth="83.0" text="Day">
+      <Label layoutX="60.0" layoutY="29.0" prefHeight="33.0" prefWidth="83.0" text="Day">
          <font>
-            <Font name="SansSerif Bold" size="36.0" />
+            <Font name="SansSerif Bold" size="26.0" />
          </font>
       </Label>
-      <Button fx:id="fetchScheduleButton" layoutX="978.0" layoutY="15.0" mnemonicParsing="false" onAction="#handleFetchScheduleClick" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: #6161B1; -fx-background-radius: 30; -fx-cursor: hand;" text="결재 내역" textFill="WHITE">
+      <Button fx:id="fetchScheduleButton" layoutX="978.0" layoutY="26.0" mnemonicParsing="false" onAction="#handleFetchScheduleClick" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: #6E9BC7; -fx-background-radius: 8; -fx-cursor: hand;" text="결재 내역" textFill="WHITE">
          <font>
-            <Font name="SansSerif Bold" size="20.0" />
+            <Font name="SansSerif Bold" size="18.0" />
          </font></Button>
-      <Button fx:id="addScheduleButton" layoutX="852.0" layoutY="15.0" mnemonicParsing="false" onAction="#handleAddScheduleClick" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: #6363E5; -fx-background-radius: 30; -fx-cursor: hand;" text="일정 상신" textFill="WHITE">
+      <Button fx:id="addScheduleButton" layoutX="850.0" layoutY="27.0" mnemonicParsing="false" onAction="#handleAddScheduleClick" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: #6E9BC7; -fx-background-radius: 8; -fx-cursor: hand;" text="결재 상신" textFill="WHITE">
          <font>
-            <Font name="SansSerif Bold" size="20.0" />
+            <Font name="SansSerif Bold" size="18.0" />
          </font>
       </Button>
-      <Label layoutX="60.0" layoutY="354.0" prefHeight="33.0" prefWidth="110.0" text="Week ">
+      <Label layoutX="60.0" layoutY="361.0" prefHeight="33.0" prefWidth="110.0" text="Week ">
          <font>
-            <Font name="SansSerif Bold" size="36.0" />
+            <Font name="SansSerif Bold" size="26.0" />
          </font>
       </Label>
-      <Label layoutX="594.0" layoutY="354.0" prefHeight="42.0" prefWidth="180.0" text="Schedule">
+      <Label layoutX="584.0" layoutY="357.0" prefHeight="42.0" prefWidth="180.0" text="Schedule">
          <font>
-            <Font name="SansSerif Bold" size="36.0" />
+            <Font name="SansSerif Bold" size="26.0" />
          </font>
       </Label>
-      <HBox layoutX="53.0" layoutY="70.0" prefHeight="228.0" prefWidth="985.0" style="-fx-background-color: white; -fx-pref-width: 1050; -fx-pref-height: 250; -fx-background-radius: 20; -fx-padding: 20;">
+      <HBox layoutX="53.0" layoutY="70.0" prefHeight="228.0" prefWidth="985.0" style="-fx-background-color: white; -fx-pref-width: 1050; -fx-pref-height: 250; -fx-background-radius: 8; -fx-padding: 20;">
           <effect>
               <DropShadow color="gray" offsetX="2" offsetY="2" radius="5" />
           </effect>
@@ -51,11 +51,11 @@
                      <children>
                         <VBox prefHeight="200.0" prefWidth="100.0" style="-fx-pref-width: 175; -fx-alignment: center;">
                            <children>
-                              <VBox maxWidth="105.0" prefHeight="30.0" prefWidth="110.0" style="-fx-max-width: 110; -fx-alignment: center; -fx-background-color: #1E90FF; -fx-background-radius: 30;">
+                              <VBox maxWidth="105.0" prefHeight="30.0" prefWidth="110.0" style="-fx-max-width: 110; -fx-alignment: center; -fx-background-color: #6E9BC7; -fx-background-radius: 8;">
                                  <children>
                                     <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="출근">
                                        <font>
-                                          <Font name="SansSerif Regular" size="24.0" />
+                                          <Font name="SansSerif Regular" size="18.0" />
                                        </font>
                                     </Text>
                                  </children>
@@ -66,7 +66,7 @@
                            <children>
                               <Text fx:id="accessTime" strokeType="OUTSIDE" strokeWidth="0.0" text="08 : 45 :  42" wrappingWidth="157.42835927009583">
                                  <font>
-                                    <Font name="SansSerif Regular" size="24.0" />
+                                    <Font name="SansSerif Regular" size="18.0" />
                                  </font>
                               </Text>
                            </children>
@@ -77,11 +77,11 @@
                      <children>
                         <VBox prefHeight="200.0" prefWidth="100.0" style="-fx-pref-width: 175; -fx-alignment: center;">
                            <children>
-                              <VBox maxWidth="105.0" prefHeight="30.0" prefWidth="110.0" style="-fx-max-width: 110; -fx-alignment: center; -fx-background-color: #1E90FF; -fx-background-radius: 30;">
+                              <VBox maxWidth="105.0" prefHeight="30.0" prefWidth="110.0" style="-fx-max-width: 110; -fx-alignment: center; -fx-background-color: #6E9BC7; -fx-background-radius: 8;">
                                  <children>
                                     <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="퇴근">
                                        <font>
-                                          <Font name="SansSerif Regular" size="24.0" />
+                                          <Font name="SansSerif Regular" size="18.0" />
                                        </font>
                                     </Text>
                                  </children>
@@ -92,7 +92,7 @@
                            <children>
                               <Text fx:id="leaveTime" strokeType="OUTSIDE" strokeWidth="0.0" text="-- : -- : --" wrappingWidth="129.9609501361847">
                                  <font>
-                                    <Font name="SansSerif Regular" size="24.0" />
+                                    <Font name="SansSerif Regular" size="18.0" />
                                  </font>
                               </Text>
                            </children>
@@ -103,19 +103,22 @@
                      <children>
                         <VBox prefHeight="200.0" prefWidth="100.0" style="-fx-pref-width: 175; -fx-alignment: center;">
                            <children>
-                              <VBox maxWidth="109.0" prefHeight="30.0" prefWidth="110.0" style="-fx-max-width: 110; -fx-alignment: center; -fx-background-color: #1E90FF; -fx-background-radius: 30;">
+                              <VBox maxWidth="109.0" prefHeight="30.0" prefWidth="76.0" style="-fx-max-width: 110; -fx-alignment: center; -fx-background-color: #6E9BC7; -fx-background-radius: 8;">
                                  <children>
-                                    <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="근로시간" wrappingWidth="97.33334350585938">
+                                    <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="근로시간" wrappingWidth="72.5333251953125">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
                                     </Text>
                                  </children>
                               </VBox>
                            </children>
                         </VBox>
-                        <VBox prefHeight="70.0" prefWidth="229.0" style="-fx-pref-width: 175; -fx-alignment: center; -fx-padding: 0 30 0 0;">
+                        <VBox prefHeight="70.0" prefWidth="229.0" style="-fx-pref-width: 175; -fx-alignment: center; -fx-padding: 0 60 0 0;">
                            <children>
                               <Text fx:id="workingHours" strokeType="OUTSIDE" strokeWidth="0.0" text="3시간 25분">
                                  <font>
-                                    <Font name="SansSerif Regular" size="24.0" />
+                                    <Font name="SansSerif Regular" size="18.0" />
                                  </font>
                               </Text>
                            </children>
@@ -137,15 +140,18 @@
                                        <VBox prefHeight="139.0" prefWidth="198.0" style="-fx-alignment: center;">
                                           <children>
                                              <HBox prefHeight="162.0" prefWidth="198.0" style="-fx-alignment: center; -fx-max-height: 1000;" />
-                                             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="잔여근로" wrappingWidth="64.00000381469727">
+                                             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="잔여근로" wrappingWidth="80.80005264282227">
                                                 <font>
-                                                   <Font name="SansSerif Regular" size="16.0" />
+                                                   <Font name="SansSerif Regular" size="18.0" />
                                                 </font>
                                              </Text>
                                              <HBox prefHeight="100.0" prefWidth="200.0" style="-fx-alignment: center; -fx-max-height: 20;" />
-                                             <VBox prefHeight="27.0" prefWidth="215.0" style="-fx-alignment: center; -fx-pref-height: 10; -fx-padding: 0 0 0 10;">
+                                             <VBox prefHeight="27.0" prefWidth="215.0" style="-fx-alignment: center; -fx-pref-height: 10; -fx-padding: 0 0 0 30;">
                                                 <children>
                                                    <Text fx:id="remainingWorkingHours" strokeType="OUTSIDE" strokeWidth="0.0" text="155시간 15분" translateX="20" wrappingWidth="153.33337497711182">
+                                                      <font>
+                                                         <Font size="18.0" />
+                                                      </font>
                                                    </Text>
                                                 </children>
                                              </VBox>
@@ -186,12 +192,12 @@
                            <children>
                               <Text fill="#7f8c8d" strokeType="OUTSIDE" strokeWidth="0.0" text="총연차 :  ">
                                  <font>
-                                    <Font name="SansSerif Regular" size="20.0" />
+                                    <Font name="SansSerif Regular" size="18.0" />
                                  </font>
                               </Text>
                               <Text fx:id="totalVacation" fill="#7f8c8d" strokeType="OUTSIDE" strokeWidth="0.0" text="15일" wrappingWidth="68.24608993530273">
                                  <font>
-                                    <Font name="SansSerif Regular" size="20.0" />
+                                    <Font name="SansSerif Regular" size="18.0" />
                                  </font>
                               </Text>
                            </children>
@@ -204,12 +210,12 @@
                            <children>
                               <Text fill="#7f8c8d" strokeType="OUTSIDE" strokeWidth="0.0" text="사용 연차 : ">
                                  <font>
-                                    <Font name="SansSerif Regular" size="20.0" />
+                                    <Font name="SansSerif Regular" size="18.0" />
                                  </font>
                               </Text>
                               <Text fx:id="usedVacation" fill="#7f8c8d" strokeType="OUTSIDE" strokeWidth="0.0" text="3일" wrappingWidth="61.7896728515625">
                                  <font>
-                                    <Font name="SansSerif Regular" size="20.0" />
+                                    <Font name="SansSerif Regular" size="18.0" />
                                  </font>
                               </Text>
                            </children>
@@ -222,12 +228,12 @@
                            <children>
                               <Text fill="#7f8c8d" strokeType="OUTSIDE" strokeWidth="0.0" text="남은 연차 : ">
                                  <font>
-                                    <Font name="SansSerif Regular" size="20.0" />
+                                    <Font name="SansSerif Regular" size="18.0" />
                                  </font>
                               </Text>
                               <Text fx:id="remainingVacation" fill="#7f8c8d" strokeType="OUTSIDE" strokeWidth="0.0" text="12일" wrappingWidth="73.5794677734375">
                                  <font>
-                                    <Font name="SansSerif Regular" size="20.0" />
+                                    <Font name="SansSerif Regular" size="18.0" />
                                  </font>
                               </Text>
                            </children>
@@ -238,7 +244,7 @@
          </children>
       </HBox>
       
-      <VBox layoutX="53.0" layoutY="403.0" prefHeight="266.0" prefWidth="499.0" style="-fx-background-color: white; -fx-background-radius: 20; -fx-border-radius: 20; -fx-padding: 10;">
+      <VBox layoutX="53.0" layoutY="403.0" prefHeight="266.0" prefWidth="499.0" style="-fx-background-color: white; -fx-background-radius: 8; -fx-border-radius: 8; -fx-padding: 10;">
           <effect>
               <DropShadow color="gray" offsetX="2" offsetY="2" radius="5" />
           </effect>
@@ -309,7 +315,7 @@
                                  <children>
                                     <Text fill="#e74c3c" strokeType="OUTSIDE" strokeWidth="0.0" text="최소 40h" wrappingWidth="66.0">
                                        <font>
-                                          <Font name="SansSerif Regular" size="16.0" />
+                                          <Font name="SansSerif Regular" size="14.0" />
                                        </font></Text>
                                  </children>
                               </VBox>
@@ -321,7 +327,7 @@
                                  <children>
                                     <Text fill="#e74c3c" strokeType="OUTSIDE" strokeWidth="0.0" text="최대 68h" wrappingWidth="68.66668701171875">
                                        <font>
-                                          <Font name="SansSerif Regular" size="16.0" />
+                                          <Font name="SansSerif Regular" size="14.0" />
                                        </font></Text>
                                  </children>
                               </VBox>
@@ -337,20 +343,20 @@
                      <children>
                         <HBox prefHeight="0.0" prefWidth="471.0">
                            <children>
-                              <VBox prefHeight="27.0" prefWidth="357.0" style="-fx-alignment: center;">
+                              <VBox prefHeight="27.0" prefWidth="357.0" style="-fx-alignment: center; -fx-padding: 0 10 0 0;">
                                  <children>
                                     <Text fx:id="totalWorkingHours" strokeType="OUTSIDE" strokeWidth="0.0" text="34시간 25분" wrappingWidth="278.7109832763672">
                                        <font>
-                                          <Font name="SansSerif Regular" size="24.0" />
+                                          <Font name="SansSerif Regular" size="18.0" />
                                        </font>
                                     </Text>
                                  </children>
                               </VBox>
                               <VBox maxWidth="363.0" prefHeight="27.0" prefWidth="71.0" style="-fx-alignment: center-right; -fx-max-width: 530;">
                                  <children>
-                                    <Text fill="#e74c3c" strokeType="OUTSIDE" strokeWidth="0.0" text="52h" wrappingWidth="50.000133991241455">
+                                    <Text fill="#e74c3c" strokeType="OUTSIDE" strokeWidth="0.0" text="52h" wrappingWidth="40.400158405303955">
                                        <font>
-                                          <Font name="SansSerif Regular" size="16.0" />
+                                          <Font name="SansSerif Regular" size="14.0" />
                                        </font>
                                     </Text>
                                  </children>
@@ -382,14 +388,14 @@
                            <children>
                               <HBox prefHeight="49.0" prefWidth="244.0" style="-fx-alignment: center;">
                                  <children>
-                                    <Text fill="#7f8c8d" strokeType="OUTSIDE" strokeWidth="0.0" text="남은 근무 시간 : " wrappingWidth="128.2265625">
+                                    <Text fill="#7f8c8d" strokeType="OUTSIDE" strokeWidth="0.0" text="남은 근무 시간 : " wrappingWidth="136.2265625">
                                        <font>
-                                          <Font name="SansSerif Regular" size="16.0" />
+                                          <Font name="SansSerif Regular" size="18.0" />
                                        </font>
                                     </Text>
                                     <Text fx:id="totalRemainingWorkingHours" fill="#7f8c8d" strokeType="OUTSIDE" strokeWidth="0.0" text="19시간 20분" wrappingWidth="244.03899765014648">
                                        <font>
-                                          <Font name="SansSerif Regular" size="16.0" />
+                                          <Font name="SansSerif Regular" size="18.0" />
                                        </font>
                                     </Text>
                                  </children>
@@ -406,12 +412,12 @@
                                  <children>
                                     <Text fill="#7f8c8d" strokeType="OUTSIDE" strokeWidth="0.0" text="남은  연장 근무 시간 :  ">
                                        <font>
-                                          <Font name="SansSerif Regular" size="16.0" />
+                                          <Font name="SansSerif Regular" size="18.0" />
                                        </font>
                                     </Text>
                                     <Text fx:id="extendWorkingTime" fill="#7f8c8d" strokeType="OUTSIDE" strokeWidth="0.0" text="12시간" wrappingWidth="229.1301828622818">
                                        <font>
-                                          <Font name="SansSerif Regular" size="16.0" />
+                                          <Font name="SansSerif Regular" size="18.0" />
                                        </font>
                                     </Text>
                                  </children>
@@ -426,14 +432,14 @@
                            <children>
                               <HBox prefHeight="100.0" prefWidth="200.0" style="-fx-alignment: center;">
                                  <children>
-                                    <Text fill="#7f8c8d" strokeType="OUTSIDE" strokeWidth="0.0" text="남은  휴일 연장 근무 시간 :  " wrappingWidth="201.3411865234375">
+                                    <Text fill="#7f8c8d" strokeType="OUTSIDE" strokeWidth="0.0" text="남은  휴일 근무 시간 :  " wrappingWidth="186.14117431640625">
                                        <font>
-                                          <Font name="SansSerif Regular" size="16.0" />
+                                          <Font name="SansSerif Regular" size="18.0" />
                                        </font>
                                     </Text>
                                     <Text fx:id="weekendWorkingTime" fill="#7f8c8d" strokeType="OUTSIDE" strokeWidth="0.0" text="16시간" wrappingWidth="232.24219226837158">
                                        <font>
-                                          <Font name="SansSerif Regular" size="16.0" />
+                                          <Font name="SansSerif Regular" size="18.0" />
                                        </font>
                                     </Text>
                                  </children>
@@ -445,20 +451,25 @@
                </children>
             </VBox>
          </children></VBox>
-      <VBox layoutX="584.0" layoutY="403.0" prefHeight="266.0" prefWidth="514.0" style="-fx-background-color: white; -fx-background-radius: 20; -fx-border-radius: 20; -fx-padding: 10 10 10 10;">
+      <VBox layoutX="584.0" layoutY="403.0" prefHeight="266.0" prefWidth="514.0" style="-fx-background-color: white; -fx-background-radius: 8; -fx-border-radius: 8; -fx-padding: 10 10 10 10;">
           <effect>
               <DropShadow color="gray" offsetX="2" offsetY="2" radius="5" />
           </effect>
           <children>
+            <Button fx:id="addScheduleButton111" mnemonicParsing="false" onAction="#handleCalendarDetail" prefHeight="32.0" prefWidth="496.0" style="-fx-cursor: hand; -fx-padding: 10 0 0 410; -fx-background-color: parent;" text="더보기" textFill="#7f8c8d">
+               <font>
+                  <Font name="SansSerif Bold" size="14.0" />
+               </font>
+            </Button>
             <VBox prefHeight="266.0" prefWidth="514.0">
                <children>
                    <ScrollPane fx:id="scheduleScrollPane" fitToWidth="true" hbarPolicy="NEVER" prefHeight="230.0" prefWidth="480.0" style="-fx-background-color: white; -fx-background-radius: 30; -fx-background-insets: 0;">
                       <content>
-                        <VBox fx:id="scheduleListBox" prefHeight="228.0" prefWidth="514.0" spacing="10" style="-fx-background-color: white; -fx-background-radius: 30; -fx-padding: 15 15 10 15;">
+                        <VBox fx:id="scheduleListBox" prefHeight="203.0" prefWidth="494.0" spacing="10" style="-fx-background-color: white; -fx-background-radius: 30; -fx-padding: 15 15 10 15;">
                            <children>
                               <Text fx:id="noScheduleText" strokeType="OUTSIDE" strokeWidth="0.0" text="금주에 계획된 일정이 없습니다.">
                                  <font>
-                                    <Font name="SansSerif Regular" size="24.0" />
+                                    <Font name="SansSerif Regular" size="20.0" />
                                  </font>
                               </Text>
                            </children>
@@ -479,11 +490,6 @@
             <Font name="SansSerif Bold" size="20.0" />
          </font>
       </Button>
-      <Button fx:id="addScheduleButton111" layoutX="977.0" layoutY="360.0" mnemonicParsing="false" onAction="#handleCalendarDetail" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: #1E90FF; -fx-background-radius: 30; -fx-cursor: hand;" text="전체 일정" textFill="WHITE">
-         <font>
-            <Font name="SansSerif Bold" size="20.0" />
-         </font>
-      </Button>
-      <ImageView fx:id="tooltipImage" fitHeight="30.0" fitWidth="34.0" layoutX="127.0" layoutY="31.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="tooltipImage" fitHeight="22.0" fitWidth="24.0" layoutX="115.0" layoutY="41.0" pickOnBounds="true" preserveRatio="true" style="-fx-fit-width: 25; -fx-fit-height: 25;" />
    </children>
 </AnchorPane>

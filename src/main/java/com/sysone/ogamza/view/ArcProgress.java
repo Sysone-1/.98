@@ -38,7 +38,7 @@ public class ArcProgress {
                 startAngle, -angleRange, javafx.scene.shape.ArcType.OPEN);
 
         // 진행도 반원 (파랑)
-        gc.setStroke(Color.DODGERBLUE);
+        gc.setStroke(Color.web("#5A82A9"));
         gc.setLineWidth(strokeWidth);
         double progressAngle = -(angleRange * percent / 100); // 시계 반대 방향
         gc.strokeArc(centerX - radius, centerY - radius, radius * 2, radius * 2,
