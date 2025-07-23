@@ -34,7 +34,7 @@ public class Main extends Application {
 
         /* 3) Scene + CSS */
        // Scene scene = new Scene(root, 1280, 832);
-        Scene scene = new Scene(root, 1300, 850);
+        Scene scene = new Scene(root, 1300, 820);
         scene.getStylesheets().add (
             Objects.requireNonNull(getClass().getResource("/css/main.css")).toExternalForm());
 
