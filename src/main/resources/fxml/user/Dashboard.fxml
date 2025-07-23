@@ -106,9 +106,6 @@
                               <VBox maxWidth="109.0" prefHeight="30.0" prefWidth="110.0" style="-fx-max-width: 110; -fx-alignment: center; -fx-background-color: #1E90FF; -fx-background-radius: 30;">
                                  <children>
                                     <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="근로시간" wrappingWidth="97.33334350585938">
-                                       <font>
-                                          <Font name="SansSerif Bold" size="24.0" />
-                                       </font>
                                     </Text>
                                  </children>
                               </VBox>
@@ -149,9 +146,6 @@
                                              <VBox prefHeight="27.0" prefWidth="215.0" style="-fx-alignment: center; -fx-pref-height: 10; -fx-padding: 0 0 0 10;">
                                                 <children>
                                                    <Text fx:id="remainingWorkingHours" strokeType="OUTSIDE" strokeWidth="0.0" text="155시간 15분" translateX="20" wrappingWidth="153.33337497711182">
-                                                      <font>
-                                                         <Font name="SansSerif Bold" size="24.0" />
-                                                      </font>
                                                    </Text>
                                                 </children>
                                              </VBox>

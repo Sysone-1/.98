@@ -105,13 +105,8 @@ public class UserHomeController implements Initializable {
             imageUrl = getClass().getResource(defaultPath);
         }
 
-        if (imageUrl == null) {
-            throw new RuntimeException(" 기본 이미지도 없음! " + defaultPath);
-        }
-
         Image userProfile = new Image(imageUrl.toExternalForm());
         employeeProfile.setImage(userProfile);
-
 
         // 이름 / 부서 설정
         employeeName.setText(user.getName());
@@ -120,7 +115,14 @@ public class UserHomeController implements Initializable {
         // today lucky setting
         luckyNumber.setText(String.valueOf(user.getLuckyNumber()));
         Shape todayShape = UserShape.getShape(user.getLuckyShape());
-        Color todayColor = Color.web(user.getLuckyColor());
+
+        Color todayColor;
+        try {
+            todayColor = Color.web(user.getLuckyColor());
+        } catch (IllegalArgumentException | NullPointerException e) {
+            System.err.println("⚠️ 잘못된 컬러 값입니다: " + user.getLuckyColor());
+            todayColor = Color.RED; // fallback color
+        }
 
         if (todayShape == null) {
             System.err.println("⚠️ 알 수 없는 도형입니다: " + user.getLuckyShape());
