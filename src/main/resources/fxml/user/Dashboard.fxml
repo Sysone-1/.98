@@ -478,5 +478,15 @@
             </VBox>
          </children>
       </VBox>
+      <Button fx:id="addScheduleButton1" layoutX="721.0" layoutY="357.0" mnemonicParsing="false" onAction="#handleAddEmployee" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: #1E90FF; -fx-background-radius: 30; -fx-cursor: hand;" text="회원등록" textFill="WHITE">
+         <font>
+            <Font name="SansSerif Bold" size="20.0" />
+         </font>
+      </Button>
+      <Button fx:id="addScheduleButton11" layoutX="721.0" layoutY="320.0" mnemonicParsing="false" onAction="#handleTagCard" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: #1E90FF; -fx-background-radius: 30; -fx-cursor: hand;" text="카드 태그" textFill="WHITE">
+         <font>
+            <Font name="SansSerif Bold" size="20.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>

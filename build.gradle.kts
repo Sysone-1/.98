@@ -44,7 +44,6 @@ dependencies {
 
 }
 
-
 application {
     mainClass.set("com.sysone.ogamza.Main")
 
