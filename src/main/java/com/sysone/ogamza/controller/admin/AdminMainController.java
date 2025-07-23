@@ -40,11 +40,11 @@ public class AdminMainController {
     public void goSettings(MouseEvent event) {
         System.out.println(" 셋팅 이동 ");
 
-        loadPage("/fxml/AdminSettings.fxml");
+        loadPage("/fxml/admin/AdminSettings.fxml");
     }
 
     public void goDashboard(MouseEvent event) {
-        loadPage("/fxml/AdminDashboard.fxml");
+        loadPage("/fxml/admin/AdminDashboard.fxml");
         System.out.println(" 대시보드 이동 ");
     }
 

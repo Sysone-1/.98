@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.chart.PieChart?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Text?>
+
+<HBox xmlns="http://javafx.com/javafx/8"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.sysone.ogamza.controller.admin.ChartGroupController"
+      spacing="40"
+      alignment="CENTER"
+      prefHeight="400"
+      style="-fx-padding: 20;">
+    <children>
+        <!-- 왼쪽: 근무 현황 차트 및 범례를 감싸는 VBox -->
+        <VBox spacing="20" alignment="CENTER" prefWidth="650">
+
+            <!-- The single, correctly managed overallChart -->
+            <PieChart fx:id="overallChart"
+                      prefHeight="260"
+                      prefWidth="260"
+                      animated="true"/>
+
+            <!-- 범례 -->
+            <HBox spacing="15" alignment="CENTER">
+                <VBox alignment="CENTER" spacing="10">
+                    <HBox spacing="5" alignment="CENTER_LEFT">
+                        <Rectangle width="14" height="14" fill="#53ac56" stroke="black"/>
+                        <Text text="출근"/>
+                    </HBox>
+                    <HBox spacing="5" alignment="CENTER_LEFT">
+                        <Rectangle width="14" height="14" fill="#ef9414" stroke="black"/>
+                        <Text text="지각"/>
+                    </HBox>
+                </VBox>
+                <VBox alignment="CENTER" spacing="10">
+                    <HBox spacing="5" alignment="CENTER_LEFT">
+                        <Rectangle width="14" height="14" fill="#df4136" stroke="black"/>
+                        <Text text="결근"/>
+                    </HBox>
+                    <HBox spacing="5" alignment="CENTER_LEFT">
+                        <Rectangle width="14" height="14" fill="#2196f3" stroke="black"/>
+                        <Text text="휴가"/>
+                    </HBox>
+                </VBox>
+            </HBox>
+        </VBox>
+
+        <!-- 오른쪽: 부서별 근무 차트 및 부서 선택 -->
+        <VBox spacing="15" alignment="TOP_CENTER" prefWidth="350">
+            <ComboBox fx:id="departmentComboBox"
+                      promptText="부서 선택"
+                      onAction="#handleDepartmentChange"
+                      prefWidth="150"/>
+            <PieChart fx:id="departmentChart"
+                      prefHeight="260"
+                      prefWidth="260"
+                      animated="false"/>
+        </VBox>
+    </children>
+</HBox>
