@@ -7,9 +7,7 @@ import lombok.Getter;
 
 import java.sql.*;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 public class DashboardDAO {
     @Getter
@@ -29,8 +27,26 @@ public class DashboardDAO {
         return OracleConnector.fetchData(DashboardSql.FIND_VACATION_NUM, Integer.class, id).orElse(15);
     }
 
-    public int findUsedVacationDaysByEmpId(long id) {
-        return OracleConnector.fetchData(DashboardSql.FIND_USED_VACATION_NUM, Integer.class, id).orElse(0);
+    public List<HashMap<String, String>> findUsedVacationDaysByEmpId(long id) {
+        List<HashMap<String, String>> usedVacationDaysList = new ArrayList<>();
+
+        try (Connection conn = OracleConnector.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(DashboardSql.FIND_USED_VACATION_NUM);
+        ) {
+            pstmt.setLong(1, id);
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    usedVacationDaysList.add(new HashMap<String, String>() {{
+                        put("type", rs.getString("SCHEDULE_TYPE"));
+                        put("duration", rs.getTimestamp("START_DATE").toLocalDateTime() + "," + rs.getTimestamp("END_DATE").toLocalDateTime());
+                    }});
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return usedVacationDaysList;
     }
 
     public int findAllWorkTimeByDateAndEmpId(long id) {

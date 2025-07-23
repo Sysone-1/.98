@@ -14,9 +14,13 @@ import javafx.stage.Stage;
 import lombok.Getter;
 
 import java.io.IOException;
+import java.time.DayOfWeek;
 import java.time.Duration;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class DashboardService {
@@ -61,7 +65,7 @@ public class DashboardService {
         long minutes = duration.toMinutes();
         System.out.println(minutes);
 
-        String worked = (minutes % 60 == 0) ? (hours != 0) ? (hours - 1) + "시간" : "0시간" : (hours != 0) ? (hours - 1) + "시간 " + (minutes % 60) + "분" : "0시간 " + (minutes % 60) + "분";
+        String worked = (minutes % 60 == 0) ? (hours != 0) ? (hours) + "시간" : "0시간" : (hours != 0) ? (hours) + "시간 " + (minutes % 60) + "분" : "0시간 " + (minutes % 60) + "분";
         String remaining = (hours >= 9) ? "0시간 0분" : (minutes !=  0) ? (hours != 0) ? (8 - hours) + "시간 " + (60 - ((minutes % 60))) + "분" : "7시간 " + (60 - ((minutes % 60))) + "분" : "8시간 0분";
 
         return new String[]{worked, remaining, String.valueOf(minutes)};
@@ -75,10 +79,32 @@ public class DashboardService {
     }
 
     /**
-        사용 연차 조회
+        사용 반차, 연차 조회 (공휴일 count 제외는 추후에 공공데이터API - 한국천문연구원_특일 정보 활용)
     */
-    public int getUsedVacationDays(long id) {
-        return dashboardDao.findUsedVacationDaysByEmpId(id);
+    public double getUsedVacationDays(long id) {
+        double vacationDays = 0;
+        List<HashMap<String, String>> result = dashboardDao.findUsedVacationDaysByEmpId(id);
+
+        for (HashMap<String, String> hm : result) {
+            if ("연차".equals(hm.get("type"))) {
+                String[] dates = hm.get("duration").split(",");
+
+                LocalDateTime start = LocalDateTime.parse(dates[0]);
+                LocalDateTime end = LocalDateTime.parse(dates[1]);
+
+                while (!start.isAfter(end)) {
+                    DayOfWeek dayOfWeek = start.getDayOfWeek();
+                    if (dayOfWeek != DayOfWeek.SATURDAY && dayOfWeek != DayOfWeek.SUNDAY) {
+                        vacationDays += 1;
+                    }
+                    start = start.plusDays(1);
+                }
+
+            } else if ("반차".equals(hm.get("type"))) {
+                vacationDays += 0.5;
+            }
+        }
+        return vacationDays;
     }
 
     /**
