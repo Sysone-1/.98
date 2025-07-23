@@ -22,7 +22,7 @@ public class NFCService {
     private static final NFCService instance = new NFCService();
     private static final NFCDAO nfcDao = NFCDAO.getInstance();
 
-    private NFCService() {}
+    public NFCService() {}
     private static final Logger logger = Logger.getLogger(NFCService.class.getName());
     private Card card;
     private CardChannel channel;
