@@ -107,7 +107,7 @@
                                  <children>
                                     <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="근로시간" wrappingWidth="72.5333251953125">
                                        <font>
-                                          <Font name="SansSerif Bold" size="18.0" />
+                                          <Font size="18.0" />
                                        </font>
                                     </Text>
                                  </children>
@@ -150,7 +150,7 @@
                                                 <children>
                                                    <Text fx:id="remainingWorkingHours" strokeType="OUTSIDE" strokeWidth="0.0" text="155시간 15분" translateX="20" wrappingWidth="153.33337497711182">
                                                       <font>
-                                                         <Font name="SansSerif Bold" size="18.0" />
+                                                         <Font size="18.0" />
                                                       </font>
                                                    </Text>
                                                 </children>

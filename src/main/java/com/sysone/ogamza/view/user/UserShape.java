@@ -6,6 +6,9 @@ public class UserShape {
 
     // 도형
     public static Shape getShape(String randomShape){
+        if (randomShape == null) {
+            randomShape = "하트";
+        }
 
 
         Shape shape = null;
