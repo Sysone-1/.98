@@ -13,6 +13,7 @@ import java.util.*;
  * 출결 현황, 초과근무 통계, 접근 차단 로그, 부서 목록 등을 조회하는 기능을 제공합니다.
  *
  * @author 조윤상
+ * @since 2025-07-24
  */
 public class DashboardDAO {
 

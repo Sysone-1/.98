@@ -2,7 +2,6 @@ package com.sysone.ogamza.controller.admin;
 
 import com.sysone.ogamza.dto.admin.RecordDTO;
 import com.sysone.ogamza.service.admin.AdminRecordService;
-import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -22,6 +21,7 @@ import java.time.LocalDate;
  * </p>
  *
  * @author 조윤상
+ * @since 2025-07-24
  */
 public class AdminRecordController {
 
@@ -93,16 +93,6 @@ public class AdminRecordController {
             if (event.getCode() == KeyCode.ENTER) {
                 filterData();
             }
-        });
-    }
-
-    public static void showUnauthorizedAlert() {
-        Platform.runLater(() -> {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("⚠️ 미인가 카드 접근");
-            alert.setHeaderText(null);
-            alert.setContentText("미인가 카드 접근이 감지되었습니다.");
-            alert.showAndWait();
         });
     }
 
