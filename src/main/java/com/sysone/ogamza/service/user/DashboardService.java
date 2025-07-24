@@ -4,6 +4,7 @@ import com.sysone.ogamza.controller.user.DashboardController;
 import com.sysone.ogamza.controller.user.ScheduleContentController;
 import com.sysone.ogamza.dto.user.DashboardScheduleDTO;
 import com.sysone.ogamza.dao.user.DashboardDAO;
+import com.sysone.ogamza.utils.dashboard.UsedVacationCalculator;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Cursor;
 import javafx.scene.Parent;
@@ -16,11 +17,9 @@ import javafx.stage.Stage;
 import lombok.Getter;
 
 import java.io.IOException;
-import java.time.DayOfWeek;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class DashboardService {
@@ -82,29 +81,7 @@ public class DashboardService {
         사용 반차, 연차 조회 (공휴일 count 제외는 추후에 공공데이터API - 한국천문연구원_특일 정보 활용)
     */
     public double getUsedVacationDays(long id) {
-        double vacationDays = 0;
-        List<HashMap<String, String>> result = dashboardDao.findUsedVacationDaysByEmpId(id);
-
-        for (HashMap<String, String> hm : result) {
-            if ("연차".equals(hm.get("type"))) {
-                String[] dates = hm.get("duration").split(",");
-
-                LocalDateTime start = LocalDateTime.parse(dates[0]);
-                LocalDateTime end = LocalDateTime.parse(dates[1]);
-
-                while (!start.isAfter(end)) {
-                    DayOfWeek dayOfWeek = start.getDayOfWeek();
-                    if (dayOfWeek != DayOfWeek.SATURDAY && dayOfWeek != DayOfWeek.SUNDAY) {
-                        vacationDays += 1;
-                    }
-                    start = start.plusDays(1);
-                }
-
-            } else if ("반차".equals(hm.get("type"))) {
-                vacationDays += 0.5;
-            }
-        }
-        return vacationDays;
+        return UsedVacationCalculator.compute(dashboardDao.findUsedVacationDaysByEmpId(id));
     }
 
     /**
