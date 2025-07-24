@@ -15,7 +15,7 @@
       <children>
          <VBox prefHeight="70.0" prefWidth="352.0" style="-fx-padding: 30 0 0 26;">
             <children>
-               <Text strokeType="OUTSIDE" strokeWidth="0.0" text="일정 결재">
+               <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold;" text="일정 결재">
                   <font>
                      <Font size="24.0" />
                   </font>
@@ -37,7 +37,7 @@
          </VBox>
          <VBox prefHeight="42.0" prefWidth="352.0" style="-fx-padding: 5 30 0 30;">
             <children>
-               <TextField fx:id="titleField" prefHeight="41.0" prefWidth="291.0" style="-fx-background-radius: 8; -fx-background-color: #F6FAFF; -fx-font-size: 16px;" />
+               <TextField fx:id="titleField" prefHeight="41.0" prefWidth="291.0" style="-fx-background-radius: 8; -fx-background-color: #DDE9FA; -fx-font-size: 16px;" />
             </children>
          </VBox>
          <VBox prefHeight="50.0" prefWidth="131.0" style="-fx-padding: 20 0 0 30;">
@@ -55,7 +55,7 @@
          </VBox>
          <VBox prefHeight="22.0" prefWidth="352.0" style="-fx-padding: 5 30 0 30;">
             <children>
-               <ComboBox fx:id="typeComboBox" prefHeight="22.0" prefWidth="294.0" promptText="종류를 선택하세요." style="-fx-background-radius: 8; -fx-background-color: #F6FAFF; -fx-border-radius: 8;" />
+               <ComboBox fx:id="typeComboBox" prefHeight="22.0" prefWidth="294.0" promptText="종류를 선택하세요." style="-fx-background-radius: 8; -fx-background-color: #DDE9FA; -fx-border-radius: 8;" />
             </children>
          </VBox>
          <VBox prefHeight="22.0" prefWidth="352.0" style="-fx-padding: 5 30 0 30;">
@@ -95,7 +95,7 @@
          </VBox>
          <VBox prefHeight="44.0" prefWidth="352.0" style="-fx-padding: 5 30 0 30;">
             <children>
-               <TextField fx:id="contentField" prefHeight="42.0" prefWidth="291.0" style="-fx-background-radius: 8; -fx-border-radius: 8; -fx-background-color: #F6FAFF; -fx-font-size: 16px;" />
+               <TextField fx:id="contentField" prefHeight="42.0" prefWidth="291.0" style="-fx-background-radius: 8; -fx-border-radius: 8; -fx-background-color: #DDE9FA; -fx-font-size: 16px;" />
             </children>
          </VBox>
          <HBox prefHeight="113.0" prefWidth="352.0" style="-fx-alignment: center; -fx-spacing: 30;">

@@ -15,8 +15,8 @@ public class MessageDetailController {
     private Label sendDateLabel;
     @FXML
     private TextArea contentArea;
-    @FXML
-    private Button closeButton;
+//    @FXML
+//    private Button closeButton;
 
     public void setMessageDetail(MessageDetailDTO dto) {
 
@@ -34,10 +34,10 @@ public class MessageDetailController {
         contentArea.setText(dto.getContent() != null ? dto.getContent() : "(내용 없음)");
     }
 
-    @FXML
-    private void handleClose() {
-        Stage stage = (Stage) closeButton.getScene().getWindow();
-        stage.close();
-    }
+//    @FXML
+//    private void handleClose() {
+//        Stage stage = (Stage) closeButton.getScene().getWindow();
+//        stage.close();
+//    }
 
 }

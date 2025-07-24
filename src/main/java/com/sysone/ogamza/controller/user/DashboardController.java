@@ -1,5 +1,6 @@
 package com.sysone.ogamza.controller.user;
 
+import com.sysone.ogamza.LoginUserDTO;
 import com.sysone.ogamza.Session;
 import com.sysone.ogamza.service.user.DashboardService;
 import com.sysone.ogamza.view.ArcProgress;
@@ -50,7 +51,7 @@ public class DashboardController {
     @FXML private ImageView tooltipImage;
     private static final DashboardService dashboardService = DashboardService.getInstance();
     private static final Session employeeSession = Session.getInstance();
-    public static final long empId = employeeSession.getLoginUser().getId();
+    public static long empId = 0L;
 
     /**
      * 컨트롤러 초기화 메서드.
@@ -58,6 +59,8 @@ public class DashboardController {
      */
     @FXML
     public void initialize() {
+        empId = Session.getInstance().getLoginUser().getId();
+
         loadAccessTime();
         loadLeaveTime();
         loadWorkingHours();
