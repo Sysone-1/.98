@@ -18,8 +18,11 @@
 <?import javafx.scene.chart.NumberAxis?>
 
 <ScrollPane fx:controller="com.sysone.ogamza.controller.admin.AdminDashboardController"
-            xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
-            fitToWidth="true" fitToHeight="true">
+            xmlns="http://javafx.com/javafx/8"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fitToWidth="true" fitToHeight="true" >
+
+
 
     <!-- 전체 레이아웃을 감싸는 BorderPane -->
     <BorderPane style="-fx-background-color:#F3F5F9;">

@@ -28,8 +28,14 @@
                 <Label text="검색:" />
                 <TextField fx:id="searchField" onKeyReleased="#handleSearch" prefWidth="200.0" promptText="사번 또는 이름 입력" />
 
+                <Button fx:id="addScheduleButton1" layoutX="359.0" layoutY="11.0" mnemonicParsing="false" onAction="#handleAddEmployeeClick" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: #6E9BC7; -fx-background-radius: 8; -fx-cursor: hand;" text="회원등록" textFill="WHITE">
+                    <font>
+                        <Font name="SansSerif Bold" size="18.0" />
+                    </font>
+                </Button>
+
                 <!-- 사원 등록 버튼 -->
-                <Button fx:id="addEmployeeButton" onAction="#handleAddEmployee" style="-fx-background-color: #27ae60; -fx-text-fill: white;" text="사원 등록" />
+<!--                <Button fx:id="addEmployeeButton" onAction="#handleAddEmployee" style="-fx-background-color: #27ae60; -fx-text-fill: white;" text="사원 등록" />-->
             </children>
         </HBox>
 

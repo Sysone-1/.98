@@ -6,15 +6,18 @@ import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.Window;
 
 import java.io.IOException;
 import java.net.URL;
@@ -281,116 +284,27 @@ public class EmployeeManagementController implements Initializable {
         }
     }
 
-    /**
-     * NFC 카드 등록
-     */
     @FXML
-    private void handleRegisterNfc() {
-        if (selectedEmployee == null) {
-            showAlert("알림", "사원을 먼저 선택해주세요.", Alert.AlertType.WARNING);
-            return;
-        }
-
-        String nfcUid = nfcUidField.getText().trim();
-        if (nfcUid.isEmpty()) {
-            showAlert("알림", "NFC 카드 UID를 입력해주세요.", Alert.AlertType.WARNING);
-            return;
-        }
-
-        // 확인 다이얼로그
-        Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
-        confirm.setTitle("NFC 등록 확인");
-        confirm.setHeaderText(null);
-        confirm.setContentText(
-                selectedEmployee.getEmployeeName() + " 사원에게 NFC 카드를 등록하시겠습니까?\n" +
-                        "UID: " + nfcUid
-        );
-
-        if (confirm.showAndWait().orElse(ButtonType.CANCEL) == ButtonType.OK) {
-            registerNfcCard(selectedEmployee.getEmployeeId(), nfcUid);
-        }
-    }
-
-    /**
-     * NFC 카드 등록 처리
-     */
-    private void registerNfcCard(int employeeId, String cardUid) {
-        Task<Boolean> registerTask = new Task<Boolean>() {
-            @Override
-            protected Boolean call() throws Exception {
-                return employeeDAO.updateCardUid(employeeId, cardUid);
-            }
-        };
-
-        registerTask.setOnSucceeded(e -> {
-            boolean success = registerTask.getValue();
-            Platform.runLater(() -> {
-                if (success) {
-                    showAlert("성공", "NFC 카드가 성공적으로 등록되었습니다.", Alert.AlertType.INFORMATION);
-
-                    // 선택된 사원의 정보 업데이트
-                    selectedEmployee.setCardUid(cardUid);
-                    employeeTable.refresh();
-
-                    nfcUidField.clear();
-                } else {
-                    showAlert("오류", "NFC 카드 등록에 실패했습니다.", Alert.AlertType.ERROR);
-                }
-            });
-        });
-
-        registerTask.setOnFailed(e -> {
-            Platform.runLater(() -> {
-                showAlert("오류", "시스템 오류가 발생했습니다.", Alert.AlertType.ERROR);
-            });
-        });
-
-        Thread thread = new Thread(registerTask);
-        thread.setDaemon(true);
-        thread.start();
-    }
-
-    /**
-     * 사원 등록 화면 열기
-     */
-    @FXML
-    private void handleAddEmployee() {
+    private void handleAddEmployeeClick(ActionEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/admin/EmployeeRegister.fxml"));
-            Parent root = loader.load();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/user/EmployeeRegister.fxml"));
+            Parent formRoot = loader.load();
 
-            EmployeeRegistController controller = loader.getController();
-            controller.setParentController(this);
+            Stage dialogStage = new Stage();
+            dialogStage.initModality(Modality.APPLICATION_MODAL);
+            dialogStage.setTitle("사원 등록");
 
-            Stage dialog = new Stage();
-            dialog.setTitle("사원 등록");
-            dialog.initModality(Modality.APPLICATION_MODAL);
-            dialog.initOwner(employeeTable.getScene().getWindow());
-            dialog.setScene(new Scene(root));
-            dialog.setResizable(false);
-            dialog.show();
+            Window parentWindow = ((Node) event.getSource()).getScene().getWindow();
+            dialogStage.initOwner(parentWindow);
+
+            Scene dialogScene = new Scene(formRoot);
+            dialogStage.setScene(dialogScene);
+            dialogStage.setResizable(false);
+
+            dialogStage.showAndWait();
 
         } catch (IOException e) {
             e.printStackTrace();
-            showAlert("오류", "사원 등록 창을 열 수 없습니다.", Alert.AlertType.ERROR);
         }
-    }
-
-    /**
-     * 알림 창 표시
-     */
-    private void showAlert(String title, String message, Alert.AlertType type) {
-        Alert alert = new Alert(type);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
-    }
-
-    /**
-     * 외부에서 호출되는 새로고침 메서드 (사원 등록 후 호출용)
-     */
-    public void refreshEmployeeList() {
-        handleRefresh();
     }
 }
