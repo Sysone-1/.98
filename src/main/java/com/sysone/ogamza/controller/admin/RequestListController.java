@@ -13,18 +13,11 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
-/**
- * RequestListController (승인 처리 로직 개선된 버전)
- * - 자동 창 닫기/열기 제거
- * - UI 업데이트 개선
- * - 백그라운드 처리로 UI 블로킹 방지
- * - 사용자 친화적 경험 제공
- */
+
 public class RequestListController implements Initializable {
 
     @FXML private TableView<BaseRequestDTO> requestTable;
@@ -32,11 +25,15 @@ public class RequestListController implements Initializable {
     @FXML private TableColumn<BaseRequestDTO, String> employeeNameColumn;
     @FXML private TableColumn<BaseRequestDTO, String> departmentColumn;
     @FXML private TableColumn<BaseRequestDTO, String> positionColumn;
-    @FXML private TableColumn<BaseRequestDTO, String> requestTypeColumn;
+    @FXML private TableColumn<BaseRequestDTO, String> scheduleType;
     @FXML private TableColumn<BaseRequestDTO, String> startDateColumn;
     @FXML private TableColumn<BaseRequestDTO, String> endDateColumn;
     @FXML private TableColumn<BaseRequestDTO, String> colReason;
     @FXML private TableColumn<BaseRequestDTO, String> statusColumn;
+
+    // 🔥 핵심 추가: DB 실제값 표시용 컬럼
+    @FXML private TableColumn<BaseRequestDTO, String> scheduleTypeColumn;
+
     @FXML private Button approveButton;
     @FXML private Button rejectButton;
     @FXML private Button closeButton;
@@ -72,20 +69,38 @@ public class RequestListController implements Initializable {
         loadRequestData();
     }
 
+    /**
+     * 테이블 컬럼 설정 (DB 실제값 표시 개선)
+     */
     private void setupTableColumns() {
         employeeIdColumn.setCellValueFactory(new PropertyValueFactory<>("employeeId"));
         employeeNameColumn.setCellValueFactory(new PropertyValueFactory<>("employeeName"));
         departmentColumn.setCellValueFactory(new PropertyValueFactory<>("department"));
         positionColumn.setCellValueFactory(new PropertyValueFactory<>("position"));
-        requestTypeColumn.setCellValueFactory(new PropertyValueFactory<>("requestType"));
+
+        // 🔥 수정: sType → scheduleType으로 변경
+        scheduleType.setCellValueFactory(new PropertyValueFactory<>("scheduleType"));
+
         startDateColumn.setCellValueFactory(new PropertyValueFactory<>("startDate"));
         endDateColumn.setCellValueFactory(new PropertyValueFactory<>("endDate"));
         colReason.setCellValueFactory(new PropertyValueFactory<>("content"));
+
+        // 기존 scheduleTypeColumn 설정은 그대로 유지
+        if (scheduleTypeColumn != null) {
+            scheduleTypeColumn.setCellValueFactory(cellData ->
+                    new SimpleStringProperty(cellData.getValue().getScheduleType())
+            );
+            scheduleTypeColumn.setText("상세 종류");
+        }
+
         statusColumn.setCellValueFactory(cellData ->
                 new SimpleStringProperty(cellData.getValue().getStatusString())
         );
     }
 
+    /**
+     * 요청 데이터 로드 (DB 실제값 포함)
+     */
     private void loadRequestData() {
         try {
             List<BaseRequestDTO> requests = requestService.getPendingList(currentRequestType);
@@ -94,6 +109,14 @@ public class RequestListController implements Initializable {
             updateButtonState();
 
             System.out.println(currentRequestType.getDisplayName() + " 목록 로드 완료: " + requests.size() + "건");
+
+            // 🔥 디버그: DB 실제값 출력
+            for (BaseRequestDTO req : requests) {
+                System.out.println("요청 내역: ID=" + req.getRequestId() +
+                        ", 이름=" + req.getEmployeeName() +
+                        ", 화면타입=" + req.getRequestType() +
+                        ", DB실제값=" + req.getScheduleType());
+            }
         } catch (Exception e) {
             System.err.println("요청 목록 로드 실패: " + e.getMessage());
             e.printStackTrace();
@@ -121,7 +144,7 @@ public class RequestListController implements Initializable {
     }
 
     /**
-     * 승인/거절 처리 (개선된 로직)
+     * 승인/거절 처리 (카운팅 동기화 개선)
      */
     private void processRequest(String action, int newStatus, String successTitle, String successMsg) {
         BaseRequestDTO selectedRequest = requestTable.getSelectionModel().getSelectedItem();
@@ -132,12 +155,12 @@ public class RequestListController implements Initializable {
         confirm.setTitle(action + " 확인");
         confirm.setHeaderText(null);
         confirm.setContentText(selectedRequest.getEmployeeName() + "님의 " +
-                currentRequestType.getDisplayName() + "을(를) " + action + "하시겠습니까?");
+                currentRequestType.getDisplayName() + "(" + selectedRequest.getScheduleType() + ")을(를) " +
+                action + "하시겠습니까?");
 
         if (confirm.showAndWait().orElse(ButtonType.CANCEL) == ButtonType.OK) {
-
             // 백그라운드 스레드에서 DB 처리
-            Task<Boolean> updateTask = new Task<Boolean>() {
+            Task<Boolean> updateTask = new Task<>() {
                 @Override
                 protected Boolean call() throws Exception {
                     // DB 상태 업데이트 (트랜잭션 포함)
@@ -148,9 +171,11 @@ public class RequestListController implements Initializable {
                     );
 
                     if (success) {
-                        System.out.println("DB 업데이트 성공 - " + action + ": ID=" + selectedRequest.getRequestId());
+                        System.out.println("DB 업데이트 성공 - " + action + ": ID=" +
+                                selectedRequest.getRequestId() + ", 실제값=" + selectedRequest.getScheduleType());
                     } else {
-                        System.err.println("DB 업데이트 실패 - " + action + ": ID=" + selectedRequest.getRequestId());
+                        System.err.println("DB 업데이트 실패 - " + action + ": ID=" +
+                                selectedRequest.getRequestId());
                     }
 
                     return success;
@@ -161,7 +186,7 @@ public class RequestListController implements Initializable {
                 Boolean success = updateTask.getValue();
                 Platform.runLater(() -> {
                     if (success) {
-                        // UI에서 처리된 항목 제거
+                        // 🔥 핵심: UI에서 처리된 항목 즉시 제거 (카운팅 동기화)
                         requestData.remove(selectedRequest);
                         updateButtonState();
 
@@ -170,13 +195,11 @@ public class RequestListController implements Initializable {
                         success_alert.setTitle(successTitle);
                         success_alert.setHeaderText(null);
                         success_alert.setContentText(selectedRequest.getEmployeeName() + "님의 " +
-                                currentRequestType.getDisplayName() + "이(가) " + successMsg);
+                                currentRequestType.getDisplayName() + "(" + selectedRequest.getScheduleType() + ")이(가) " + successMsg);
                         success_alert.showAndWait();
 
-                        System.out.println("UI 업데이트 완료 - " + action + " 처리됨");
+                        System.out.println("✅ UI 업데이트 완료 - " + action + " 처리됨 (실시간 카운팅 반영)");
 
-                        // ✅ 중요: 창을 자동으로 닫지 않음 (사용자가 수동으로 닫도록)
-                        // ✅ 중요: 결재완료 창을 자동으로 열지 않음 (사용자가 필요시 접근)
 
                     } else {
                         // 실패 메시지

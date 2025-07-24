@@ -22,7 +22,7 @@
                 <TableColumn fx:id="employeeNameColumn" prefWidth="100.0" text="이름"/>
                 <TableColumn fx:id="departmentColumn" prefWidth="100.0" text="부서"/>
                 <TableColumn fx:id="positionColumn" prefWidth="80.0" text="직급"/>
-                <TableColumn fx:id="requestTypeColumn" prefWidth="80.0" text="종류"/>
+                <TableColumn fx:id="scheduleType" prefWidth="80.0" text="종류"/>
                 <TableColumn fx:id="startDateColumn" prefWidth="100.0" text="시작일"/>
                 <TableColumn fx:id="endDateColumn" prefWidth="100.0" text="종료일"/>
                 <TableColumn fx:id="statusColumn" prefWidth="80.0" text="상태"/>

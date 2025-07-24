@@ -37,33 +37,77 @@ public class AttendanceStatsDAO {
         String sql = """
             SELECT
                 COUNT(DISTINCT E.ID) AS total_cnt,
-                SUM(CASE WHEN A.ATTENDANCE_STATUS = '출근' THEN 1 ELSE 0 END) AS attendance_cnt,
-                SUM(CASE WHEN A.ATTENDANCE_STATUS = '지각' THEN 1 ELSE 0 END) AS late_cnt,
-                SUM(CASE WHEN A.ATTENDANCE_STATUS = '결근' THEN 1 ELSE 0 END) AS absent_cnt,
-                SUM(CASE WHEN A.ATTENDANCE_STATUS = '휴가' THEN 1 ELSE 0 END) AS vacation_cnt
+                SUM(
+                  CASE
+                    WHEN sch.emp_id IS NOT NULL THEN 0
+                    WHEN t.first_access IS NOT NULL
+                     AND t.first_access < TO_DATE(TO_CHAR(SYSDATE,'YYYYMMDD')||'090000','YYYYMMDDHH24MISS')
+                      THEN 1 ELSE 0
+                  END
+                ) AS attendance_cnt,  -- 09:00 이전 출근
+                SUM(
+                  CASE
+                    WHEN sch.emp_id IS NOT NULL THEN 0
+                    WHEN t.first_access IS NOT NULL
+                     AND t.first_access >= TO_DATE(TO_CHAR(SYSDATE,'YYYYMMDD')||'090000','YYYYMMDDHH24MISS')
+                     AND t.first_access < TO_DATE(TO_CHAR(SYSDATE,'YYYYMMDD')||'140000','YYYYMMDDHH24MISS')
+                      THEN 1 ELSE 0
+                  END
+                ) AS late_cnt,        -- 09~14시 지각
+                SUM(
+                  CASE
+                    WHEN sch.emp_id IS NOT NULL THEN 0
+                    WHEN t.first_access IS NULL
+                     OR t.first_access >= TO_DATE(TO_CHAR(SYSDATE,'YYYYMMDD')||'140000','YYYYMMDDHH24MISS')
+                      THEN 1 ELSE 0
+                  END
+                ) AS absent_cnt,      -- 결근
+                SUM(
+                  CASE
+                    WHEN sch.emp_id IS NOT NULL THEN 1 ELSE 0
+                  END
+                ) AS vacation_cnt     -- 휴가
             FROM EMPLOYEE E
             JOIN DEPARTMENT D ON E.DEPARTMENT_ID = D.ID
-            LEFT JOIN ATTENDANCE A ON A.EMPLOYEE_ID = E.ID
-                AND A.ATTENDANCE_DATE = TRUNC(SYSDATE)
+            -- 당일 휴가 여부 확인
+            LEFT JOIN (
+                SELECT EMPLOYEE_ID AS emp_id
+                FROM SCHEDULE
+                WHERE TRUNC(SYSDATE) BETWEEN TRUNC(START_DATE) AND TRUNC(END_DATE)
+                GROUP BY EMPLOYEE_ID
+            ) sch ON E.ID = sch.emp_id
+            -- 당일 최초 태깅 시각
+            LEFT JOIN (
+                SELECT EMPLOYEE_ID,
+                       MIN(ACCESS_TIME) AS first_access
+                FROM ACCESS_LOG
+                WHERE TRUNC(ACCESS_TIME) = TRUNC(SYSDATE)
+                GROUP BY EMPLOYEE_ID
+            ) t ON E.ID = t.EMPLOYEE_ID
             WHERE E.IS_DELETED = 0
-                AND (? = '전체' OR D.NAME = ?)
-            """;
+              AND (? = '전체' OR D.NAME = ?)
+        """;
 
         try (Connection conn = OracleConnector.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
+            // 바인드 변수 설정: 두 개의 ? 모두 부서명으로 바인딩
             stmt.setString(1, departmentName);
             stmt.setString(2, departmentName);
 
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
-                    return new int[]{
-                            rs.getInt("total_cnt"),
-                            rs.getInt("attendance_cnt"),    // 출근
-                            rs.getInt("late_cnt"),          // 지각
-                            rs.getInt("absent_cnt"),        // 결근
-                            rs.getInt("vacation_cnt")       // 휴가 (데이터에는 없지만 로직 유지)
-                    };
+                    int total      = rs.getInt("total_cnt");
+                    int onTime     = rs.getInt("attendance_cnt");
+                    int late       = rs.getInt("late_cnt");
+                    int absent     = rs.getInt("absent_cnt");
+                    int vacation   = rs.getInt("vacation_cnt");
+
+                    // 디버그 로그 (원할 경우 활성화)
+                    System.out.printf("fetchTodayStatsByDept [%s] → total=%d, onTime=%d, late=%d, absent=%d, vacation=%d%n",
+                            departmentName, total, onTime, late, absent, vacation);
+
+                    return new int[]{ total, onTime, late, absent, vacation };
                 }
             }
         } catch (SQLException e) {
@@ -71,53 +115,10 @@ public class AttendanceStatsDAO {
             e.printStackTrace();
         }
 
+        // 기본값 반환
         return new int[]{0, 0, 0, 0, 0};
     }
 
-    /**
-     * 주간 통계 조회 (추가된 기능)
-     * @param departmentName 부서명
-     * @return int[] 지난 7일간 통계
-     */
-    public int[] fetchWeeklyStatsByDept(String departmentName) {
-        String sql = """
-            SELECT
-                COUNT(DISTINCT E.ID) AS total_cnt,
-                SUM(CASE WHEN A.ATTENDANCE_STATUS = '출근' THEN 1 ELSE 0 END) AS attendance_cnt,
-                SUM(CASE WHEN A.ATTENDANCE_STATUS = '지각' THEN 1 ELSE 0 END) AS late_cnt,
-                SUM(CASE WHEN A.ATTENDANCE_STATUS = '결근' THEN 1 ELSE 0 END) AS absent_cnt,
-                SUM(CASE WHEN A.ATTENDANCE_STATUS = '휴가' THEN 1 ELSE 0 END) AS vacation_cnt
-            FROM EMPLOYEE E
-            JOIN DEPARTMENT D ON E.DEPARTMENT_ID = D.ID
-            LEFT JOIN ATTENDANCE A ON A.EMPLOYEE_ID = E.ID
-                AND A.ATTENDANCE_DATE >= TRUNC(SYSDATE) - 7
-            WHERE E.IS_DELETED = 0
-                AND (? = '전체' OR D.NAME = ?)
-            """;
-
-        try (Connection conn = OracleConnector.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-
-            stmt.setString(1, departmentName);
-            stmt.setString(2, departmentName);
-
-            try (ResultSet rs = stmt.executeQuery()) {
-                if (rs.next()) {
-                    return new int[]{
-                            rs.getInt("total_cnt"),
-                            rs.getInt("attendance_cnt"),
-                            rs.getInt("late_cnt"),
-                            rs.getInt("absent_cnt"),
-                            rs.getInt("vacation_cnt")
-                    };
-                }
-            }
-        } catch (SQLException e) {
-            System.err.println("주간 통계 조회 오류: " + e.getMessage());
-        }
-
-        return new int[]{0, 0, 0, 0, 0};
-    }
 
     /**
      * 모든 부서 목록 조회 (기존과 동일)
@@ -139,52 +140,5 @@ public class AttendanceStatsDAO {
         }
 
         return departments;
-    }
-
-    /**
-     * 특정 날짜의 통계 조회 (추가된 기능)
-     * @param date 조회할 날짜 (YYYY-MM-DD 형식)
-     * @param departmentName 부서명
-     * @return int[] 해당 날짜의 통계
-     */
-    public int[] fetchStatsByDate(String date, String departmentName) {
-        String sql = """
-            SELECT
-                COUNT(DISTINCT E.ID) AS total_cnt,
-                SUM(CASE WHEN A.ATTENDANCE_STATUS = '출근' THEN 1 ELSE 0 END) AS attendance_cnt,
-                SUM(CASE WHEN A.ATTENDANCE_STATUS = '지각' THEN 1 ELSE 0 END) AS late_cnt,
-                SUM(CASE WHEN A.ATTENDANCE_STATUS = '결근' THEN 1 ELSE 0 END) AS absent_cnt,
-                SUM(CASE WHEN A.ATTENDANCE_STATUS = '휴가' THEN 1 ELSE 0 END) AS vacation_cnt
-            FROM EMPLOYEE E
-            JOIN DEPARTMENT D ON E.DEPARTMENT_ID = D.ID
-            LEFT JOIN ATTENDANCE A ON A.EMPLOYEE_ID = E.ID
-                AND A.ATTENDANCE_DATE = TO_DATE(?, 'YYYY-MM-DD')
-            WHERE E.IS_DELETED = 0
-                AND (? = '전체' OR D.NAME = ?)
-            """;
-
-        try (Connection conn = OracleConnector.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-
-            stmt.setString(1, date);
-            stmt.setString(2, departmentName);
-            stmt.setString(3, departmentName);
-
-            try (ResultSet rs = stmt.executeQuery()) {
-                if (rs.next()) {
-                    return new int[]{
-                            rs.getInt("total_cnt"),
-                            rs.getInt("attendance_cnt"),
-                            rs.getInt("late_cnt"),
-                            rs.getInt("absent_cnt"),
-                            rs.getInt("vacation_cnt")
-                    };
-                }
-            }
-        } catch (SQLException e) {
-            System.err.println("날짜별 통계 조회 오류: " + e.getMessage());
-        }
-
-        return new int[]{0, 0, 0, 0, 0};
     }
 }

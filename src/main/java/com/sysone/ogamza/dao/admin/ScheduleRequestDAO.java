@@ -34,7 +34,7 @@ public class ScheduleRequestDAO {
 
     /**
      * 승인·기각된 모든 요청 목록 조회 (결재 완료 창용)
-     * DB 타입을 화면 표시용으로 매핑
+     * DB 실제 타입을 그대로 표시하도록 수정
      */
     public List<BaseRequestDTO> getAllCompletedList() {
         String sql = """
@@ -47,7 +47,7 @@ public class ScheduleRequestDAO {
                 TO_CHAR(S.APPROVAL_DATE,'YYYY-MM-DD') AS approval_date,
                 TO_CHAR(S.START_DATE,'YYYY-MM-DD') AS start_date,
                 TO_CHAR(S.END_DATE,'YYYY-MM-DD') AS end_date,
-                S.SCHEDULE_TYPE AS original_type,
+                S.SCHEDULE_TYPE AS schedule_type,
                 S.TITLE AS title,
                 S.CONTENT AS content,
                 S.IS_GRANTED AS is_granted
@@ -65,13 +65,8 @@ public class ScheduleRequestDAO {
              ResultSet rs = stmt.executeQuery()) {
 
             while (rs.next()) {
-                // DB 값을 화면 표시용으로 매핑
-                String originalType = rs.getString("original_type");
-                String displayType = mapToDisplayType(originalType);
-
-                // 원본 타입 정보를 content에 포함
-                String content = "[" + originalType + "] " +
-                        (rs.getString("content") != null ? rs.getString("content") : "");
+                String scheduleType = rs.getString("schedule_type");
+                String displayType = mapToDisplayType(scheduleType);
 
                 list.add(new BaseRequestDTO(
                         rs.getInt("request_id"),
@@ -82,9 +77,10 @@ public class ScheduleRequestDAO {
                         rs.getString("approval_date"),
                         rs.getString("start_date"),
                         rs.getString("end_date"),
-                        displayType, // 매핑된 표시 타입
-                        rs.getString("title"),
-                        content, // 원본 타입 포함한 내용
+                        displayType, // 화면 표시용 매핑된 타입
+                        scheduleType, // DB 실제값 (새로 추가)
+                        rs.getString("title") != null ? rs.getString("title") : "",
+                        rs.getString("content") != null ? rs.getString("content") : "",
                         rs.getInt("is_granted")
                 ));
             }
@@ -99,7 +95,7 @@ public class ScheduleRequestDAO {
      */
     private String mapToDisplayType(String dbType) {
         return switch (dbType) {
-            case "연장 근무" -> "출퇴근 변경신청";
+            case "연장 근무" -> "출퇴근변경";
             case "휴일", "연차", "반차" -> "휴가";
             case "외근" -> "출장";
             default -> dbType; // 알 수 없는 타입은 그대로 표시
@@ -107,20 +103,29 @@ public class ScheduleRequestDAO {
     }
 
     /**
-     * 특정 SCHEDULE_TYPE의 대기중 건수를 조회
+     * 특정 SCHEDULE_TYPE들의 대기중 건수를 조회 (배열 지원)
      */
-    public int getPendingCount(String requestType) {
-        String sql = """
-            SELECT COUNT(*)
-            FROM SCHEDULE
-            WHERE SCHEDULE_TYPE = ?
-            AND IS_GRANTED = 0
-            """;
+    public int getPendingCountByTypes(String[] scheduleTypes) {
+        if (scheduleTypes == null || scheduleTypes.length == 0) {
+            return 0;
+        }
+
+        StringBuilder sql = new StringBuilder("SELECT COUNT(*) FROM SCHEDULE WHERE SCHEDULE_TYPE IN (");
+        for (int i = 0; i < scheduleTypes.length; i++) {
+            sql.append("?");
+            if (i < scheduleTypes.length - 1) {
+                sql.append(",");
+            }
+        }
+        sql.append(") AND IS_GRANTED = 0");
 
         try (Connection conn = OracleConnector.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+             PreparedStatement stmt = conn.prepareStatement(sql.toString())) {
 
-            stmt.setString(1, requestType);
+            for (int i = 0; i < scheduleTypes.length; i++) {
+                stmt.setString(i + 1, scheduleTypes[i]);
+            }
+
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
                     return rs.getInt(1);
@@ -133,12 +138,13 @@ public class ScheduleRequestDAO {
     }
 
     /**
-     * 요청 상태를 업데이트 (승인 or 기각)
+     * 요청 상태를 업데이트 (승인 or 거절)
+     * 트랜잭션 처리 추가
      */
-    public void updateStatus(int requestId, String newStatus) {
+    public boolean updateStatus(int requestId, String newStatus) {
         String sql = """
             UPDATE SCHEDULE
-            SET IS_GRANTED = CASE 
+            SET IS_GRANTED = CASE
                 WHEN ? = '승인' THEN 1
                 WHEN ? = '거절' THEN 2
                 ELSE IS_GRANTED
@@ -147,19 +153,47 @@ public class ScheduleRequestDAO {
             WHERE ID = ?
             """;
 
-        try (Connection conn = OracleConnector.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+        Connection conn = null;
+        try {
+            conn = OracleConnector.getConnection();
+            conn.setAutoCommit(false); // 트랜잭션 시작
 
-            stmt.setString(1, newStatus);
-            stmt.setString(2, newStatus);
-            stmt.setInt(3, requestId);
+            try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+                stmt.setString(1, newStatus);
+                stmt.setString(2, newStatus);
+                stmt.setInt(3, requestId);
 
-            int updated = stmt.executeUpdate();
-            System.out.println("통합 승인 상태 업데이트: " + updated + "건 처리됨");
+                int updated = stmt.executeUpdate();
 
+                if (updated > 0) {
+                    conn.commit(); // 성공시 커밋
+                    System.out.println("통합 승인 상태 업데이트 성공: " + updated + "건 처리됨 (ID: " + requestId + ", 상태: " + newStatus + ")");
+                    return true;
+                } else {
+                    conn.rollback(); // 실패시 롤백
+                    System.out.println("업데이트할 레코드가 없습니다. (ID: " + requestId + ")");
+                    return false;
+                }
+            }
         } catch (SQLException e) {
+            if (conn != null) {
+                try {
+                    conn.rollback();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
             e.printStackTrace();
             throw new RuntimeException("승인 상태 업데이트 실패", e);
+        } finally {
+            if (conn != null) {
+                try {
+                    conn.setAutoCommit(true); // 자동 커밋 복원
+                    conn.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 }

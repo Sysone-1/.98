@@ -19,9 +19,9 @@ import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
-
 import java.io.IOException;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.concurrent.Executors;
@@ -29,13 +29,11 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 /**
- * AdminHomeController (완전 개선된 버전)
- * - 실시간 데이터 동기화 완료
- * - 부서별 필터링 시 일관된 색상 유지
- * - 승인 처리 후 자동 새로고침
- * - 예외 처리 및 로깅 강화
- * - 자동 새로고침 기능 추가
- * - 상태별 고정 색상 적용 완료
+ * AdminHomeController (DB 실제값 표시 및 카운팅 동기화 개선 버전)
+ * - DB 실제 SCHEDULE_TYPE 값 표시 지원
+ * - 승인/거절 시 카운팅 실시간 동기화 개선
+ * - 근무자별 일일 출근내역 및 파이차트 로직은 기존 유지
+ * - 부서별 필터링 시각화 로직 기존 유지
  */
 public class AdminHomeController implements Initializable {
 
@@ -45,14 +43,14 @@ public class AdminHomeController implements Initializable {
     @FXML private Text outworkCountText;
     @FXML private Text completedCountText;
 
-    // =============== 근태 현황 ===============
+    // =============== 근태 현황 (기존 로직 유지) ===============
     @FXML private Text txtTotal;
-    @FXML private Text txtPresent;      // 출근 표시용 (기존 필드명 유지)
-    @FXML private Text txtLate;         // 지각
-    @FXML private Text txtBusiness;     // 결근 표시용 (기존 필드명 유지)
-    @FXML private Text txtVacation;     // 휴가
+    @FXML private Text txtPresent; // 출근 표시용 (기존 필드명 유지)
+    @FXML private Text txtLate; // 지각
+    @FXML private Text txtBusiness; // 결근 표시용 (기존 필드명 유지)
+    @FXML private Text txtVacation; // 휴가
 
-    // =============== 차트/부서별 영역 ===============
+    // =============== 차트/부서별 영역 (기존 로직 유지) ===============
     @FXML private PieChart overallChart;
     @FXML private PieChart departmentChart;
     @FXML private ComboBox<String> departmentComboBox;
@@ -79,7 +77,7 @@ public class AdminHomeController implements Initializable {
     }
 
     /**
-     * 자동 새로고침 설정 (개선된 기능)
+     * 자동 새로고침 설정 (기존 유지)
      */
     private void setupAutoRefresh() {
         scheduler = Executors.newScheduledThreadPool(1);
@@ -89,20 +87,20 @@ public class AdminHomeController implements Initializable {
     }
 
     /**
-     * 전체 데이터 새로고침 (개선된 버전)
+     * 전체 데이터 새로고침 (승인 카운팅 동기화 개선)
      */
     public void refreshAllData() {
         // 백그라운드 스레드에서 데이터 조회
-        Task<Void> refreshTask = new Task<Void>() {
+        Task<Void> refreshTask = new Task<>() {
             @Override
             protected Void call() throws Exception {
                 try {
                     // UI 스레드에서 업데이트
                     Platform.runLater(() -> {
-                        updateAllCounts();
-                        loadHomeStats();
-                        handleDepartmentChange(); // 현재 선택된 부서 기준으로 차트 업데이트
-                        System.out.println("관리자 홈 데이터 새로고침 완료");
+                        updateAllCounts(); // 승인 관리 카운트 개선
+                        loadHomeStats(); // 기존 근태 현황 로직 유지
+                        handleDepartmentChange(); // 기존 부서별 차트 로직 유지
+                        System.out.println("관리자 홈 데이터 새로고침 완료 (DB 실제값 반영)");
                     });
                 } catch (Exception e) {
                     System.err.println("데이터 새로고침 오류: " + e.getMessage());
@@ -111,13 +109,12 @@ public class AdminHomeController implements Initializable {
                 return null;
             }
         };
-
         Thread thread = new Thread(refreshTask);
         thread.setDaemon(true);
         thread.start();
     }
 
-    // ========================= 부서 필터링 및 통계 (개선됨) =========================
+    // ========================= 부서 필터링 및 통계 (기존 로직 완전 유지) =========================
     private void setupDepartmentFilter() {
         try {
             List<String> departments = statsService.getAllDepartments();
@@ -144,7 +141,7 @@ public class AdminHomeController implements Initializable {
                     ? statsService.getTodayStats()
                     : statsService.getTodayStatsByDept(departmentName);
 
-            // 차트 업데이트 (개선된 로직)
+            // 차트 업데이트 (기존 로직 완전 유지)
             updateDepartmentChart(stats, departmentName);
         } catch (Exception e) {
             System.err.println("부서별 통계 로드 실패: " + e.getMessage());
@@ -155,7 +152,7 @@ public class AdminHomeController implements Initializable {
     }
 
     /**
-     * 부서별 차트 업데이트 (색상 고정 로직 통합)
+     * 부서별 차트 업데이트 (기존 로직 완전 유지)
      */
     private void updateDepartmentChart(int[] stats, String deptName) {
         Platform.runLater(() -> {
@@ -165,11 +162,10 @@ public class AdminHomeController implements Initializable {
 
                 // 0이 아닌 데이터만 추가하여 차트가 보이도록 함
                 ObservableList<PieChart.Data> chartData = FXCollections.observableArrayList();
-
-                if (stats[1] > 0) chartData.add(new PieChart.Data("출근", stats[1]));       // 출근 (기존 정시출근)
-                if (stats[2] > 0) chartData.add(new PieChart.Data("지각", stats[2]));       // 지각
-                if (stats[3] > 0) chartData.add(new PieChart.Data("결근", stats[3]));       // 결근 (기존 출장)
-                if (stats[4] > 0) chartData.add(new PieChart.Data("휴가", stats[4]));       // 휴가 (로직 유지)
+                if (stats[1] > 0) chartData.add(new PieChart.Data("출근", stats[1])); // 출근
+                if (stats[2] > 0) chartData.add(new PieChart.Data("지각", stats[2])); // 지각
+                if (stats[3] > 0) chartData.add(new PieChart.Data("결근", stats[3])); // 결근
+                if (stats[4] > 0) chartData.add(new PieChart.Data("휴가", stats[4])); // 휴가
 
                 // 데이터가 있을 때만 차트 설정
                 if (!chartData.isEmpty()) {
@@ -178,7 +174,6 @@ public class AdminHomeController implements Initializable {
                             ? "전체 부서 (" + stats[0] + "명)"
                             : deptName + " 부서 (" + stats[0] + "명)";
                     departmentChart.setTitle(title);
-
                     overallChart.setLegendVisible(false);
                     departmentChart.setLegendVisible(false);
 
@@ -186,13 +181,14 @@ public class AdminHomeController implements Initializable {
                     departmentChart.setVisible(true);
                     departmentChart.setManaged(true);
 
-                    // 고정 색상 적용 (핵심!)
+                    // 고정 색상 적용 (기존 로직 유지)
                     applyFixedStatusColors(departmentChart);
                 } else {
                     // 데이터가 없을 때는 빈 차트 표시
                     departmentChart.setTitle(deptName + " 부서 (출근 기록 없음)");
                     chartData.add(new PieChart.Data("출근 기록 없음", 1));
                     departmentChart.setData(chartData);
+
                     // 기록 없음 항목에는 회색 적용
                     Platform.runLater(() -> {
                         for (PieChart.Data data : departmentChart.getData()) {
@@ -206,7 +202,6 @@ public class AdminHomeController implements Initializable {
                 System.out.println("부서별 차트 업데이트 완료: " + deptName +
                         " [총원:" + stats[0] + ", 출근:" + stats[1] + ", 지각:" + stats[2] +
                         ", 결근:" + stats[3] + ", 휴가:" + stats[4] + "]");
-
             } catch (Exception e) {
                 System.err.println("부서별 차트 업데이트 오류: " + e.getMessage());
                 e.printStackTrace();
@@ -214,29 +209,29 @@ public class AdminHomeController implements Initializable {
         });
     }
 
-    // ========================= 메인/전체 통계 (개선됨) =========================
+    // ========================= 메인/전체 통계 (기존 로직 완전 유지) =========================
     private void loadHomeStats() {
+//        System.out.println(">> loadHomeStats 시작");
         try {
             int[] stats = statsService.getTodayStats();
             Platform.runLater(() -> {
-                // 텍스트 업데이트 (라벨 변경됨)
+                // 텍스트 업데이트 (기존 로직 유지)
                 if (txtTotal != null) txtTotal.setText("총원: " + stats[0] + "명");
-                if (txtPresent != null) txtPresent.setText("출근: " + stats[1] + "명");      // 기존 정시출근 → 출근
+                if (txtPresent != null) txtPresent.setText("출근: " + stats[1] + "명");
                 if (txtLate != null) txtLate.setText("지각: " + stats[2] + "명");
-                if (txtBusiness != null) txtBusiness.setText("결근: " + stats[3] + "명");    // 기존 출장 → 결근
-                if (txtVacation != null) txtVacation.setText("휴가: " + stats[4] + "명");    // 휴가 유지
+                if (txtBusiness != null) txtBusiness.setText("결근: " + stats[3] + "명");
+                if (txtVacation != null) txtVacation.setText("휴가: " + stats[4] + "명");
 
-                // 전체 차트 업데이트
+                // 전체 차트 업데이트 (기존 로직 유지)
                 updateOverallChart(stats);
             });
-
             System.out.println("근태 현황 로드 완료: " +
                     "[총원:" + stats[0] + ", 출근:" + stats[1] + ", 지각:" + stats[2] +
                     ", 결근:" + stats[3] + ", 휴가:" + stats[4] + "]");
+//            System.out.println(">>loadHomeStats 완료" + Arrays.toString(stats));
         } catch (Exception e) {
             System.err.println("근태 현황 로드 실패: " + e.getMessage());
             e.printStackTrace();
-
             // 오류 시 기본값 설정
             Platform.runLater(() -> {
                 if (txtTotal != null) txtTotal.setText("총원: 0명");
@@ -249,7 +244,7 @@ public class AdminHomeController implements Initializable {
     }
 
     /**
-     * 전체 차트 업데이트 (색상 고정 로직 통합)
+     * 전체 차트 업데이트 (기존 로직 완전 유지)
      */
     private void updateOverallChart(int[] stats) {
         Platform.runLater(() -> {
@@ -259,11 +254,10 @@ public class AdminHomeController implements Initializable {
 
                 // 0이 아닌 데이터만 추가
                 ObservableList<PieChart.Data> chartData = FXCollections.observableArrayList();
-
-                if (stats[1] > 0) chartData.add(new PieChart.Data("출근", stats[1]));       // 출근
-                if (stats[2] > 0) chartData.add(new PieChart.Data("지각", stats[2]));       // 지각
-                if (stats[3] > 0) chartData.add(new PieChart.Data("결근", stats[3]));       // 결근
-                if (stats[4] > 0) chartData.add(new PieChart.Data("휴가", stats[4]));       // 휴가
+                if (stats[1] > 0) chartData.add(new PieChart.Data("출근", stats[1])); // 출근
+                if (stats[2] > 0) chartData.add(new PieChart.Data("지각", stats[2])); // 지각
+                if (stats[3] > 0) chartData.add(new PieChart.Data("결근", stats[3])); // 결근
+                if (stats[4] > 0) chartData.add(new PieChart.Data("휴가", stats[4])); // 휴가
 
                 if (!chartData.isEmpty()) {
                     overallChart.setData(chartData);
@@ -271,18 +265,19 @@ public class AdminHomeController implements Initializable {
                     overallChart.setVisible(true);
                     overallChart.setManaged(true);
 
-                    // 고정 색상 적용 (핵심!)
+                    // 고정 색상 적용 (기존 로직 유지)
                     applyFixedStatusColors(overallChart);
                 } else {
                     // 데이터가 없을 때 처리
                     overallChart.setTitle("전체 근무 현황 (출근 기록 없음)");
                     chartData.add(new PieChart.Data("출근 기록 없음", 1));
                     overallChart.setData(chartData);
+
                     // 기록 없음 항목에는 회색 적용
                     Platform.runLater(() -> {
                         for (PieChart.Data data : overallChart.getData()) {
                             if (data.getNode() != null) {
-                                data.getNode().setStyle("-fx-pie-color:");
+                                data.getNode().setStyle("-fx-pie-color: #CCCCCC;");
                             }
                         }
                     });
@@ -295,31 +290,29 @@ public class AdminHomeController implements Initializable {
     }
 
     /**
-     * 부서별 필터링과 관계없이 상태별로 고정 색상을 적용하는 메서드 (핵심!)
-     * @param chart 색상을 적용할 PieChart 객체
+     * 부서별 필터링과 관계없이 상태별로 고정 색상을 적용하는 메서드 (기존 로직 완전 유지)
      */
     private void applyFixedStatusColors(PieChart chart) {
         Platform.runLater(() -> {
             try {
                 for (PieChart.Data data : chart.getData()) {
                     String statusColor;
-
                     // 상태별 고정 색상 매핑
                     switch (data.getName()) {
                         case "출근":
-                            statusColor = "#4CAF50";  // 초록색
+                            statusColor = "#4CAF50"; // 초록색
                             break;
                         case "지각":
-                            statusColor = "#FF9800";  // 주황색
+                            statusColor = "#FF9800"; // 주황색
                             break;
                         case "결근":
-                            statusColor = "#F44336";  // 빨간색
+                            statusColor = "#F44336"; // 빨간색
                             break;
                         case "휴가":
-                            statusColor = "#9C27B0";  // 보라색
+                            statusColor = "#2196f3"; // 파란색
                             break;
                         default:
-                            statusColor = "#CCCCCC";  // 기본 회색
+                            statusColor = "#CCCCCC"; // 기본 회색
                             break;
                     }
 
@@ -343,28 +336,53 @@ public class AdminHomeController implements Initializable {
         });
     }
 
-    // ========================= 기존 승인관리 기능 (개선됨) =========================
+    // ========================= 승인관리 기능 (DB 실제값 표시 및 카운팅 동기화 개선) =========================
+
+    /**
+     * 승인 관리 카운트 업데이트 (실시간 동기화 개선)
+     */
     private void updateAllCounts() {
         try {
             Platform.runLater(() -> {
                 try {
                     if (vacationCountText != null) {
-                        int vacationCount = requestService.getPendingCount(RequestType.VACATION);
+                        int vacationCount = requestService.getPendingCount(RequestType.ANNUAL);
                         vacationCountText.setText(String.valueOf(vacationCount));
+                        System.out.println("휴가 대기 건수: " + vacationCount);
                     }
+
+                    if (vacationCountText != null) {
+                        int vacationCount = requestService.getPendingCount(RequestType.HALFDAY);
+                        vacationCountText.setText(String.valueOf(vacationCount));
+                        System.out.println("휴가 대기 건수: " + vacationCount);
+                    }
+
                     if (clockChangeCountText != null) {
-                        int clockCount = requestService.getPendingCount(RequestType.CLOCK_CHANGE);
+                        int clockCount = requestService.getPendingCount(RequestType.OVERTIME);
                         clockChangeCountText.setText(String.valueOf(clockCount));
+                        System.out.println("출퇴근변경 대기 건수: " + clockCount);
                     }
+
+                    if (clockChangeCountText != null) {
+                        int clockCount = requestService.getPendingCount(RequestType.HOLIDAY);
+                        clockChangeCountText.setText(String.valueOf(clockCount));
+                        System.out.println("출퇴근변경 대기 건수: " + clockCount);
+                    }
+
+
                     if (outworkCountText != null) {
-                        int outworkCount = requestService.getPendingCount(RequestType.OUTWORK);
+                        int outworkCount = requestService.getPendingCount(RequestType.FIELDWORK);
                         outworkCountText.setText(String.valueOf(outworkCount));
+                        System.out.println("출장 대기 건수: " + outworkCount);
                     }
+
                     if (completedCountText != null) {
                         int completedCount = requestService.getAllCompletedCount();
                         completedCountText.setText(String.valueOf(completedCount));
+                        System.out.println("전체 완료 건수: " + completedCount);
                     }
-                    System.out.println("승인 관리 카운트 업데이트 완료");
+
+                    System.out.println("✅ 승인 관리 카운트 업데이트 완료 (DB 실제값 반영)");
                 } catch (Exception e) {
                     System.err.println("UI 업데이트 오류: " + e.getMessage());
                 }
@@ -376,9 +394,9 @@ public class AdminHomeController implements Initializable {
     }
 
     private void setupClickEvents() {
-        bindIfNotNull(vacationCountText, RequestType.VACATION);
-        bindIfNotNull(clockChangeCountText, RequestType.CLOCK_CHANGE);
-        bindIfNotNull(outworkCountText, RequestType.OUTWORK);
+        bindIfNotNull(vacationCountText, RequestType.ANNUAL);
+        bindIfNotNull(clockChangeCountText, RequestType.OVERTIME);
+        bindIfNotNull(outworkCountText, RequestType.FIELDWORK);
 
         if (completedCountText != null) {
             completedCountText.setOnMouseClicked(e -> openCompletedRequestList());
@@ -402,6 +420,7 @@ public class AdminHomeController implements Initializable {
             URL fxmlUrl = getClass().getResource("/fxml/admin/RequestList.fxml");
             FXMLLoader loader = new FXMLLoader(fxmlUrl);
             Parent root = loader.load();
+
             RequestListController controller = loader.getController();
             controller.setRequestType(requestType);
 
@@ -412,10 +431,10 @@ public class AdminHomeController implements Initializable {
             dialog.setScene(new Scene(root));
             dialog.setResizable(false);
 
-            // 창 닫힐 때 데이터 새로고침 (핵심 개선!)
+            // 창 닫힐 때 데이터 새로고침 (카운팅 동기화 핵심!)
             dialog.setOnCloseRequest((WindowEvent e) -> {
-                System.out.println("요청 목록 창 닫힘 - 데이터 새로고침 시작");
-                refreshAllData();
+                System.out.println("요청 목록 창 닫힘 - 실시간 데이터 새로고침 시작");
+                refreshAllData(); // 실시간 카운트 동기화
             });
 
             dialog.show();
@@ -430,6 +449,7 @@ public class AdminHomeController implements Initializable {
             URL fxmlUrl = getClass().getResource("/fxml/admin/CompleteRequestList.fxml");
             FXMLLoader loader = new FXMLLoader(fxmlUrl);
             Parent root = loader.load();
+
             CompletedRequestListController ctrl = loader.getController();
             ctrl.setRequestService(requestService);
 
@@ -440,10 +460,10 @@ public class AdminHomeController implements Initializable {
             dialog.setScene(new Scene(root));
             dialog.setResizable(false);
 
-            // 창 닫힐 때 데이터 새로고침 (핵심 개선!)
+            // 창 닫힐 때 데이터 새로고침 (카운팅 동기화 핵심!)
             dialog.setOnCloseRequest((WindowEvent e) -> {
-                System.out.println("결재 완료 창 닫힘 - 데이터 새로고침 시작");
-                refreshAllData();
+                System.out.println("결재 완료 창 닫힘 - 실시간 데이터 새로고침 시작");
+                refreshAllData(); // 실시간 카운트 동기화
             });
 
             dialog.show();
@@ -455,7 +475,7 @@ public class AdminHomeController implements Initializable {
     }
 
     /**
-     * 컨트롤러 종료 시 리소스 정리 (추가됨)
+     * 컨트롤러 종료 시 리소스 정리 (기존 유지)
      */
     public void cleanup() {
         if (scheduler != null && !scheduler.isShutdown()) {
