@@ -260,36 +260,6 @@ public class DashboardController {
     }
 
     /**
-     * 사원 등록 버튼 클릭 시 실행되는 핸들러입니다.
-     * 사원 등록 폼을 모달로 표시합니다.
-     *
-     * @param event 클릭 이벤트
-     */
-//    @FXML
-//    private void handleAddEmployeeClick(ActionEvent event) {
-//        try {
-//            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/user/EmployeeRegister.fxml"));
-//            Parent formRoot = loader.load();
-//
-//            Stage dialogStage = new Stage();
-//            dialogStage.initModality(Modality.APPLICATION_MODAL);
-//            dialogStage.setTitle("사원 등록");
-//
-//            Window parentWindow = ((Node) event.getSource()).getScene().getWindow();
-//            dialogStage.initOwner(parentWindow);
-//
-//            Scene dialogScene = new Scene(formRoot);
-//            dialogStage.setScene(dialogScene);
-//            dialogStage.setResizable(false);
-//
-//            dialogStage.showAndWait();
-//
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//    }
-
-    /**
      * NFC 카드 태그 버튼 클릭 시 실행되는 핸들러입니다.
      * 카드 태깅을 위한 창을 열고 NFC 리스닝을 시작합니다.
      *
