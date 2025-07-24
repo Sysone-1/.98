@@ -4,19 +4,21 @@ import com.sysone.ogamza.LoginUserDTO;
 import com.sysone.ogamza.Session;
 import com.sysone.ogamza.dto.user.MemberDetailDTO;
 import com.sysone.ogamza.service.user.MemberService;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import org.controlsfx.control.Notifications;
-
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class EditMemberModalController implements ModalControllable, Initializable {
+    @FXML private Label telErrorLabel;
+    @FXML private Label pwErrorLabel;
     @FXML private Label nameLabel;
     @FXML private Label positionLabel;
     @FXML private PasswordField passwordField;
@@ -65,24 +67,42 @@ public class EditMemberModalController implements ModalControllable, Initializab
     }
 
     private void alert(String msg) {
-        Notifications.create().title("알림").text(msg).showInformation();
+        Platform.runLater(() -> {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("알림");
+            alert.setHeaderText(null); // 헤더 생략
+            alert.setContentText(msg);
+            alert.initOwner(modalStage); // 현재 모달 창 기준으로 띄움
+            alert.showAndWait(); // 확인 누를 때까지 대기
+        });
     }
 
 
     public void handleSave(ActionEvent actionEvent) {
+        clearErrors();  //모든 에러 숨기기
+        
         String pw1 = passwordField.getText();
         String pw2 = confirmPasswordField.getText();
         String mid = phonePart2.getText();
         String last = phonePart3.getText();
 
-        if(!pw1.equals(pw2)) {
-            alert("비밀번호가 일치하지 않습니다.");
-            return;
+        boolean hasError = false;
+
+        if(pw1 == null || pw1.isBlank() || pw2 == null || pw2.isBlank()) {
+            showPwError("비밀번호를 입력해주세요.");
+            hasError = true;
+        } else if (!pw1.equals(pw2)) {
+            showPwError("비밀번호가 일치하지 않습니다.");
+            hasError = true;
         }
         if (!mid.matches("\\d{3,4}") || !last.matches("\\d{4}")) {
-            alert("연락처 형식이 올바르지 않습니다.");
+            showTelError("연락처 형식이 올바르지 않습니다.");
+            hasError = true;
+        }
+        if (hasError) {
             return;
         }
+
         String newTel = "010-" +mid + "-" + last;
 
         try {
@@ -91,7 +111,24 @@ public class EditMemberModalController implements ModalControllable, Initializab
             modalStage.close(); //모달 닫기
         }catch (Exception e) {
             e.printStackTrace();
-            alert("회원 저보 저장 실패");
+            alert("회원 정보 저장 실패");
         }
+    }
+
+    private void clearErrors() {
+        pwErrorLabel.setVisible(false);
+        telErrorLabel.setVisible(false);
+    }
+
+    private void showTelError(String msg) {
+        telErrorLabel.setText(msg);
+        telErrorLabel.setVisible(true);
+
+    }
+
+    private void showPwError(String msg) {
+        pwErrorLabel.setText(msg);
+        pwErrorLabel.setVisible(true);
+        pwErrorLabel.setManaged(true);
     }
 }
