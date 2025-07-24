@@ -32,7 +32,7 @@
             <VBox alignment="CENTER" spacing="20" style="-fx-padding: 20;">
 
                 <!-- 파이 차트 및 막대 그래프 등의 차트를 포함하는 FXML -->
-                <fx:include source="ChartGroup.fxml"/>
+                <fx:include source="ChartGroup.fxml" fx:id="chartGroup" />
 
                 <!-- 근무 현황을 보여주는 테이블 -->
                 <TableView fx:id="statusTable"
