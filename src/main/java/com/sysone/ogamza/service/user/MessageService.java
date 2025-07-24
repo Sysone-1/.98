@@ -12,7 +12,7 @@ import java.util.List;
 public class MessageService {
 
     private static final MessageService instance = new MessageService();
-    private MessageService(){}
+    public MessageService(){}
     public static MessageService getInstance(){return instance;}
 
 
@@ -61,5 +61,4 @@ public class MessageService {
             return 0;
         }
     }
-
 }

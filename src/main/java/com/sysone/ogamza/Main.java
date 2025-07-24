@@ -45,7 +45,7 @@ public class Main extends Application {
         primaryStage.show();
 
         FortuneService.getInstance().todayLuck();
-        ScheduleService.getInstance().scheduleDailyWorkingTime();
+        ScheduleService.getInstance().startDailyWorkingTimeScheduler();
     }
 
     public static void main(String[] args) {
