@@ -51,15 +51,6 @@ public class ScheduleListController {
     }
 
     /**
-        닫기 버튼 핸들러
-    */
-    @FXML
-    private void handleCancel(ActionEvent event) {
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        stage.close();
-    }
-
-    /**
         날짜 포맷팅
      */
     private String formatDateRange(ScheduleListDTO dto) {

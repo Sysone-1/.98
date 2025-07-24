@@ -22,12 +22,11 @@ public class DashboardSql {
                 "SELECT TOTAL_VAC_NUM " +
                 "FROM EMPLOYEE " +
                 "WHERE ID = ?";
+
     public static final String FIND_USED_VACATION_NUM =
                 "SELECT SCHEDULE_TYPE, START_DATE, END_DATE " +
                 "FROM SCHEDULE " +
                 "WHERE EMPLOYEE_ID = ?";
-
-
 
     public static final String FIND_TOTAL_WORKING_TIME =
                 "SELECT SUM(WORKING_TIME) AS TOTAL_WORKING_TIME " +
@@ -55,5 +54,6 @@ public class DashboardSql {
                 "SELECT * " +
                 "FROM SCHEDULE " +
                 "WHERE EMPLOYEE_ID = ? AND " +
-                "TRUNC(START_DATE) BETWEEN TRUNC(CURRENT_DATE, 'D') AND TRUNC(CURRENT_DATE, 'D') + 6";
+                "TRUNC(START_DATE) BETWEEN TRUNC(CURRENT_DATE, 'D') AND TRUNC(CURRENT_DATE, 'D') + 6 " +
+                "ORDER BY START_DATE";
 }

@@ -57,6 +57,10 @@ public class DashboardController {
             Image img = new Image(getClass().getResource("/images/tooltip.png").toExternalForm());
             tooltipImage.setImage(img);
             Tooltip tooltip = new Tooltip("잔여 근로 : 휴게 시간  1시간 제외");
+            tooltip.setStyle(
+                    "-fx-font-size: 14px; " +
+                    "-fx-padding: 10px;"
+            );
             tooltip.setShowDelay(Duration.millis(100));
             Tooltip.install(tooltipImage, tooltip);
         });
@@ -165,7 +169,7 @@ public class DashboardController {
 
         } else {
             scheduleScrollPane.setPadding(new Insets(20, 10, 20, 10));
-            scheduleListBox.setPadding(new Insets(0, 10, 10, 10));
+            scheduleListBox.setPadding(new Insets(0, 10, 0, 10));
 
             for (int i = 0; i < scheduleList.size(); i++) {
                 Label item = dashboardService.getLabel(scheduleList.get(i), i);

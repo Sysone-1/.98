@@ -7,10 +7,10 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="296.0" prefWidth="360.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sysone.ogamza.controller.user.ScheduleContentController">
-    <VBox layoutX="4.0" layoutY="3.0" prefHeight="350.0" prefWidth="438.0" style="-fx-spacing: 20;">
+<AnchorPane prefHeight="345.0" prefWidth="442.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sysone.ogamza.controller.user.ScheduleContentController">
+    <VBox layoutX="4.0" layoutY="3.0" prefHeight="323.0" prefWidth="438.0" style="-fx-spacing: 20;">
         <children>
-            <VBox prefHeight="70.0" prefWidth="352.0" style="-fx-padding: 30 0 0 30;">
+            <VBox prefHeight="70.0" prefWidth="352.0" style="-fx-padding: 30 0 20 30;">
                 <children>
                     <Text strokeType="OUTSIDE" strokeWidth="0.0" text="일정 조회">
                         <font>
@@ -23,7 +23,7 @@
             <children>
                <HBox prefHeight="33.0" prefWidth="352.0" style="-fx-padding: 0 0 0 30;">
                   <children>
-                     <VBox prefHeight="200.0" prefWidth="100.0">
+                     <VBox prefHeight="200.0" prefWidth="100.0" style="-fx-padding: 0 0 0 3;">
                         <children>
                            <ImageView fx:id="titleIcon" fitHeight="33.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" style="-fx-fit-width: 15; -fx-fit-height: 15;" />
                         </children>
@@ -83,7 +83,7 @@
                      </VBox>
                   </children>
                </HBox>
-               <VBox prefHeight="186.0" prefWidth="438.0" style="-fx-alignment: center; -fx-min-height: 200;">
+               <VBox minHeight="174.0" prefHeight="174.0" prefWidth="438.0" style="-fx-alignment: center; -fx-min-height: 200;">
                   <children>
                         <VBox maxWidth="374.0" prefHeight="145.0" prefWidth="400.0" style="-fx-alignment: center; -fx-background-color: #F6FAFF; -fx-max-height: 300; -fx-max-width: 400; -fx-min-width: 300; -fx-background-radius: 8; -fx-border-radius: 8;">
                             <children>
