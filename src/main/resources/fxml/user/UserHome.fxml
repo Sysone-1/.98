@@ -150,7 +150,10 @@
             <HBox fx:id="moodBox" prefHeight="52.0" prefWidth="301.0" style="-fx-padding: 5; -fx-spacing: 130; -fx-alignment: center;">
                <children>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 18;" text="Pick Mood" />
-                  <Text fx:id="emoji" style="-fx-font-size: 35; -fx-cursor: hand;" text="😎" />
+                  <ImageView fx:id="emojiView"
+                             fitHeight="35" fitWidth="35"
+                             pickOnBounds="true" preserveRatio="true"
+                             style="-fx-cursor: hand;" />
                </children>
             </HBox>
          </children>

@@ -35,7 +35,7 @@ public class UserHomeController implements Initializable {
     @FXML private Group luckyShape;
     @FXML private Text luckyNumber;
     @FXML private Text randomMsg;
-    @FXML private Text emoji;
+    @FXML private ImageView emojiView;
     @FXML private VBox todayMood;
     @FXML private Text rankingDept1;
     @FXML private Text rankingDept2;
@@ -65,15 +65,22 @@ public class UserHomeController implements Initializable {
         getHomeInfo(user.getId());
         todayMood.setMouseTransparent(false); // 혹시라도 true로 되어 있으면
         todayMood.setPickOnBounds(true); // 텍스트 바깥 여백도 클릭 가능하게
-        new EmojiView(emoji, todayMood, selected -> {
-            emoji.setText(selected);
-            try{
-                int response = EmojiDAO.getInstance().updateEmoji(user.getId(), selected);
-                if(response == 0 ){
-                    throw new RuntimeException("0행 업데이트되었습니다.");
-                }
-            }catch (Exception e){
-                System.out.println("이모지 업데이트 실패 :: "+ e.getMessage());
+        // Emoji 선택시 db 업뎃 후 뷰에 올리기
+        new EmojiView(emojiView, todayMood, selected -> {
+            try {
+                // PNG 로드
+                String path = "/images/emoji/" + selected;
+                Image img   = new Image(getClass().getResourceAsStream(path));
+
+                // ImageView 업데이트
+                emojiView.setImage(img);
+
+                // DB에도 파일명 저장
+                int updated = EmojiDAO.getInstance().updateEmoji(user.getId(), selected);
+                if (updated == 0) throw new RuntimeException("0행 업데이트되었습니다.");
+
+            } catch (Exception ex) {
+                System.out.println("이모지 업데이트 실패 :: " + ex.getMessage());
             }
         });
 
@@ -137,7 +144,9 @@ public class UserHomeController implements Initializable {
         randomMsg.setText("\"" + user.getRandomMessage() + "\"");
 
         // emoji
-        emoji.setText(user.getEmoji());
+        String path = "/images/emoji/" +user.getEmoji();
+        Image img = new Image(getClass().getResourceAsStream(path));
+        emojiView.setImage(img);
     }
 
 

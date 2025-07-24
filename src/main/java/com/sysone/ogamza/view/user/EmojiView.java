@@ -5,120 +5,109 @@ import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
-import javafx.scene.text.Font;
 import javafx.stage.Popup;
 import javafx.stage.Screen;
 
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.nio.file.*;
+import java.util.List;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 public class EmojiView {
-    private final String[] emojis = {
-            "😀","😁","😂","🤣","😃","😄","😅","😆","😉","😊",
-            "😋","😎","😍","😘","😗","😙","😚","🥰️","🙂","🤗",
-            "🤩","🤔","🤨","😐","😑","😶","🙄","😏","😣","😥",
-            "😮","🤐","😯","😪","😫","😴","😌","😛","😜","😝",
-            "🤤","😒","😓","😔","😕","🙃","🤑","😲","🙁",
-            "😖","😞","😟","😤","😢","😭","😦","😧","😨","😩",
-            "🤯","😬","😰","😱","🥵","🥶","😳","🤪","😵","😡",
-            "😠","🤬","😷","🤒","🤕","🤢","🤮","🤧","😇","🥳",
-            "🥴","🥺","🤠","😎","🤓","🧐","😕","😟","🙁","🤤️",
-            "😮","😯","😲","😳","🥱","😤","😡","😠","🤬","😈",
-            "👿","💀","☠️","💩","🤡","👹","👺","👻","👽","👾",
-            "🤖","😺","😸","😹","😻","😼","😽","🙀","😿","😾",
-            "🙈","🙉","🙊","🐵","🐶","🐺","🦊","🐱","🦁","🐯",
-            "🐴","🦄","🐮","🐷","🐗","🐭","🐹","🐰","🐻","🐨",
-            "🐼","🐸","🐲","🦖","🦕","🐙","🦑","🦐","🦞","🦀",
-            "🐡","🐠","🐟","🐬","🐳","🐋","🦈","🐊","🐅","🐆",
-            "🍏","🍎","🍐","🍊","🍋","🍌","🍉","🍇","🍓","🫐",
-            "🍈","🍒","🍑","🥭","🍍","🥥","🥝","🍅","🍆","🥑",
-            "🥦","🥬","🥒","🌶️","🫑","🌽","🥕","🧄","🧅","🥔",
-            "🍠","🥐","🍞","🥖","🥨","🥯","🧀","🥚","🍳","🥞",
-            "🧇","🥓","🥩","🍗","🍖","🌭","🍔","🍟","🍕","🥪",
-            "🥙","🧆","🌮","🌯","🥗","🥘","🥫","🍝","🍜","🍲",
-            "🍛","🍣","🍱","🥟","🦪","🍤","🍙","🍚","🍘","🍢",
-            "🍡","🍧","🍨","🍦","🥧","🧁","🍰","🎂","🍮","🍭",
-            "🍬","🍫","🍿","🍩","🍪","☕","🫖","🍵","🧃","🥤",
-            "🧋","🧉","🍺","🍻","🥂","🍷","🥃","🍸","🍹","🧊",
-            "🌵","🎄","🌲","🌳","🌴", "🪵","🌱","🌿","☘️","🍀",
-            "🎍","🪴","🎋","🍃","🍂", "🍁","🍄","🐚","🪨","🌾",
-            "💐","🌷","🌹","🥀","🌺", "🌸","🌼","🌻","🌞","🌝",
-            "🌛","🌜","🌚","🌕","🌖"
-    };
+
+    private static final String IMG_DIR="/images/emoji/";
+    private static final int COLS =6;
+    private static final int BTN_SZ = 40;
 
     private final Popup popup = new Popup();
-    private final GridPane emojiGrid = new GridPane();
-    private final ScrollPane scrollPane = new ScrollPane();
+    private final GridPane grid = new GridPane();
+    private final ScrollPane scroll = new ScrollPane();
 
-    public EmojiView(Node triggerNode, Node targetBox, Consumer<String> onEmojiSelected) {
-
-        // Grid 스타일
-        emojiGrid.setHgap(5);
-        emojiGrid.setVgap(5);
-        emojiGrid.setPadding(new Insets(10));
-        emojiGrid.setStyle("-fx-background-color: white;");
-
-        int col = 0, row = 0;
-
-        for (String emoji : emojis) {
-            Button btn = new Button(emoji);
-            String os = System.getProperty("os.name").toLowerCase();
-            if (os.contains("win")) {
-                btn.setFont(Font.font("Segoe UI Emoji", 15));
-            } else {
-                btn.setFont(Font.font("Apple Color Emoji", 15));
-            }
-
-            btn.setPrefSize(40, 40);
-            btn.setStyle("-fx-background-color: transparent");
-
-            btn.setOnAction(e -> {
-                onEmojiSelected.accept(emoji);
-                popup.hide();
-            });
-
-            emojiGrid.add(btn, col, row);
-            col++;
-            if (col >= 6) {
-                col = 0;
-                row++;
-            }
-        }
-
-        // ScrollPane 설정
-        scrollPane.setContent(emojiGrid);
-        scrollPane.setPrefSize(300, 220);
-        scrollPane.setStyle("-fx-background-color: white; -fx-border-color: lightgray;");
-
-        popup.getContent().clear();
-        popup.getContent().add(scrollPane);
+    /* -------------------------------- Constructor -------------------------------- */
+    public EmojiView(Node trigger, Node anchor, Consumer<String> onSelect) {
+        buildGrid(onSelect);
+        scroll.setContent(grid);
+        scroll.setPrefSize(300, 220);
+        popup.getContent().add(scroll);
         popup.setAutoHide(true);
 
-        triggerNode.setOnMouseClicked(e -> {
-            if (!popup.isShowing()) {
-                Bounds bounds = targetBox.localToScreen(targetBox.getBoundsInLocal());
-                double popupWidth = scrollPane.getPrefWidth();
-                double popupHeight = scrollPane.getPrefHeight();
-                double screenWidth = Screen.getPrimary().getVisualBounds().getWidth();
-                double screenHeight = Screen.getPrimary().getVisualBounds().getHeight();
+        trigger.setOnMouseClicked(e -> togglePopup(trigger, anchor));
+    }
 
-                double margin = 10; // ← 여기 여유 주는 값!
+    /* ----------------------------- Build grid buttons ---------------------------- */
+    private void buildGrid(Consumer<String> onSelect) {
+        grid.setHgap(5);  grid.setVgap(5);  grid.setPadding(new Insets(10));
 
-                // 🎯 targetBox 중앙 상단 정렬
-                double centerX = bounds.getMinX() + bounds.getWidth() / 2;
-                double x = centerX - popupWidth / 2;
-                double y = bounds.getMinY() - popupHeight - margin;
+        List<String> files = listPngFiles(IMG_DIR);
+        int col = 0, row = 0;
 
-                // 화면 밖 보정
-                if (x < 0) x = 0;
-                if (x + popupWidth > screenWidth) x = screenWidth - popupWidth;
-                if (y < 0) y = bounds.getMaxY() + margin;
+        for (String file : files) {
+            String emojiPath = IMG_DIR + file;
+            ImageView iv = new ImageView(new Image(getClass().getResourceAsStream(emojiPath), 24, 24, true, true));
 
-                popup.show(triggerNode, x, y);
+            Button b = new Button();
+            b.setGraphic(iv);
+            b.setPrefSize(BTN_SZ, BTN_SZ);
+            b.setStyle("-fx-background-color:transparent; -fx-cursor:hand;");
+            b.setOnAction(e -> { onSelect.accept(file); popup.hide(); });
+
+            grid.add(b, col, row);
+            if (++col == COLS) { col = 0; row++; }
+        }
+    }
+
+    /* ----------------------- List PNG filenames inside JAR ----------------------- */
+    private List<String> listPngFiles(String dir) {
+        try {
+            URL url = getClass().getResource(dir);
+            if (url == null) throw new IllegalStateException("Emoji directory not found");
+
+            Path path;
+            // 실행 형태에 따라 URL 프로토콜이 jar: or file:
+            if (url.getProtocol().equals("jar")) {
+                // JAR 내부: FileSystem으로 열기
+                String jarPath = url.toURI().toString().split("!")[0];
+                FileSystem fs = FileSystems.newFileSystem(URI.create(jarPath), java.util.Map.of());
+                path = fs.getPath(dir);
             } else {
-                popup.hide();
+                // IDE 실행: 실제 폴더
+                path = Paths.get(url.toURI());
             }
-        });
 
+            try (DirectoryStream<Path> ds = Files.newDirectoryStream(path, "*.png")) {
+                return StreamSupport.stream(ds.spliterator(), false)
+                        .map(p -> p.getFileName().toString())
+                        .sorted()
+                        .collect(Collectors.toList());
+            }
+        } catch (IOException | URISyntaxException e) {
+            e.printStackTrace();
+            return List.of(); // 빈 리스트라도 반환
+        }
+    }
+
+    /* --------------------------- Popup show/hide logic --------------------------- */
+    private void togglePopup(Node trigger, Node anchor) {
+        if (popup.isShowing()) { popup.hide(); return; }
+
+        Bounds box = anchor.localToScreen(anchor.getBoundsInLocal());
+        double w = scroll.getPrefWidth(), h = scroll.getPrefHeight();
+        double x = box.getMinX() + box.getWidth()/2 - w/2;
+        double y = box.getMinY() - h - 10;
+
+        double screenW = Screen.getPrimary().getVisualBounds().getWidth();
+        if (x < 0) x = 0;
+        if (x + w > screenW) x = screenW - w;
+        if (y < 0) y = box.getMaxY() + 10;
+
+        popup.show(trigger, x, y);
     }
 }

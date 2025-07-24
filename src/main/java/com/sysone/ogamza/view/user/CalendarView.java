@@ -3,15 +3,19 @@ package com.sysone.ogamza.view.user;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
+import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 
 import java.time.LocalDate;
 import java.time.YearMonth;
+import java.util.Map;
 import java.util.stream.IntStream;
+import com.sysone.ogamza.service.user.HolidayService;
 
 public class CalendarView extends VBox {
 
@@ -25,8 +29,11 @@ public class CalendarView extends VBox {
 
     private ViewMode currentMode = ViewMode.MONTH;
     private YearMonth currentYearMonth = YearMonth.now();
+    private final Map<Integer, String> holidayMap;
 
     public CalendarView() {
+        this.holidayMap = HolidayService.getHolidays(YearMonth.now().getYear(), YearMonth.now().getMonthValue());
+
         setPrefSize(247, 230);
         setSpacing(5);
         setPadding(new Insets(10));
@@ -78,6 +85,14 @@ public class CalendarView extends VBox {
             case SELECT_MONTH -> currentYearMonth = currentYearMonth.plusYears(direction);
             case SELECT_YEAR -> currentYearMonth = currentYearMonth.plusYears(direction * 10);
         }
+        // ✅ 공휴일 다시 로드
+        holidayMap.clear();
+        holidayMap.putAll(
+                HolidayService.getHolidays(currentYearMonth.getYear(), currentYearMonth.getMonthValue())
+        );
+
+        render();
+
         render();
     }
 
@@ -92,6 +107,7 @@ public class CalendarView extends VBox {
     private void renderMonthView() {
         currentMode = ViewMode.MONTH;
         titleLabel.setText(currentYearMonth.getYear() + "년 " + currentYearMonth.getMonthValue() + "월");
+
         contentGrid.getChildren().clear();
         contentGrid.setHgap(2);
         contentGrid.setVgap(2);
@@ -118,6 +134,14 @@ public class CalendarView extends VBox {
             dayLabel.setPrefSize(28, 28);
             dayLabel.setAlignment(Pos.CENTER);
 
+            // ── 공휴일 처리 ──────────────────────────────
+            if (holidayMap.containsKey(day)) {
+                dayLabel.setTextFill(Color.RED);
+                dayLabel.setFont(Font.font("SUIT", FontWeight.BOLD, 13));
+                Tooltip.install(dayLabel, new Tooltip(holidayMap.get(day)));
+            }
+
+            // ── 오늘 날짜 강조 (공휴일보다 우선 적용) ───────
             if (LocalDate.now().equals(currentYearMonth.atDay(day))) {
                 dayLabel.setTextFill(Color.WHITE);
                 dayLabel.setStyle("-fx-background-color: #3B82F6; -fx-background-radius: 100%;");
@@ -134,7 +158,7 @@ public class CalendarView extends VBox {
         }
     }
 
-    private void renderMonthSelector() {
+        private void renderMonthSelector() {
         currentMode = ViewMode.SELECT_MONTH;
         titleLabel.setText(currentYearMonth.getYear() + "");
         contentGrid.getChildren().clear();

@@ -26,7 +26,9 @@ public class Main extends Application {
       Font.loadFont(getClass().getResourceAsStream("/fonts/KoPubWorld Batang Light.ttf"),10);
       Font.loadFont(getClass().getResourceAsStream("/fonts/ylee Mortal Heart, Immortal Memory v.1.11 (TTF).ttf"),10);
       Font.loadFont(getClass().getResourceAsStream("/fonts/SUIT-SemiBold.tff"),10);
-      // 안전한 폰트 로딩
+        Font.loadFont(getClass().getResourceAsStream("/fonts/Twemoji.Mozilla.ttf"),10);
+
+        // 안전한 폰트 로딩
 
         /* 2) FXML 파일 로드 */
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Login.fxml"));
