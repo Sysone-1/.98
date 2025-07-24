@@ -10,6 +10,14 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 일정 관련 데이터를 처리하는 DAO 클래스입니다.
+ * <p>
+ * 일정 상신, 조회, 취소 등과 관련된 데이터베이스 작업을 수행합니다.
+ * OracleConnector를 사용하여 DB와 통신하며, 싱글턴 패턴으로 구현되어 있습니다.
+ *
+ * @author 김민호
+ */
 public class ScheduleDAO {
     @Getter
     private static final ScheduleDAO instance = new ScheduleDAO();
@@ -17,9 +25,13 @@ public class ScheduleDAO {
     private ScheduleDAO() {}
 
     /**
-        해당 주에 등록된 것 중 승인 된 리스트 조회
-    */
-    public ScheduleContentDTO findScheduleContentById(long id, int index) {
+     * 해당 사원의 이번 주 승인된 일정 중 특정 인덱스에 해당하는 상세 일정을 조회합니다.
+     *
+     * @param id 사원 ID
+     * @param index 인덱스 (0부터 시작)
+     * @return 해당 인덱스의 ScheduleContentDTO 또는 null
+     */
+    public ScheduleContentDTO findWeeklyGrantedScheduleByEmpIdAndIndex(long id, int index) {
         List<ScheduleContentDTO> scheduleList = new ArrayList<>();
 
         try (Connection conn = OracleConnector.getConnection();
@@ -48,11 +60,13 @@ public class ScheduleDAO {
         return null;
     }
 
-
     /**
-        결재 내역 조회
+     * 해당 사원의 전체 결재 내역을 조회합니다.
+     *
+     * @param id 사원 ID
+     * @return 일정 리스트 DTO 목록
      */
-    public List<ScheduleListDTO> findScheduleListById(long id) {
+    public List<ScheduleListDTO> findAllSchedulesByEmpId(long id) {
         List<ScheduleListDTO> scheduleList = new ArrayList<>();
 
         try (Connection conn = OracleConnector.getConnection();
@@ -81,7 +95,10 @@ public class ScheduleDAO {
     }
 
     /**
-        일정 결재 상신
+     * 일정 결재 상신 요청을 데이터베이스에 저장합니다.
+     *
+     * @param dto 일정 DTO
+     * @return 저장 성공 여부
      */
     public boolean insertSchedule(ScheduleContentDTO dto) {
 
@@ -104,12 +121,16 @@ public class ScheduleDAO {
     }
 
     /**
-        일정 결재 상신 취소
+     * 해당 사원의 특정 일정 결재 상신 요청을 취소합니다.
+     *
+     * @param id 사원 ID
+     * @param scheduleId 일정 ID
+     * @return 취소 성공 여부
      */
-    public boolean deleteScheduleById(long id, long scheduleId) {
+    public boolean cancelScheduleRequestByEmpIdAndScheduleId (long id, long scheduleId) {
 
         try (Connection conn = OracleConnector.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(ScheduleSql.CANCEL_SCHEDULE)) {
+             PreparedStatement pstmt = conn.prepareStatement(ScheduleSql.UPDATE_CANCEL_SCHEDULE)) {
 
             pstmt.setLong(1, id);
             pstmt.setLong(2, scheduleId);
@@ -123,9 +144,12 @@ public class ScheduleDAO {
     }
 
     /**
-     List<String>로 해당 주에 등록된 일정 반환 하는 함수
+     * 승인된 일정 중 해당 사원의 이번 주 일정 목록을 조회합니다.
+     *
+     * @param id 사원 ID
+     * @return 일정 DTO 리스트
      */
-    public List<ScheduleContentDTO> findSchedulesByEmpId(long id) {
+    public List<ScheduleContentDTO> findThisWeekGrantedSchedulesByEmpId (long id) {
         List<ScheduleContentDTO> scheduleList = new ArrayList<>();
 
         try (Connection conn = OracleConnector.getConnection();
@@ -152,7 +176,10 @@ public class ScheduleDAO {
         return scheduleList;
     }
 
-    public void insertWorkingTime() {
+    /**
+     * 매일 23:50에 근무 시간을 일괄 저장하는 쿼리를 실행합니다.
+     */
+    public void batchInsertDailyWorkingTime () {
         try (Connection conn = OracleConnector.getConnection();
              PreparedStatement stmt = conn.prepareStatement(ScheduleSql.INSERT_WORKING_TIME)) {
             stmt.execute();

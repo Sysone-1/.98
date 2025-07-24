@@ -6,6 +6,16 @@ import javax.smartcardio.*;
 import java.util.List;
 import java.util.logging.Logger;
 
+/**
+ * NFCReader는 javax.smartcardio API를 활용하여 NFC 카드 리더기와의 통신을 처리합니다.
+ *
+ * <p>카드 리더기 또는 카드 미탐지 시 {@link NFCErrCode}를 통해 오류 메시지를 기록합니다.</p>
+ *
+ * <p><strong>주의:</strong> 해당 클래스는 ACR122U와 같은 리더기에 맞춰 설계되었으며,
+ * MIFARE Classic 1K 타입 카드 기준입니다.</p>
+ *
+ * @author 김민호
+ */
 public class NFCReader {
 
     private static CardChannel channel; // NFC 카드와 통신할 때 사용되는 채널
@@ -16,10 +26,12 @@ public class NFCReader {
         channel = ch;
     }
 
-    /*
-        시스템의 기본 카드 리더 팩토리 생성
-        연결된 카드 리더기 리스트 가져온 후 첫번째 리더기 반환
-    */
+    /**
+     * 시스템에서 사용 가능한 NFC 카드 리더기를 탐색하고,
+     * 첫 번째 리더기를 반환합니다.
+     *
+     * @return 사용 가능한 첫 번째 {@link CardTerminal}, 없으면 {@code null}
+     */
     public static CardTerminal getCardTerminal() {
         try {
             TerminalFactory factory = TerminalFactory.getDefault();
@@ -35,10 +47,11 @@ public class NFCReader {
         }
     }
 
-    /*
-        리더기 획득 및 타입 상고나 없이 카드 연결 후 기본 채널 설정
-        UID 요청 및 UID를 HEX로 변환
-    */
+    /**
+     * NFC 카드와 연결 후 UID(고유 식별자)를 읽어 반환합니다.
+     *
+     * @return UID 문자열 (HEX 형식, 예: "04AABBCCDD"), 실패 시 {@code null}
+     */
     public static String readUID() {
         try {
             CardTerminal terminal = getCardTerminal();
@@ -69,10 +82,12 @@ public class NFCReader {
         }
     }
 
-    /*
-        MIFARE Classic 1K 카드 기본 인증
-        데이터 접근 전 인증 필요
-    */
+    /**
+     * 지정된 블록 번호에 대해 기본 키 A를 사용하여 인증을 수행합니다.
+     *
+     * @param block 인증할 블록 번호
+     * @return 인증 성공 여부
+     */
     public static boolean authenticateBlock(int block) {
         try {
             byte[] cmd = new byte[]{
@@ -91,9 +106,13 @@ public class NFCReader {
         }
     }
 
-    /*
-        카드 내 블록에 데이터 쓰기
-    */
+    /**
+     * 주어진 데이터를 지정된 블록 번호에 씁니다. 데이터는 16바이트로 제한됩니다.
+     *
+     * @param block 대상 블록 번호
+     * @param data 16바이트 데이터 배열
+     * @return 쓰기 성공 여부
+     */
     public static boolean writeBlock(int block, byte[] data) {
         try {
             byte[] cmd = new byte[21]; // 5바이트 명령헤더, 16바이트 실제 데이터
@@ -112,9 +131,12 @@ public class NFCReader {
         }
     }
 
-    /*
-        카드 내 블록 데이터 읽기
-    */
+    /**
+     * 지정된 블록 번호에서 16바이트 데이터를 읽어 반환합니다.
+     *
+     * @param block 읽을 블록 번호
+     * @return 읽은 데이터 (16바이트), 실패 시 {@code null}
+     */
     public static byte[] readBlock(int block) {
         try {
             byte[] cmd = new byte[]{

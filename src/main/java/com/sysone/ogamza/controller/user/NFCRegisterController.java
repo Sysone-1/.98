@@ -22,6 +22,14 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 
+/**
+ * NFC 카드를 이용한 사원 등록 기능을 제공하는 컨트롤러입니다.
+ * <p>
+ * 사원의 정보 입력과 카드 UID 인식, 카드 쓰기, 이미지 등록 기능을 포함하며
+ * 사원 정보를 DB에 저장하고 카드를 통해 인증할 수 있도록 합니다.
+ *
+ * @author 김민호
+ */
 public class NFCRegisterController {
 
     @FXML private TextField nameField, emailField, telField, picField, vacNumField;
@@ -30,13 +38,15 @@ public class NFCRegisterController {
     @FXML private ImageView profileImageView;
     private final NFCService nfcService = NFCService.getInstance();
     private static final String DEFAULT_POSITION = "직위를 선택하세요.";
-
-
     private String scannedUID = null;
 
+    /**
+     * 컨트롤러 초기화 메서드
+     * 부서 목록 및 직위 콤보박스를 초기화합니다.
+     */
     @FXML
     public void initialize() {
-        departmentComboBox.getItems().addAll(nfcService.getDepartment());
+        departmentComboBox.getItems().addAll(nfcService.getDepartments());
         departmentComboBox.setPromptText("부서를 선택하세요.");
 
         positionComboBox.getItems().addAll("인턴","사원","주임","대리","과장","차장","부장","임원");
@@ -44,9 +54,10 @@ public class NFCRegisterController {
     }
 
     /**
-        카드 UID 읽기
+     * NFC 카드의 UID를 읽어옵니다.
+     * UID가 감지되지 않으면 오류 메시지를 출력합니다.
      */
-    private void readCardUID() {
+    private void loadCardUID() {
         String uid = NFCReader.readUID();
         if (uid == null) {
             System.out.println("❌ NFC 카드를 인식하지 못했습니다.");
@@ -57,11 +68,12 @@ public class NFCRegisterController {
     }
 
     /**
-        카드에 사번, 이름, 부서, 직급 저장하기
+     * 사원 정보를 카드에 저장하고 DB에 등록합니다.
+     * UID가 이미 등록되어 있는 경우 기존 정보를 삭제하고 재등록합니다.
      */
     @FXML
     private void registerEmployee() {
-        readCardUID();
+        loadCardUID();
 
         if (!isInputValid()) {
             AlertCreate.showAlert(Alert.AlertType.ERROR, "사원 등록", "모든 항목을 입력해주세요.");
@@ -70,11 +82,11 @@ public class NFCRegisterController {
 
         EmployeeCreateDTO dto = buildEmployeeCreateDTO();
 
-        if (nfcService.getEmployeeInfo(dto.getCardId()) != null) {
+        if (nfcService.getEmployeeNameByCardId (dto.getCardId()) != null) {
             nfcService.deleteEmployee(dto);
         }
 
-        String empId = nfcService.createEmployee(dto);
+        String empId = nfcService.registerEmployee(dto);
         if (empId == null) {
             System.out.println("❌ DB 저장 실패");
             return;
@@ -98,7 +110,9 @@ public class NFCRegisterController {
     }
 
     /**
-        입력값 누락 검사
+     * 입력값이 모두 유효한지 확인합니다.
+     *
+     * @return 모든 필드가 입력되어 있고 UID가 감지되었으면 true, 아니면 false
      */
     private boolean isInputValid() {
         return !nameField.getText().trim().isEmpty()
@@ -112,7 +126,9 @@ public class NFCRegisterController {
     }
 
     /**
-        employee dto 생성
+     * 입력된 정보를 기반으로 EmployeeCreateDTO 객체를 생성합니다.
+     *
+     * @return DTO 객체
      */
     private EmployeeCreateDTO buildEmployeeCreateDTO() {
         EmployeeCreateDTO dto = new EmployeeCreateDTO();
@@ -129,7 +145,9 @@ public class NFCRegisterController {
     }
 
     /**
-        부서 번호로 부서 이름 조회
+     * 부서 DTO에서 부서명을 추출합니다.
+     *
+     * @return 부서명 문자열
      */
     private String getSelectedDepartmentName() {
         DepartmentDTO selected = departmentComboBox.getValue();
@@ -137,10 +155,12 @@ public class NFCRegisterController {
     }
 
     /**
-        프로필 사진 넣기
+     * 이미지 파일을 선택하고 리소스 경로로 복사한 후 이미지 뷰에 표시합니다.
+     *
+     * @param event 이미지 선택 버튼 클릭 이벤트
      */
     @FXML
-    private void handleImageBrowse(ActionEvent event) {
+    private void handleImageBrowseClick(ActionEvent event) {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("이미지 선택");
         fileChooser.getExtensionFilters().add(

@@ -6,17 +6,37 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
+/**
+ * 반원 형태의 진행률(게이지)을 JavaFX {@link Canvas}를 사용하여 시각화하는 클래스입니다.
+ *
+ * <p>진행률은 0~100% 범위로 나타나며, 하단을 기준으로 반원 형태의 Arc로 표시됩니다.
+ * 회색 배경 반원 위에 파란색으로 실제 진행률을 표시합니다.</p>
+ *
+ * <p>{@code percent} 변수는 외부에서 값을 설정할 수 있으며,
+ * {@link #initialize()} 시점에 {@link #drawGauge(double)} 메서드를 호출하여 즉시 렌더링됩니다.</p>
+ *
+ * @author 김민호
+ */
 public class ArcProgress {
 
     @FXML private Canvas gaugeCanvas;
 
     public static double percent = 0;
 
+    /**
+     * JavaFX 초기화 메서드로, FXML 로딩 완료 후 {@link Platform#runLater(Runnable)}를 통해
+     * {@link #drawGauge(double)}를 호출하여 진행률 게이지를 그립니다.
+     */
     @FXML
     public void initialize() {
         Platform.runLater(() -> drawGauge(percent));
     }
 
+    /**
+     * 주어진 퍼센트 값을 기준으로 반원 형태의 게이지를 캔버스에 그림.
+     *
+     * @param percent 진행률 (0~100 범위)
+     */
     public void drawGauge(double percent) {
         GraphicsContext gc = gaugeCanvas.getGraphicsContext2D();
 

@@ -1,5 +1,11 @@
 package com.sysone.ogamza.sql.user;
 
+/**
+ * 대시보드 기능에서 사용되는 SQL 쿼리들을 상수로 정의한 클래스입니다.
+ * <p>출퇴근 시간, 연차, 근무 시간 등의 데이터를 조회하는 데 사용됩니다.</p>
+ *
+ * @author 김민호
+ */
 public class DashboardSql {
 
     public static final String FIND_FIRST_ACCESS_LOG =

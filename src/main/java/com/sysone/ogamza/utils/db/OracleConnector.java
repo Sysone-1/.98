@@ -47,10 +47,21 @@ public class OracleConnector {
         return dataSource.getConnection();
     }
 
-    /*
-        DB 에서 데이터 조회 후 데이터 값 반환
-        Optional 사용 NullPointerException 방지
-    */
+    /**
+     * 주어진 SQL 쿼리문을 실행하여 단일 값을 조회하는 메서드입니다.
+     * <p>
+     * - 첫 번째 컬럼 값을 반환하며, 반환 타입은 호출 시 지정한 제네릭 타입으로 변환됩니다.
+     * - Oracle DB 특성에 따라 oracle.sql.TIMESTAMP 등의 특수 타입을 자동으로 변환합니다.
+     * </p>
+     *
+     * @param <T>    반환할 데이터의 타입 (예: String.class, Integer.class, LocalDateTime.class 등)
+     * @param sql    실행할 SQL 쿼리문 (단일 컬럼 조회 쿼리여야 함)
+     * @param type   반환할 데이터 타입의 클래스 객체
+     * @param params 쿼리의 파라미터 값들 (PreparedStatement 바인딩용)
+     * @return Optional<T> - 데이터가 존재하면 변환된 값, 없으면 Optional.empty()
+     *
+     * 작성자 김민호
+     */
     public static <T> Optional<T> fetchData(String sql, Class<T> type, Object... params) {
         try (Connection conn = OracleConnector.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {

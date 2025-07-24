@@ -35,9 +35,9 @@
                </VBox>
             </children>
          </VBox>
-         <VBox prefHeight="22.0" prefWidth="352.0" style="-fx-padding: 5 30 0 30;">
+         <VBox prefHeight="42.0" prefWidth="352.0" style="-fx-padding: 5 30 0 30;">
             <children>
-               <TextField fx:id="titleField" style="-fx-background-radius: 8; -fx-background-color: #F6FAFF;" />
+               <TextField fx:id="titleField" prefHeight="41.0" prefWidth="291.0" style="-fx-background-radius: 8; -fx-background-color: #F6FAFF; -fx-font-size: 16px;" />
             </children>
          </VBox>
          <VBox prefHeight="50.0" prefWidth="131.0" style="-fx-padding: 20 0 0 30;">
@@ -93,18 +93,18 @@
                </VBox>
             </children>
          </VBox>
-         <VBox prefHeight="22.0" prefWidth="352.0" style="-fx-padding: 5 30 0 30;">
+         <VBox prefHeight="44.0" prefWidth="352.0" style="-fx-padding: 5 30 0 30;">
             <children>
-               <TextField fx:id="contentField" style="-fx-background-radius: 8; -fx-border-radius: 8; -fx-background-color: #F6FAFF;" />
+               <TextField fx:id="contentField" prefHeight="42.0" prefWidth="291.0" style="-fx-background-radius: 8; -fx-border-radius: 8; -fx-background-color: #F6FAFF; -fx-font-size: 16px;" />
             </children>
          </VBox>
          <HBox prefHeight="113.0" prefWidth="352.0" style="-fx-alignment: center; -fx-spacing: 30;">
             <children>
                <VBox prefHeight="16.0" prefWidth="115.0" style="-fx-max-width: 80; -fx-background-radius: 8; -fx-alignment: center;">
                   <children>
-                     <Button mnemonicParsing="false" onAction="#handleSubmit" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: #1E90FF; -fx-background-radius: 8; -fx-cursor: hand;" text="상신" textFill="WHITE">
+                     <Button mnemonicParsing="false" onAction="#handleSubmitClick" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: #1E90FF; -fx-background-radius: 8; -fx-cursor: hand;" text="상신" textFill="WHITE">
                         <font>
-                           <Font name="SansSerif Bold" size="16.0" />
+                           <Font size="16.0" />
                         </font>
                      </Button>
                   </children>
