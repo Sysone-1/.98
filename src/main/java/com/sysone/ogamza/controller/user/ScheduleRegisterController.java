@@ -12,6 +12,9 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
+import java.time.DateTimeException;
+import java.time.LocalDate;
+
 /**
  * 일정 상신 등록 화면의 컨트롤러입니다.
  * <p>
@@ -56,6 +59,16 @@ public class ScheduleRegisterController {
                 contentField.getText().isEmpty()) {
 
             AlertCreate.showAlert(Alert.AlertType.ERROR, "결재 상신", "모든 항목을 입력해주세요.");
+            return;
+        }
+
+        if (startDatePicker.getValue().isAfter(endDatePicker.getValue())) {
+            AlertCreate.showAlert(Alert.AlertType.ERROR, "결재 상신", "마침 일정을 다시 선택해주세요.");
+            return;
+        }
+
+        if ("반차".equals(typeComboBox.getValue()) && !startDatePicker.getValue().equals(endDatePicker.getValue())) {
+            AlertCreate.showAlert(Alert.AlertType.ERROR, "결재 상신", "반차는 시작일과 종료일이 같아야 합니다.");
             return;
         }
 

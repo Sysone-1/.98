@@ -23,6 +23,26 @@ public class LoginController {
     private PasswordField passwordField;
     @FXML
     public Label errorLabel;
+
+    @FXML
+    public void initialize() {
+        passwordField.setOnKeyPressed(event -> {
+            if (event.getCode().toString().equals("ENTER")) {
+                try {
+                    handleLogin(null);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        emailField.setOnKeyPressed(event -> {
+            if (event.getCode().toString().equals("ENTER")) {
+                passwordField.requestFocus();
+            }
+        });
+    }
+
     @FXML
     private void handleLogin(ActionEvent event) throws SQLException, IOException {
         String email = emailField.getText();
