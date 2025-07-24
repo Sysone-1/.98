@@ -2,15 +2,14 @@ package com.sysone.ogamza.controller.user;
 
 import com.sysone.ogamza.dto.user.ScheduleListDTO;
 import com.sysone.ogamza.service.user.ScheduleService;
+import com.sysone.ogamza.utils.api.alert.AlertCreate;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.stage.Stage;
 
 import java.util.List;
 
@@ -39,15 +38,30 @@ public class ScheduleListController {
     }
 
     /**
-        취소 버튼 핸들러
+        결재 상신 취소 버튼 핸들러
     */
     @FXML
     private void handleRemove() {
         ScheduleListDTO selectedDto = scheduleTable.getSelectionModel().getSelectedItem();
+        if (selectedDto == null) {
+            AlertCreate.showAlert(Alert.AlertType.ERROR, "상세 조회", "상신 취소할 대상을 선택해 주세요.");
+            return;
+        }
 
         long scheduleId = selectedDto.getScheduleId();
 
+        if (selectedDto.getIsGranted() != 0) {
+            AlertCreate.showAlert(Alert.AlertType.INFORMATION, "상세 조회", "상신 취소 대상이 아닙니다.");
+            return;
+        }
+
         boolean success = scheduleService.removeScheduleById(DashboardController.empId, scheduleId);
+
+        if (success) {
+            AlertCreate.showAlert(Alert.AlertType.INFORMATION, "상세 조회", "상신 취소 되었습니다.");
+        } else {
+            AlertCreate.showAlert(Alert.AlertType.ERROR, "상세 조회", "다시 시도해주세요.");
+        }
     }
 
     /**

@@ -4,12 +4,10 @@ import com.sysone.ogamza.dto.user.ScheduleContentDTO;
 import com.sysone.ogamza.service.user.ScheduleService;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -35,14 +33,13 @@ public class ScheduleContentController {
             titleIcon.setImage(titleImg);
             dateIcon.setImage(dateImg);
 
-            // 이미지 크기 조절
             titleIcon.setFitWidth(20);
             titleIcon.setFitHeight(20);
-            titleIcon.setPreserveRatio(false); // 비율 유지
+            titleIcon.setPreserveRatio(false);
 
             dateIcon.setFitWidth(25);
             dateIcon.setFitHeight(25);
-            dateIcon.setPreserveRatio(false); // 비율 유지
+            dateIcon.setPreserveRatio(false);
         });
     }
 

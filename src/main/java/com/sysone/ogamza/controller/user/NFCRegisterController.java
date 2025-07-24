@@ -4,6 +4,7 @@ import com.sysone.ogamza.dto.user.DepartmentDTO;
 import com.sysone.ogamza.dto.user.EmployeeCreateDTO;
 import com.sysone.ogamza.nfc.NFCReader;
 import com.sysone.ogamza.service.user.NFCService;
+import com.sysone.ogamza.utils.api.alert.AlertCreate;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -63,7 +64,7 @@ public class NFCRegisterController {
         readCardUID();
 
         if (!isInputValid()) {
-            System.out.println("❌ 입력값 또는 카드 UID가 누락되었습니다.");
+            AlertCreate.showAlert(Alert.AlertType.ERROR, "사원 등록", "모든 항목을 입력해주세요.");
             return;
         }
 
@@ -84,23 +85,14 @@ public class NFCRegisterController {
         if (nfcService.writeDataToCard(data.getBytes(StandardCharsets.UTF_8))) {
             System.out.println("✅ 카드에 정보 저장 완료");
 
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("등록 완료");
-            alert.setHeaderText(null);
-            alert.setContentText("사원 등록이 완료되었습니다.");
-            alert.showAndWait();
-
+            AlertCreate.showAlert(Alert.AlertType.INFORMATION, "등록 완료", "사원 등록이 완료되었습니다.");
 
             Stage stage = (Stage) nameField.getScene().getWindow();
             stage.close();
         } else {
             System.out.println("❌ 카드 쓰기에 실패했습니다.");
 
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("에러");
-            alert.setHeaderText(null);
-            alert.setContentText("카드 쓰기에 실패했습니다.");
-            alert.showAndWait();
+            AlertCreate.showAlert(Alert.AlertType.ERROR, "등록 실패", "사원 등록에 실패했습니다..");
         }
         scannedUID = null;
     }

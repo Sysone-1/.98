@@ -1,11 +1,15 @@
 package com.sysone.ogamza.service.user;
 
+import com.sysone.ogamza.dao.user.DashboardDAO;
 import com.sysone.ogamza.dto.user.ScheduleContentDTO;
 import com.sysone.ogamza.dto.user.ScheduleListDTO;
 import com.sysone.ogamza.dao.user.ScheduleDAO;
+import com.sysone.ogamza.utils.dashboard.UsedVacationCalculator;
 import lombok.Getter;
 
+import java.time.DayOfWeek;
 import java.time.Duration;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -18,6 +22,7 @@ public class ScheduleService {
     @Getter
     private static final ScheduleService instance = new ScheduleService();
     private static final ScheduleDAO scheduleDAO = ScheduleDAO.getInstance();
+    private static final DashboardDAO dashboardDAO = DashboardDAO.getInstance();
 
     private ScheduleService() {}
 
@@ -61,8 +66,24 @@ public class ScheduleService {
     /**
         일정 결재 상신
      */
-    public boolean createSchedule(ScheduleContentDTO scheduleListDto) {
-        return scheduleDAO.insertSchedule(scheduleListDto);
+    public String createSchedule(ScheduleContentDTO scheduleListDto) {
+        int vacation = dashboardDAO.findVacationDaysByEmpId(scheduleListDto.getEmpId());
+        double used = UsedVacationCalculator.compute(dashboardDAO.findUsedVacationDaysByEmpId(scheduleListDto.getEmpId()));
+
+        LocalDate start = scheduleListDto.getStartDate().toLocalDate();
+        LocalDate end = scheduleListDto.getEndDate().toLocalDate();
+
+        long workingDays = start.datesUntil(end.plusDays(1))
+                .filter(d -> !(d.getDayOfWeek() == DayOfWeek.SATURDAY || d.getDayOfWeek() == DayOfWeek.SUNDAY))
+                .count();
+
+        double totalUsed = used + workingDays;
+
+        if (totalUsed > vacation) {
+            return "잔여 연차 부족 으로 상신 불가";
+        }
+
+        return scheduleDAO.insertSchedule(scheduleListDto) ? "상신 완료" : "다시 시도해 주세요.";
     }
 
     /**
