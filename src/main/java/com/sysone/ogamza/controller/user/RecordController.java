@@ -12,10 +12,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.util.Date;
 
-
-/**
- * 근태 기록 TableView 컨트롤러 (리팩터링 버전)
- */
 public class RecordController {
 
     @FXML private TableView<UserRecordDTO> table;
@@ -43,6 +39,7 @@ public class RecordController {
 
         configureColumns();
         loadData(user.getId());
+        adjustTableHeightToRowCount();
     }
 
     private void configureColumns() {
@@ -53,6 +50,10 @@ public class RecordController {
         colOut.setCellValueFactory(new PropertyValueFactory<>("checkOutTime"));
         colStatus.setCellValueFactory(new PropertyValueFactory<>("workStatus"));
 
+        // 가운데 정렬 적용
+        colId.setCellFactory(col -> createCenterAlignedCellInt());
+        colName.setCellFactory(col -> createCenterAlignedCell());
+        colDate.setCellFactory(col -> createCenterAlignedDateCell());
         colIn.setCellFactory(col -> createBlankTimeCell());
         colOut.setCellFactory(col -> createBlankTimeCell());
 
@@ -62,17 +63,50 @@ public class RecordController {
                 super.updateItem(status, empty);
                 if (empty || status == null) {
                     setText("");
-                    setStyle("");
+                    setStyle("-fx-alignment: CENTER;");
                     return;
                 }
                 setText(status);
                 setStyle(switch (status) {
-                    case "결근" -> "-fx-text-fill:#E03131; -fx-font-weight:bold;";
-                    case "지각" -> "-fx-text-fill:#F08C00; -fx-font-weight:bold;";
-                    default -> "-fx-text-fill:#2B8A3E; -fx-font-weight:bold;";
+                    case "결근" -> "-fx-text-fill:#E03131; -fx-font-weight:bold; -fx-alignment: CENTER;";
+                    case "지각" -> "-fx-text-fill:#F08C00; -fx-font-weight:bold; -fx-alignment: CENTER;";
+                    default -> "-fx-text-fill:#2B8A3E; -fx-font-weight:bold; -fx-alignment: CENTER;";
                 });
             }
         });
+    }
+
+    private TableCell<UserRecordDTO, Date> createCenterAlignedDateCell() {
+        return new TableCell<>() {
+            @Override
+            protected void updateItem(Date item, boolean empty) {
+                super.updateItem(item, empty);
+                setText((empty || item == null) ? "" : item.toString());
+                setStyle("-fx-alignment: CENTER;");
+            }
+        };
+    }
+
+    private TableCell<UserRecordDTO, String> createCenterAlignedCell() {
+        return new TableCell<>() {
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                setText(empty || item == null ? "" : item);
+                setStyle("-fx-alignment: CENTER;");
+            }
+        };
+    }
+
+    private TableCell<UserRecordDTO, Integer> createCenterAlignedCellInt() {
+        return new TableCell<>() {
+            @Override
+            protected void updateItem(Integer item, boolean empty) {
+                super.updateItem(item, empty);
+                setText(empty || item == null ? "" : String.valueOf(item));
+                setStyle("-fx-alignment: CENTER;");
+            }
+        };
     }
 
     private TableCell<UserRecordDTO, String> createBlankTimeCell() {
@@ -81,6 +115,7 @@ public class RecordController {
             protected void updateItem(String time, boolean empty) {
                 super.updateItem(time, empty);
                 setText((empty || time == null || time.isBlank()) ? "" : time);
+                setStyle("-fx-alignment: CENTER;");
             }
         };
     }
@@ -90,7 +125,6 @@ public class RecordController {
             records.setAll(UserRecordDAO.getInstance().getWorkingRecord(userId));
             table.setItems(records);
             table.getSortOrder().setAll(colDate);
-
             updateSummaryCounts();
         } catch (Exception e) {
             System.err.println("[RecordController] 데이터 로드 실패: " + e.getMessage());
@@ -106,5 +140,11 @@ public class RecordController {
         cntPresent.setText(presentCount + "일");
         cntLate.setText(lateCount + "일");
         cntAbsent.setText(absentCount + "일");
+    }
+
+    private void adjustTableHeightToRowCount() {
+        int rowCount = table.getItems().size();
+        table.setFixedCellSize(30);
+        table.setPrefHeight(table.getFixedCellSize() * rowCount + 28);
     }
 }

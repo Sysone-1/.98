@@ -452,12 +452,16 @@
               <DropShadow color="gray" offsetX="2" offsetY="2" radius="5" />
           </effect>
           <children>
-            <Button fx:id="addScheduleButton111" mnemonicParsing="false" onAction="#handleCalendarDetailClick" prefHeight="32.0" prefWidth="496.0" style="-fx-cursor: hand; -fx-padding: 10 0 0 410; -fx-background-color: parent;" text="더보기" textFill="#7f8c8d">
-               <font>
-                  <Font name="SansSerif Bold" size="14.0" />
-               </font>
-            </Button>
-            <VBox prefHeight="266.0" prefWidth="514.0">
+            <VBox alignment="CENTER_RIGHT" fillWidth="false" prefHeight="30.0" prefWidth="330.0">
+               <children>
+                  <Button fx:id="addScheduleButton111" alignment="CENTER" minHeight="30.0" minWidth="70.0" mnemonicParsing="false" onAction="#handleCalendarDetailClick" prefHeight="30.0" prefWidth="50.0" style="-fx-cursor: hand; -fx-background-color: parent;" text="더보기" textFill="#7f8c8d">
+                     <font>
+                        <Font name="SansSerif Bold" size="14.0" />
+                     </font>
+                  </Button>
+               </children>
+            </VBox>
+            <VBox prefHeight="260.0" prefWidth="514.0">
                <children>
                    <ScrollPane fx:id="scheduleScrollPane" fitToWidth="true" hbarPolicy="NEVER" prefHeight="230.0" prefWidth="480.0" style="-fx-background-color: white; -fx-background-radius: 30; -fx-background-insets: 0;">
                       <content>

@@ -14,7 +14,7 @@
     <children>
 
         <!-- 타이틀 -->
-        <Label fx:id="recordLabel" layoutX="35.0" layoutY="32.0" style="-fx-font-size:26; -fx-font-weight:bold;" text="근태 기록" />
+        <Label fx:id="recordLabel" layoutX="22.0" layoutY="14.0" style="-fx-font-size:26; -fx-font-weight:bold;" text="근태 기록" />
 
         <!-- 요약 카드 박스 -->
         <HBox fx:id="summaryBox" alignment="CENTER" layoutX="70.0" layoutY="71.0" prefHeight="137.0" prefWidth="972.0" spacing="50.0" style="-fx-background-color: #ffffff; -fx-background-radius: 20; -fx-alignment: center; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.12), 8, 0.2, 0, 2);" stylesheets="@/css/summary.css">
@@ -61,7 +61,7 @@
         </HBox>
 
         <!-- 근태 기록 테이블 -->
-        <TableView fx:id="table" layoutY="241.0" prefHeight="459.0" prefWidth="1015.0" styleClass="card" AnchorPane.bottomAnchor="43.0" AnchorPane.leftAnchor="56.0" AnchorPane.rightAnchor="55.0" AnchorPane.topAnchor="241.0">
+        <TableView fx:id="table" layoutY="241.0" prefHeight="459.0" prefWidth="1004.0" styleClass="table-view" AnchorPane.bottomAnchor="43.0" AnchorPane.leftAnchor="56.0" AnchorPane.rightAnchor="66.0" AnchorPane.topAnchor="241.0">
 
             <columns>
                 <TableColumn fx:id="colId" prefWidth="150.0" text="사원번호" />
@@ -69,7 +69,7 @@
                 <TableColumn fx:id="colDate" prefWidth="190.0" text="근무 날짜" />
                 <TableColumn fx:id="colIn" prefWidth="190.0" text="출근 시간" />
                 <TableColumn fx:id="colOut" prefWidth="190.0" text="퇴근 시간" />
-                <TableColumn fx:id="colStatus" prefWidth="112.0" text="근무 상태" />
+                <TableColumn fx:id="colStatus" prefWidth="133.0" text="근무 상태" />
             </columns>
         </TableView>
 
