@@ -1,23 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.chart.PieChart?>
+<!--
+    작성자: 조윤상
+    작성일: 2025-07-24
+    설명: 관리자 대시보드 화면 FXML
+-->
+
+<!-- JavaFX FXML 네임스페이스 및 컨트롤러 설정 -->
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.chart.LineChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
 
 <ScrollPane fx:controller="com.sysone.ogamza.controller.admin.AdminDashboardController"
             xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
             fitToWidth="true" fitToHeight="true">
+
+    <!-- 전체 레이아웃을 감싸는 BorderPane -->
     <BorderPane style="-fx-background-color:#F3F5F9;">
+
+        <!-- 상단 영역: 차트 그룹 + 근무 현황 테이블 -->
         <top>
             <VBox alignment="CENTER" spacing="20" style="-fx-padding: 20;">
-                <!-- 차트 그룹 포함 -->
+
+                <!-- 파이 차트 및 막대 그래프 등의 차트를 포함하는 FXML -->
                 <fx:include source="ChartGroup.fxml"/>
 
-                <!-- 근무 현황 테이블 -->
+                <!-- 근무 현황을 보여주는 테이블 -->
                 <TableView fx:id="statusTable"
                            prefWidth="800" prefHeight="50"
                            style="-fx-background-color:white;">
@@ -35,21 +49,41 @@
             </VBox>
         </top>
 
-        <!-- 초과근무 통계 -->
+        <!-- 중앙 영역: 주간 초과근무 통계 및 출입 거부 로그 그래프 -->
         <center>
-            <VBox spacing="10" style="-fx-padding: 20;">
-                <HBox spacing="10" alignment="CENTER_LEFT">
-                    <Label text="주간 초과근무 통계" style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
-                    <ComboBox fx:id="departmentComboBox" promptText="부서 선택"/>
-                </HBox>
+            <HBox spacing="20" style="-fx-padding: 20;">
 
-                <!-- 범례 박스 -->
-                <HBox fx:id="overtimeLegendBox" spacing="20" alignment="CENTER_LEFT"
-                      style="-fx-padding: 20 0 0 0;"/>
+                <!-- 왼쪽 박스: 주간 초과근무 통계 -->
+                <VBox spacing="10" HBox.hgrow="ALWAYS">
 
-                <!-- 통계 그래프 영역 -->
-                <VBox fx:id="overtimeGraphBox" spacing="10"/>
-            </VBox>
+                    <!-- 타이틀 + 부서 선택 콤보박스 -->
+                    <HBox spacing="10" alignment="CENTER_LEFT">
+                        <Label text="주간 초과근무 통계" style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
+                        <ComboBox fx:id="departmentComboBox" promptText="부서 선택"/>
+                    </HBox>
+
+                    <!-- 범례 표시 박스 (부서별 색상 표시 등) -->
+                    <HBox fx:id="overtimeLegendBox" spacing="20" alignment="CENTER_LEFT" style="-fx-padding: 10 0;"/>
+
+                    <!-- 실제 주간 초과근무 그래프가 들어갈 VBox (막대 형태로 커스텀 구성) -->
+                    <VBox fx:id="overtimeGraphBox" spacing="10"/>
+                </VBox>
+
+                <!-- 오른쪽 박스: 주별 출입 거부 로그 그래프 -->
+                <VBox spacing="10" HBox.hgrow="ALWAYS">
+                    <Label text="주별 출입 거부 로그" style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
+
+                    <!-- 선 그래프: 주차별 출입 거부 횟수 시각화 -->
+                    <LineChart fx:id="deniedAccessChart" prefHeight="300">
+                        <xAxis>
+                            <CategoryAxis fx:id="deniedAccessXAxis" label="주차"/>
+                        </xAxis>
+                        <yAxis>
+                            <NumberAxis fx:id="deniedAccessYAxis" label="거부 횟수"/>
+                        </yAxis>
+                    </LineChart>
+                </VBox>
+            </HBox>
         </center>
     </BorderPane>
 </ScrollPane>

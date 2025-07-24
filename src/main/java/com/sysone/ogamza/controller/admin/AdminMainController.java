@@ -3,9 +3,12 @@ package com.sysone.ogamza.controller.admin;
 import com.sysone.ogamza.LoginUserDTO;
 import com.sysone.ogamza.LogoutUtil;
 import com.sysone.ogamza.Session;
+import com.sysone.ogamza.service.admin.NotificationService;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -13,68 +16,76 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Rectangle;
-
-import com.sysone.ogamza.service.admin.NotificationService;
-
-import java.io.IOException;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
-
-import javafx.application.Platform;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.scene.Scene;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
-
+/**
+ * 관리자 메인 화면을 제어하는 컨트롤러 클래스입니다.
+ * 사용자 프로필, 알림, 페이지 이동 등의 기능을 담당합니다.
+ *
+ * @author 조윤상
+ * @since 2025-07-24
+ */
 public class AdminMainController {
 
+    /** 콘텐츠 영역 StackPane - 동적으로 화면 전환되는 뷰가 이 영역에 로드됩니다. */
     @FXML
     private StackPane contentArea;
 
+    /** 루트 AnchorPane - 클리핑 처리 등 레이아웃 설정에 사용됩니다. */
     @FXML
     private AnchorPane anchorPane;
 
+    /** 관리자 이름 표시 라벨 */
     @FXML
     private Label adminNameLabel;
 
+    /** 관리자 부서/직책 표시 라벨 */
     @FXML
     private Label adminDepartmentLabel;
 
+    /** 관리자 프로필 이미지 뷰 */
     @FXML
     private ImageView adminProfileImageView;
 
+    /** 알림 아이콘 이미지 뷰 */
     @FXML
     private ImageView notificationIcon;
 
+    /** 읽지 않은 알림 수 표시 라벨 */
     @FXML
     private Label notificationCountLabel;
 
-
+    /** 알림 서비스 */
     private NotificationService notificationService;
+
+    /** 알림 주기적 확인용 스케줄러 */
     private ScheduledExecutorService scheduler;
 
-
+    /**
+     * 컨트롤러 초기화 메서드.
+     * 사용자 정보 표시, 알림 폴링 설정, 기본 홈 화면 로딩 등을 수행합니다.
+     */
     @FXML
     public void initialize() {
-
         notificationService = new NotificationService();
         setupNotificationPolling();
 
-        // 알림 아이콘 클릭 이벤트 연결
         if (notificationIcon != null) {
             notificationIcon.setOnMouseClicked(this::handleNotificationClick);
         }
 
-        // 사용자 정보 로드 및 표시
         LoginUserDTO currentUser = Session.getInstance().getLoginUser();
         if (currentUser != null) {
             adminNameLabel.setText(currentUser.getName());
-            adminDepartmentLabel.setText(currentUser.getPosition()); // 직책을 부서명으로 사용
+            adminDepartmentLabel.setText(currentUser.getPosition());
 
             String profile = currentUser.getProfile();
             if (profile != null && !profile.isEmpty()) {
@@ -83,47 +94,44 @@ public class AdminMainController {
                     adminProfileImageView.setImage(profileImage);
                 } catch (Exception e) {
                     System.err.println("프로필 이미지 로드 실패: " + profile + ", " + e.getMessage());
-                    // 기본 이미지 설정 또는 이미지 뷰 숨기기
                 }
             }
         }
+
         loadPage("/fxml/admin/AdminHome.fxml");
 
         Rectangle clip = new Rectangle(anchorPane.getPrefWidth(), anchorPane.getPrefHeight());
         clip.setArcWidth(50);
         clip.setArcHeight(50);
         anchorPane.setClip(clip);
-
     }
 
-
+    /**
+     * 알림 아이콘 클릭 시 미승인 출입 기록을 다이얼로그로 표시하고 알림을 읽음 처리합니다.
+     *
+     * @param event 마우스 클릭 이벤트
+     */
     @FXML
     private void handleNotificationClick(MouseEvent event) {
         try {
-            // 1. 미승인 출입 기록 가져오기
             List<LocalDateTime> unauthorizedAccessTimes = notificationService.getUnauthorizedAccessTimes();
 
-            // 2. FXML 로더 생성 및 다이얼로그 로드
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/admin/UnauthorizedAccessLogDialog.fxml"));
             Parent root = loader.load();
 
-            // 3. 컨트롤러 가져와서 데이터 설정
             UnauthorizedAccessLogController controller = loader.getController();
             controller.setLogData(unauthorizedAccessTimes);
 
-            // 4. 모달 다이얼로그 설정 및 표시
             Stage dialogStage = new Stage();
             dialogStage.setTitle("미승인 출입 기록");
-            dialogStage.initModality(Modality.APPLICATION_MODAL); // 모달 창으로 설정
-            dialogStage.initOwner(notificationIcon.getScene().getWindow()); // 부모 창 설정
+            dialogStage.initModality(Modality.APPLICATION_MODAL);
+            dialogStage.initOwner(notificationIcon.getScene().getWindow());
             dialogStage.setScene(new Scene(root));
-            dialogStage.setResizable(false); // 크기 조절 비활성화
-            dialogStage.showAndWait(); // 창이 닫힐 때까지 대기
+            dialogStage.setResizable(false);
+            dialogStage.showAndWait();
 
-            // 5. 데이터베이스에서 알림을 '읽음' 상태로 업데이트
             notificationService.markAllUnauthorizedAccessLogAsRead();
 
-            // 6. UI 알림 카운트 초기화 및 숨김
             Platform.runLater(() -> {
                 notificationCountLabel.setText("0");
                 notificationCountLabel.setVisible(false);
@@ -138,6 +146,9 @@ public class AdminMainController {
         }
     }
 
+    /**
+     * 5초마다 알림 개수를 확인하여 UI에 반영하는 폴링 스케줄을 설정합니다.
+     */
     private void setupNotificationPolling() {
         scheduler = Executors.newSingleThreadScheduledExecutor();
         scheduler.scheduleAtFixedRate(() -> {
@@ -150,9 +161,12 @@ public class AdminMainController {
                     notificationCountLabel.setVisible(false);
                 }
             });
-        }, 0, 5, TimeUnit.SECONDS); // 5초마다 폴링
+        }, 0, 5, TimeUnit.SECONDS);
     }
 
+    /**
+     * 컨트롤러 종료 시 알림 스케줄러를 안전하게 종료합니다.
+     */
     public void cleanup() {
         if (scheduler != null && !scheduler.isShutdown()) {
             scheduler.shutdown();
@@ -167,45 +181,69 @@ public class AdminMainController {
         }
     }
 
+    /**
+     * 홈 화면으로 이동합니다.
+     *
+     * @param event 마우스 클릭 이벤트
+     */
     public void goHome(MouseEvent event) {
         System.out.println(" 메인 홈 이동 ");
         loadPage("/fxml/admin/AdminHome.fxml");
     }
 
+    /**
+     * 설정 화면으로 이동합니다.
+     *
+     * @param event 마우스 클릭 이벤트
+     */
     public void goSettings(MouseEvent event) {
         System.out.println(" 셋팅 이동 ");
-
         loadPage("/fxml/admin/AdminSettings.fxml");
     }
 
+    /**
+     * 대시보드 화면으로 이동합니다.
+     *
+     * @param event 마우스 클릭 이벤트
+     */
     public void goDashboard(MouseEvent event) {
         loadPage("/fxml/admin/AdminDashboard.fxml");
         System.out.println(" 대시보드 이동 ");
     }
 
+    /**
+     * 레코드 화면으로 이동합니다.
+     *
+     * @param event 마우스 클릭 이벤트
+     */
     public void goRecord(MouseEvent event) {
         loadPage("/fxml/admin/AdminRecord.fxml");
         System.out.println(" 레코드 이동 ");
     }
 
+    /**
+     * 로그아웃을 수행하고 로그인 화면으로 이동합니다.
+     *
+     * @param event 마우스 클릭 이벤트
+     */
     @FXML
     public void logout(MouseEvent event) {
         System.out.println("로그아웃");
         LogoutUtil.logout(event);
     }
 
-
-    // 페이지 로드
+    /**
+     * 주어진 FXML 경로에 해당하는 화면을 contentArea에 로드합니다.
+     *
+     * @param fxmlPath FXML 파일 경로
+     */
     private void loadPage(String fxmlPath) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
             Parent view = loader.load();
-
             contentArea.getChildren().setAll(view);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-
-
 }
