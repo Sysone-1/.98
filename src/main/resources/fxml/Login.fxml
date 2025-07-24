@@ -19,7 +19,7 @@
        <PasswordField fx:id="passwordField" layoutX="433.0" layoutY="360.0" prefHeight="65.0" prefWidth="446.0" promptText="비밀번호 입력" style="-fx-background-radius: 10; -fx-border-radius: 10; -fx-font-size: 20px" />
        <Label fx:id="errorLabel" layoutX="432.0" layoutY="425.0" prefHeight="44.0" prefWidth="446.0" style="-fx-font-size: 15px;" textFill="red" visible="false" />
        <!-- 로그인 버튼 -->
-       <Button layoutX="433.0" layoutY="490.0" onAction="#handleLogin" prefHeight="65.0" prefWidth="446.0" style="-fx-background-color: #0099ff; -fx-text-fill: white; -fx-font-size: 20px; -fx-font-weight: bold; -fx-background-radius: 10; -fx-cursor:hand; -fx-font-family:'SUIT-SemiBold'" text="로그인">
+       <Button layoutX="433.0" layoutY="490.0" defaultButton="true" onAction="#handleLogin" prefHeight="65.0" prefWidth="446.0" style="-fx-background-color: #0099ff; -fx-text-fill: white; -fx-font-size: 20px; -fx-font-weight: bold; -fx-background-radius: 10; -fx-cursor:hand; -fx-font-family:'SUIT-SemiBold'" text="로그인">
        </Button>
 
    </children>

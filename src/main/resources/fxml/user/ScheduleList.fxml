@@ -24,7 +24,7 @@
             </VBox>
               <VBox maxWidth="552.0" prefHeight="31.0" prefWidth="552.0" style="-fx-max-width: 1000; -fx-background-radius: 30; -fx-alignment: center; -fx-padding: 0 0 10 440;">
                   <children>
-                      <Button mnemonicParsing="false" onAction="#handleRemoveClick" prefHeight="31.0" prefWidth="99.0" style="-fx-background-color: #6E9BC7; -fx-background-radius: 8; -fx-cursor: hand;" text="상신 취소" textFill="WHITE">
+                      <Button mnemonicParsing="false" onAction="#handleCancleClick" prefHeight="31.0" prefWidth="99.0" style="-fx-background-color: #6E9BC7; -fx-background-radius: 8; -fx-cursor: hand;" text="상신 취소" textFill="WHITE">
                           <font>
                               <Font name="SansSerif Bold" size="16.0" />
                           </font>

@@ -50,7 +50,7 @@ public class ScheduleListController {
      * 선택된 일정이 있고 승인되지 않은 경우에만 상신을 취소합니다.
      */
     @FXML
-    private void handleRemoveClick() {
+    private void handleCancleClick() {
         ScheduleListDTO selectedDto = scheduleTable.getSelectionModel().getSelectedItem();
         if (selectedDto == null) {
             AlertCreate.showAlert(Alert.AlertType.ERROR, "상세 조회", "상신 취소할 대상을 선택해 주세요.");
@@ -68,6 +68,7 @@ public class ScheduleListController {
 
         if (success) {
             AlertCreate.showAlert(Alert.AlertType.INFORMATION, "상세 조회", "상신 취소 되었습니다.");
+            loadScheduleList();
         } else {
             AlertCreate.showAlert(Alert.AlertType.ERROR, "상세 조회", "다시 시도해주세요.");
         }
