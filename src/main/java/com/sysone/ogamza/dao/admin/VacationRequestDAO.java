@@ -6,17 +6,17 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class VacationRequestDAO implements RequestDAO {
+public class VacationRequestDAO implements RequestDAO<VacationRequestDTO> {
 
     // 휴일, 연차, 반차를 모두 휴가로 통합 처리
-    private static final String[] REQUEST_TYPES = {"휴일", "연차", "반차"};
+    private static final String[] REQUEST_TYPES = {"연차", "반차"};
 
     @Override
     public int countPendingRequests() {
         String sql = """
             SELECT COUNT(*)
             FROM SCHEDULE
-            WHERE SCHEDULE_TYPE IN ('휴일', '연차', '반차')
+            WHERE SCHEDULE_TYPE IN ('연차', '반차')
             AND IS_GRANTED = 0
             """;
 
@@ -47,13 +47,13 @@ public class VacationRequestDAO implements RequestDAO {
                 TO_CHAR(S.APPROVAL_DATE,'YYYY-MM-DD') AS approval_date,
                 TO_CHAR(S.START_DATE,'YYYY-MM-DD') AS start_date,
                 TO_CHAR(S.END_DATE,'YYYY-MM-DD') AS end_date,
+                S.SCHEDULE_TYPE AS schedule_type,
                 S.CONTENT AS content,
-                S.IS_GRANTED AS is_granted,
-                S.SCHEDULE_TYPE AS original_type
+                S.IS_GRANTED AS is_granted
             FROM SCHEDULE S
             JOIN EMPLOYEE E ON S.EMPLOYEE_ID = E.ID
             JOIN DEPARTMENT D ON E.DEPARTMENT_ID = D.ID
-            WHERE S.SCHEDULE_TYPE IN ('휴일', '연차', '반차')
+            WHERE S.SCHEDULE_TYPE IN ( '연차', '반차')
             AND S.IS_GRANTED = 0
             ORDER BY S.START_DATE DESC
             """;
@@ -63,10 +63,6 @@ public class VacationRequestDAO implements RequestDAO {
 
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
-                    // 원본 타입을 content에 포함하여 구분 가능하도록 함
-                    String content = "[" + rs.getString("original_type") + "] " +
-                            (rs.getString("content") != null ? rs.getString("content") : "");
-
                     list.add(new VacationRequestDTO(
                             rs.getInt("request_id"),
                             rs.getInt("employee_id"),
@@ -76,7 +72,8 @@ public class VacationRequestDAO implements RequestDAO {
                             rs.getString("approval_date"),
                             rs.getString("start_date"),
                             rs.getString("end_date"),
-                            content,
+                            rs.getString("schedule_type"), // DB 실제값 전달
+                            rs.getString("content") != null ? rs.getString("content") : "",
                             rs.getInt("is_granted")
                     ));
                 }
@@ -92,7 +89,7 @@ public class VacationRequestDAO implements RequestDAO {
         String sql = """
             SELECT COUNT(*)
             FROM SCHEDULE
-            WHERE SCHEDULE_TYPE IN ('휴일', '연차', '반차')
+            WHERE SCHEDULE_TYPE IN ('연차', '반차')
             AND IS_GRANTED IN (1, 2)
             """;
 
@@ -123,13 +120,13 @@ public class VacationRequestDAO implements RequestDAO {
                 TO_CHAR(S.APPROVAL_DATE,'YYYY-MM-DD') AS approval_date,
                 TO_CHAR(S.START_DATE,'YYYY-MM-DD') AS start_date,
                 TO_CHAR(S.END_DATE,'YYYY-MM-DD') AS end_date,
+                S.SCHEDULE_TYPE AS schedule_type,
                 S.CONTENT AS content,
-                S.IS_GRANTED AS is_granted,
-                S.SCHEDULE_TYPE AS original_type
+                S.IS_GRANTED AS is_granted
             FROM SCHEDULE S
             JOIN EMPLOYEE E ON S.EMPLOYEE_ID = E.ID
             JOIN DEPARTMENT D ON E.DEPARTMENT_ID = D.ID
-            WHERE S.SCHEDULE_TYPE IN ('휴일', '연차', '반차')
+            WHERE S.SCHEDULE_TYPE IN ('연차', '반차')
             AND S.IS_GRANTED IN (1, 2)
             ORDER BY S.APPROVAL_DATE DESC
             """;
@@ -139,9 +136,6 @@ public class VacationRequestDAO implements RequestDAO {
 
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
-                    String content = "[" + rs.getString("original_type") + "] " +
-                            (rs.getString("content") != null ? rs.getString("content") : "");
-
                     list.add(new VacationRequestDTO(
                             rs.getInt("request_id"),
                             rs.getInt("employee_id"),
@@ -151,7 +145,8 @@ public class VacationRequestDAO implements RequestDAO {
                             rs.getString("approval_date"),
                             rs.getString("start_date"),
                             rs.getString("end_date"),
-                            content,
+                            rs.getString("schedule_type"), // DB 실제값 전달
+                            rs.getString("content") != null ? rs.getString("content") : "",
                             rs.getInt("is_granted")
                     ));
                 }
@@ -165,26 +160,23 @@ public class VacationRequestDAO implements RequestDAO {
     @Override
     public void updateRequestStatus(int requestId, String newStatus) {
         String sql = """
-            UPDATE SCHEDULE
-            SET IS_GRANTED = CASE 
-                WHEN ? = '승인' THEN 1
-                WHEN ? = '거절' THEN 2
-                ELSE IS_GRANTED
-            END,
-            APPROVAL_DATE = SYSDATE
-            WHERE ID = ?
-            AND SCHEDULE_TYPE IN ('휴일', '연차', '반차')
+                UPDATE SCHEDULE
+                SET
+                  IS_GRANTED = DECODE(?, '1', 1, '2', 2, IS_GRANTED),
+                  APPROVAL_DATE = SYSDATE
+                WHERE
+                  ID = ?
+                  AND SCHEDULE_TYPE IN ('연차', '반차')
             """;
 
         try (Connection conn = OracleConnector.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+             PreparedStatement stmt = conn.prepareStatement(sql)){
 
             stmt.setString(1, newStatus);
-            stmt.setString(2, newStatus);
-            stmt.setInt(3, requestId);
+            stmt.setInt(2, requestId);
 
             int updated = stmt.executeUpdate();
-            System.out.println("휴가 승인 상태 업데이트: " + updated + "건 처리됨");
+            System.out.println("휴가 승인 상태 업데이트: " + updated + "건 처리됨 (ID: " + requestId + ", 상태: " + newStatus + ")");
 
         } catch (SQLException e) {
             e.printStackTrace();

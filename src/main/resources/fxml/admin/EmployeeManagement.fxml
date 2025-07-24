@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="700.0" prefWidth="1000.0" style="-fx-background-color: #F1F9FF;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sysone.ogamza.controller.admin.EmployeeManagementController">
+
+    <children>
+        <!-- 상단 제목 -->
+        <Label layoutX="40.0" layoutY="30.0" text="사원 관리" textFill="#2c3e50">
+            <font>
+                <Font name="System Bold" size="28.0" />
+            </font>
+        </Label>
+
+        <!-- 검색 및 필터 영역 -->
+        <HBox alignment="CENTER_LEFT" layoutX="40.0" layoutY="80.0" spacing="20.0">
+            <children>
+                <!-- 부서 필터 -->
+                <Label text="부서:" />
+                <ComboBox fx:id="departmentComboBox" onAction="#handleDepartmentFilter" prefWidth="150.0" promptText="전체" />
+
+                <!-- 검색 -->
+                <Label text="검색:" />
+                <TextField fx:id="searchField" onKeyReleased="#handleSearch" prefWidth="200.0" promptText="사번 또는 이름 입력" />
+
+                <!-- 사원 등록 버튼 -->
+                <Button fx:id="addEmployeeButton" onAction="#handleAddEmployee" style="-fx-background-color: #27ae60; -fx-text-fill: white;" text="사원 등록" />
+            </children>
+        </HBox>
+
+        <!-- 사원 목록 테이블 -->
+        <TableView fx:id="employeeTable" layoutX="40.0" layoutY="130.0" prefHeight="458.0" prefWidth="921.0">
+            <columns>
+                <TableColumn fx:id="employeeIdColumn" prefWidth="80.0" text="사번" />
+                <TableColumn fx:id="employeeNameColumn" prefWidth="120.0" text="이름" />
+                <TableColumn fx:id="departmentColumn" prefWidth="120.0" text="부서" />
+                <TableColumn fx:id="positionColumn" prefWidth="100.0" text="직급" />
+                <TableColumn fx:id="emailColumn" prefWidth="180.0" text="이메일" />
+                <TableColumn fx:id="telColumn" prefWidth="130.0" text="전화번호" />
+                <TableColumn fx:id="cardUidColumn" prefWidth="190.0" text="NFC 카드 UID" />
+            </columns>
+        </TableView>
+
+    </children>
+</AnchorPane>
