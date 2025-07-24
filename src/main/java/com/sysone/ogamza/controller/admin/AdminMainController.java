@@ -197,8 +197,8 @@ public class AdminMainController {
      * @param event 마우스 클릭 이벤트
      */
     public void goSettings(MouseEvent event) {
-        System.out.println(" 셋팅 이동 ");
-        loadPage("/fxml/admin/AdminSettings.fxml");
+        System.out.println(" 사원 조회 이동 ");
+        loadPage("/fxml/admin/EmployeeManagement.fxml");
     }
 
     /**

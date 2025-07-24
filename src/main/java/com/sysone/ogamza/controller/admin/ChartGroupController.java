@@ -249,9 +249,11 @@ public class ChartGroupController implements Initializable {
      */
     private void updateAllCounts() {
         Platform.runLater(() -> {
-            vacationCountText.setText(String.valueOf(requestService.getPendingCount(RequestType.VACATION)));
-            clockChangeCountText.setText(String.valueOf(requestService.getPendingCount(RequestType.CLOCK_CHANGE)));
-            outworkCountText.setText(String.valueOf(requestService.getPendingCount(RequestType.OUTWORK)));
+            vacationCountText.setText(String.valueOf(requestService.getPendingCount(RequestType.HALFDAY)));
+            vacationCountText.setText(String.valueOf(requestService.getPendingCount(RequestType.ANNUAL)));
+            clockChangeCountText.setText(String.valueOf(requestService.getPendingCount(RequestType.OVERTIME)));
+            clockChangeCountText.setText(String.valueOf(requestService.getPendingCount(RequestType.HOLIDAY)));
+            outworkCountText.setText(String.valueOf(requestService.getPendingCount(RequestType.FIELDWORK)));
             completedCountText.setText(String.valueOf(requestService.getAllCompletedCount()));
         });
     }
@@ -260,9 +262,11 @@ public class ChartGroupController implements Initializable {
      * 각 승인 카운트 항목에 클릭 이벤트를 바인딩합니다.
      */
     private void setupClickEvents() {
-        bindIfNotNull(vacationCountText, RequestType.VACATION);
-        bindIfNotNull(clockChangeCountText, RequestType.CLOCK_CHANGE);
-        bindIfNotNull(outworkCountText, RequestType.OUTWORK);
+        vacationCountText.setText(String.valueOf(requestService.getPendingCount(RequestType.HALFDAY)));
+        vacationCountText.setText(String.valueOf(requestService.getPendingCount(RequestType.ANNUAL)));
+        clockChangeCountText.setText(String.valueOf(requestService.getPendingCount(RequestType.OVERTIME)));
+        clockChangeCountText.setText(String.valueOf(requestService.getPendingCount(RequestType.HOLIDAY)));
+        outworkCountText.setText(String.valueOf(requestService.getPendingCount(RequestType.FIELDWORK)));
 
         completedCountText.setOnMouseClicked(e -> openCompletedRequestList());
         completedCountText.setOnMouseEntered(e -> completedCountText.setStyle("-fx-fill: blue; -fx-cursor: hand;"));
