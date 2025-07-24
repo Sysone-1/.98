@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.layout.VBox?>
+
+<!--
+    UnauthorizedAccessLog.fxml
+    미승인 출입 기록을 보여주는 다이얼로그 레이아웃입니다.
+    상단에 제목 레이블, 가운데에는 출입 기록을 보여주는 리스트뷰,
+    하단에 닫기 버튼이 배치되어 있습니다.
+
+    작성자: 조윤상
+-->
+
+<VBox alignment="CENTER" spacing="10" style="-fx-padding: 20;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sysone.ogamza.controller.admin.UnauthorizedAccessLogController">
+    <!-- 제목 -->
+    <Label text="미승인 출입 기록" style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
+
+    <!-- 출입 시간 기록 리스트 -->
+    <ListView fx:id="logListView" prefHeight="200.0" prefWidth="300.0"/>
+
+    <!-- 닫기 버튼 -->
+    <Button text="닫기" onAction="#closeDialog"/>
+</VBox>

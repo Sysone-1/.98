@@ -12,19 +12,30 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TableColumn?>
 
+<!--
+    AdminRecord.fxml
+    출입 기록 조회 및 관리 화면 레이아웃 정의 파일입니다.
+    기간 설정, 필터링, 검색 기능과 출입 기록 테이블이 포함되어 있습니다.
+
+    작성자: 조윤상
+-->
+
 <BorderPane prefHeight="743.0" prefWidth="1126.0" style="-fx-background-color:#F3F5F9;" xmlns=
         "http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller=
                     "com.sysone.ogamza.controller.admin.AdminRecordController">
 
-    <!-- 중앙 콘텐츠 -->
+    <!-- 중앙 콘텐츠 영역 -->
     <center>
         <VBox spacing="10">
             <padding>
+                <!-- 내부 여백 설정: 상, 우, 하, 좌 -->
                 <Insets top="20.0" right="20.0" bottom="20.0" left="20.0" />
             </padding>
 
-            <!-- 기간 설정 -->
+            <!-- 기간 설정 라벨 -->
             <Label text="기간 설정" style="-fx-font-size: 14px; -fx-font-weight: bold;"/>
+
+            <!-- 기간 선택 영역: 시작일, 종료일 DatePicker와 초기화 버튼 -->
             <HBox spacing="10" alignment="CENTER_LEFT">
                 <DatePicker fx:id="startDatePicker"/>
                 <Label text="~"/>
@@ -32,24 +43,26 @@
                 <Button text="초기화" onAction="#onResetDateButtonClicked" />
             </HBox>
 
-            <!-- 필터링 -->
+            <!-- 필터링 라벨 -->
             <Label text="필터링" style="-fx-font-size: 14px; -fx-font-weight: bold;"/>
+
+            <!-- 필터링 콤보박스: 부서, 직급, 출입여부 -->
             <HBox spacing="10" alignment="CENTER_LEFT">
                 <ComboBox fx:id="departmentComboBox" promptText="부서 선택" prefWidth="120"/>
                 <ComboBox fx:id="positionComboBox" promptText="직급 선택" prefWidth="120"/>
                 <ComboBox fx:id="approvalComboBox" promptText="출입여부" prefWidth="120"/>
             </HBox>
 
-
-
+            <!-- 간격 조정을 위한 빈 라벨 -->
             <Label minHeight="50" />
+
+            <!-- 검색 영역: 검색어 입력 필드와 검색 버튼 -->
             <HBox spacing="10" alignment="CENTER_LEFT">
                 <TextField fx:id="searchField" promptText="검색어를 입력하세요" prefWidth="200"/>
                 <Button text="검색" onAction="#onSearchButtonClicked"/>
             </HBox>
 
-
-            <!-- 테이블 -->
+            <!-- 출입 기록 테이블 -->
             <TableView fx:id="recordTable" prefHeight="400">
                 <columns>
                     <TableColumn fx:id="colId" text="사번"/>

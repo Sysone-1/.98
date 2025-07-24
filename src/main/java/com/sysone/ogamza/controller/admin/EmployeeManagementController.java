@@ -356,7 +356,7 @@ public class EmployeeManagementController implements Initializable {
     @FXML
     private void handleAddEmployee() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/admin/EmployeeRegist.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/admin/EmployeeRegister.fxml"));
             Parent root = loader.load();
 
             EmployeeRegistController controller = loader.getController();

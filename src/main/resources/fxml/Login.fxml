@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="743.0" prefWidth="1151.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sysone.ogamza.LoginController">
+<AnchorPane prefHeight="832" prefWidth="1300" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sysone.ogamza.LoginController">
    <children>
        <ImageView fitHeight="95.0" fitWidth="380.0" layoutX="458.0" layoutY="157.0">
            <image>
@@ -13,14 +14,12 @@
            </image>
        </ImageView>
        <!-- 아이디 입력 -->
-       <TextField fx:id="emailField" layoutX="433.0" layoutY="312.0" prefHeight="65.0" prefWidth="446.0" promptText="이메일 입력" style="-fx-background-radius: 10; -fx-border-radius:10; -fx-font-size: 20px" />
+       <TextField fx:id="emailField" layoutX="433.0" layoutY="279.0" prefHeight="65.0" prefWidth="446.0" promptText="이메일 입력" style="-fx-background-radius: 10; -fx-border-radius:10; -fx-font-size: 20px" />
        <!-- 비밀번호 입력 -->
-       <PasswordField fx:id="passwordField" layoutX="433.0" layoutY="395.0" prefHeight="65.0" prefWidth="446.0" promptText="비밀번호 입력" style="-fx-background-radius: 10; -fx-border-radius: 10; -fx-font-size: 20px" />
-       <Label fx:id="errorLabel" layoutX="440" layoutY="430" style="-fx-font-size: 15px;" textFill="red" visible="false" />
+       <PasswordField fx:id="passwordField" layoutX="433.0" layoutY="360.0" prefHeight="65.0" prefWidth="446.0" promptText="비밀번호 입력" style="-fx-background-radius: 10; -fx-border-radius: 10; -fx-font-size: 20px" />
+       <Label fx:id="errorLabel" layoutX="432.0" layoutY="425.0" prefHeight="44.0" prefWidth="446.0" style="-fx-font-size: 15px;" textFill="red" visible="false" />
        <!-- 로그인 버튼 -->
-       <Button layoutX="433.0" layoutY="490.0" onAction="#handleLogin" prefHeight="65.0" prefWidth="446.0"
-               style="-fx-background-color: #0099ff; -fx-text-fill: white; -fx-font-size: 20px; -fx-font-weight: bold; -fx-background-radius: 10; -fx-cursor:hand; -fx-font-family:'SUIT-SemiBold'"
-               text="로그인">
+       <Button layoutX="433.0" layoutY="490.0" defaultButton="true" onAction="#handleLogin" prefHeight="65.0" prefWidth="446.0" style="-fx-background-color: #0099ff; -fx-text-fill: white; -fx-font-size: 20px; -fx-font-weight: bold; -fx-background-radius: 10; -fx-cursor:hand; -fx-font-family:'SUIT-SemiBold'" text="로그인">
        </Button>
 
    </children>

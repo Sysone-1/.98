@@ -1,5 +1,11 @@
 package com.sysone.ogamza.sql.user;
 
+/**
+ * 대시보드 기능에서 사용되는 SQL 쿼리들을 상수로 정의한 클래스입니다.
+ * <p>출퇴근 시간, 연차, 근무 시간 등의 데이터를 조회하는 데 사용됩니다.</p>
+ *
+ * @author 김민호
+ */
 public class DashboardSql {
 
     public static final String FIND_FIRST_ACCESS_LOG =
@@ -22,12 +28,11 @@ public class DashboardSql {
                 "SELECT TOTAL_VAC_NUM " +
                 "FROM EMPLOYEE " +
                 "WHERE ID = ?";
+
     public static final String FIND_USED_VACATION_NUM =
-                "SELECT COUNT(*) AS TOTAL_USED_VACATION " +
+                "SELECT SCHEDULE_TYPE, START_DATE, END_DATE " +
                 "FROM SCHEDULE " +
-                "WHERE EMPLOYEE_ID = ? AND " +
-                "SCHEDULE_TYPE = '연차' AND " +
-                "IS_GRANTED = 1";
+                "WHERE EMPLOYEE_ID = ?";
 
     public static final String FIND_TOTAL_WORKING_TIME =
                 "SELECT SUM(WORKING_TIME) AS TOTAL_WORKING_TIME " +
@@ -55,5 +60,6 @@ public class DashboardSql {
                 "SELECT * " +
                 "FROM SCHEDULE " +
                 "WHERE EMPLOYEE_ID = ? AND " +
-                "TRUNC(START_DATE) BETWEEN TRUNC(CURRENT_DATE, 'D') AND TRUNC(CURRENT_DATE, 'D') + 6";
+                "TRUNC(START_DATE) BETWEEN TRUNC(CURRENT_DATE, 'D') AND TRUNC(CURRENT_DATE, 'D') + 6 " +
+                "ORDER BY START_DATE";
 }

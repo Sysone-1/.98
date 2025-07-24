@@ -7,6 +7,15 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Text?>
 
+<!--
+    ChartGroup.fxml
+    근무 현황과 부서별 근무 차트를 표시하는 화면 레이아웃 정의 파일입니다.
+    좌측에는 전체 근무 현황 파이차트와 범례가 포함되어 있으며,
+    우측에는 부서 선택 콤보박스와 선택한 부서별 근무 현황 파이차트가 있습니다.
+
+    작성자: 조윤상
+-->
+
 <HBox xmlns="http://javafx.com/javafx/8"
       xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="com.sysone.ogamza.controller.admin.ChartGroupController"
@@ -18,13 +27,13 @@
         <!-- 왼쪽: 근무 현황 차트 및 범례를 감싸는 VBox -->
         <VBox spacing="20" alignment="CENTER" prefWidth="650">
 
-            <!-- The single, correctly managed overallChart -->
+            <!-- 전체 근무 현황 파이차트 -->
             <PieChart fx:id="overallChart"
                       prefHeight="200"
                       prefWidth="260"
                       animated="true"/>
 
-            <!-- 범례 -->
+            <!-- 근무 상태별 범례 -->
             <HBox spacing="15" alignment="CENTER">
                 <VBox alignment="CENTER" spacing="10">
                     <HBox spacing="5" alignment="CENTER_LEFT">
@@ -49,7 +58,7 @@
             </HBox>
         </VBox>
 
-        <!-- 오른쪽: 부서별 근무 차트 및 부서 선택 -->
+        <!-- 오른쪽: 부서별 근무 차트 및 부서 선택 콤보박스 -->
         <VBox spacing="15" alignment="TOP_CENTER" prefWidth="350">
             <ComboBox fx:id="departmentComboBox"
                       promptText="부서 선택"

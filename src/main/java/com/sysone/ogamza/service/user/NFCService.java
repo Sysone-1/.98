@@ -16,20 +16,29 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Logger;
 
+/**
+ * NFC 관련 기능을 담당하는 서비스 클래스입니다.
+ *
+ * <p>카드 리더기 연결, 카드 데이터 읽기/쓰기, 사원 등록 및 삭제, 출입 기록 등록,
+ * 부서 및 사원 정보 조회 등의 기능을 제공합니다.</p>
+ *
+ * @author 김민호
+ */
 public class NFCService {
 
     @Getter
     private static final NFCService instance = new NFCService();
     private static final NFCDAO nfcDao = NFCDAO.getInstance();
 
-    private NFCService() {}
+    public NFCService() {}
     private static final Logger logger = Logger.getLogger(NFCService.class.getName());
     private Card card;
     private CardChannel channel;
 
     /**
-        카드 리더기 가져와서 공유 채널 세팅
-    */
+     * 카드 리더기와 연결하고 기본 채널을 설정합니다.
+     * 연결 실패 시 로그에 경고 메시지를 출력합니다.
+     */
     private void connectCardReader() {
         try {
             CardTerminal terminal = NFCReader.getCardTerminal();
@@ -45,11 +54,13 @@ public class NFCService {
     }
 
     /**
-        카드 연결
-        16바이트 단위로 블록을 나누어 저장 (MIFARE 한 블록 = 16 bytes)
-        블록 단위 인증 후 write
-        4번째 블록마다 인증 블록(Sector Trailer)이므로 건너뜀
-    */
+     * NFC 카드에 데이터를 블록 단위로 작성합니다.
+     * MIFARE 카드 기준 16바이트 단위로 작성하며,
+     * 4번째 블록마다 존재하는 Sector Trailer는 건너뜁니다.
+     *
+     * @param data NFC 카드에 저장할 바이트 배열 데이터
+     * @return 작성 성공 여부
+     */
     public boolean writeDataToCard(byte[] data) {
         try {
             connectCardReader();
@@ -74,32 +85,42 @@ public class NFCService {
     }
 
     /**
-        사원 등록
+     * 신규 사원을 등록합니다.
+     *
+     * @param dto 사원 정보 DTO
+     * @return 등록 결과 메시지
      */
-    public String createEmployee(EmployeeCreateDTO dto) {
+    public String registerEmployee(EmployeeCreateDTO dto) {
         return nfcDao.insertEmployee(dto);
     }
 
     /**
-        사원 탈퇴
+     * 사원을 삭제(탈퇴)합니다.
+     *
+     * @param dto 사원 정보 DTO
+     * @return 삭제 결과 메시지
      */
     public String deleteEmployee(EmployeeCreateDTO dto) {
-        return nfcDao.deleteEmployee(dto);
+        return nfcDao.deleteEmployeeByCardId(dto);
     }
 
     /**
-        부서 ID로 부서명 조회
-    */
-    public List<DepartmentDTO> getDepartment() {
-        return nfcDao.findDepartment();
+     * 모든 부서 목록을 조회합니다.
+     *
+     * @return 부서 DTO 리스트
+     */
+    public List<DepartmentDTO> getDepartments() {
+        return nfcDao.findAllDepartments();
     }
 
-   /**
-        카드 연결
-        지정된 시작 블록부터 count개의 블록 읽기
-        인증 후 블록 단위로 읽음
-        Sector Trailer은 건너뜀
-    */
+    /**
+     * NFC 카드에서 데이터를 블록 단위로 읽어 문자열로 반환합니다.
+     * 4번째 블록마다 존재하는 Sector Trailer는 건너뜁니다.
+     *
+     * @param startBlock 시작 블록 번호
+     * @param count 읽을 블록 수
+     * @return 읽어온 문자열 데이터 (UTF-8), 실패 시 null
+     */
     public String readDataFromCard(int startBlock, int count) {
         try {
             connectCardReader();
@@ -128,30 +149,41 @@ public class NFCService {
     }
 
     /**
-        카드 ID에 따른 사원 ID 조회
+     * 카드 UID를 기반으로 사원 ID를 조회합니다.
+     *
+     * @param cardId 카드 UID 바이트 배열
+     * @return 사원 ID (문자열)
      */
-    public String getEmployeeInfo(byte[] cardId ) {
-        return nfcDao.findEmployeeById(cardId);
+    public String getEmployeeNameByCardId(byte[] cardId ) {
+        return nfcDao.findEmployeeNameByCardId(cardId);
     }
 
     /**
-        출입 시간 등록
+     * 출입 기록을 등록합니다.
+     *
+     * @param empId 사원 ID
+     * @return 등록 성공 여부
      */
     public boolean insertAccessTime(int empId) {
         return nfcDao.insertAccessTime(empId);
     }
 
     /**
-        미인가 출입 시간 등록
-    */
+     * 미인가 출입 시각을 등록합니다.
+     *
+     * @return 등록 성공 여부
+     */
     public boolean insertUnauthorizedAccessTime() {
         return nfcDao.insertUnauthorizedAccessTime();
     }
 
     /**
-        프로필 사진 경로 조회
+     * 사원 ID를 통해 프로필 사진 경로를 조회합니다.
+     *
+     * @param empId 사원 ID
+     * @return 프로필 사진 경로 (문자열)
      */
-    public String getProfileDir(int empId) {
-        return nfcDao.findPicdir(empId);
+    public String getProfileImagePath(int empId) {
+        return nfcDao.findProfileImagePath(empId);
     }
 }
