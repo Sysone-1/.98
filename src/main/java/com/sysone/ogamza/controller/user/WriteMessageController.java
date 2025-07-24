@@ -72,11 +72,15 @@ public class WriteMessageController {
     }
 
     private void showNotification(String message) {
-        Notifications.create()
-                .title("알림")
-                .text(message)
-                .darkStyle()
-                .showInformation();
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("알림");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+
+        // 확인 후 창 닫기
+        Stage stage = (Stage) sendButton.getScene().getWindow();
+        stage.close();
     }
 
     private void ShowWarning(String message) {
@@ -84,7 +88,7 @@ public class WriteMessageController {
         alert.setTitle("경고");
         alert.setHeaderText(null);
         alert.setContentText(message);
-        alert.show();
+        alert.showAndWait(); // 확인 누르면 닫힘
     }
 
     private void setupDepartmentSelection() {
