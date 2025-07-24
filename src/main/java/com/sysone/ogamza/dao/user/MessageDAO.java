@@ -1,6 +1,7 @@
 package com.sysone.ogamza.dao.user;
 
 import com.sysone.ogamza.dto.user.MessageDTO;
+import com.sysone.ogamza.sql.user.MessageSenderSQL;
 import com.sysone.ogamza.utils.db.OracleConnector;
 
 import java.sql.Connection;
@@ -9,7 +10,7 @@ import java.sql.SQLException;
 
 public class MessageDAO {
     public void insertMessage(MessageDTO dto) {
-        String sql = "INSERT INTO MESSAGE (id, sender_id, receiver_id, content) values (message_seq.nextval, ?,?,?)";
+        String sql = MessageSenderSQL.INSERT_MESSAGE;
 
         try (Connection conn = OracleConnector.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {

@@ -1,6 +1,7 @@
 package com.sysone.ogamza.dao.user;
 
 import com.sysone.ogamza.dto.user.AlarmSettingDTO;
+import com.sysone.ogamza.sql.user.AlarmSQL;
 import com.sysone.ogamza.utils.db.OracleConnector;
 import oracle.ucp.proxy.annotation.Pre;
 
@@ -11,7 +12,7 @@ import java.sql.SQLException;
 
 public class AlarmDAO {
     public AlarmSettingDTO findByUserId(int id) {
-        String sql = "SELECT alarm_1, alarm_2, alarm_3 FROM employee WHERE id = ? AND IS_DELETED = 0";
+        String sql = AlarmSQL.SELECT_ALARM;
         try (Connection conn = OracleConnector.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, id);
@@ -35,16 +36,7 @@ public class AlarmDAO {
             case 5 -> a2 = 1;
             case 10 -> a3 = 1;
         }
-        String sql = """
-                    MERGE INTO employee a
-                    USING (SELECT ? AS ID FROM dual) b
-                    ON (a.ID = b.ID)
-                    WHEN MATCHED THEN
-                        UPDATE SET ALARM_1 = ?, ALARM_2 = ?, ALARM_3 = ?
-                    WHEN NOT MATCHED THEN
-                        INSERT (ID, ALARM_1, ALARM_2, ALARM_3, IS_DELETED)
-                        VALUES (?, ?, ?, ?, 0)
-                """;
+        String sql = AlarmSQL.UPDATE_ALARM;
 
         try (Connection conn = OracleConnector.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
