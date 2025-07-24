@@ -15,6 +15,15 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * 사용자 일정 목록을 월간 캘린더 형식으로 시각화하는 커스텀 JavaFX 컴포넌트입니다.
+ * <p>
+ * CalendarFX 라이브러리를 기반으로 하며, {@link ScheduleContentDTO} 객체 목록을 받아
+ * 달력에 일정 항목을 등록합니다. 사용자는 일정 항목을 더블 클릭하여 상세 정보를 확인할 수 있습니다.
+ * </p>
+ *
+ * @author 김민호
+ */
 public class MonthView extends VBox {
 
     private final Calendar<ScheduleContentDTO> calendar;
@@ -33,7 +42,9 @@ public class MonthView extends VBox {
     }
 
     /**
-        본인 일정 달력에 추가
+     * 일정 목록을 CalendarFX의 {@link Entry} 객체로 변환하여 달력에 추가합니다.
+     *
+     * @param list 일정 DTO 목록
      */
     private void addEntries(List<ScheduleContentDTO> list) {
         for (ScheduleContentDTO dto : list) {
@@ -46,7 +57,9 @@ public class MonthView extends VBox {
     }
 
     /**
-        CalendarView 구성 및 설정
+     * CalendarFX 기반 {@link CalendarView}를 생성하고 UI 요소들을 구성합니다.
+     *
+     * @return 구성된 CalendarView 객체
      */
     private CalendarView createCalendarView() {
         CalendarView calendarView = new CalendarView();
@@ -81,7 +94,9 @@ public class MonthView extends VBox {
     }
 
     /**
-        일정 클릭 시 팝업 열기
+     * 일정 항목 클릭 시 상세 정보를 보여주는 팝업 창을 띄웁니다.
+     *
+     * @param entries 클릭된 일정 항목 리스트 (보통 1개)
      */
     private void entryPopup(List<Entry<?>> entries) {
         try {

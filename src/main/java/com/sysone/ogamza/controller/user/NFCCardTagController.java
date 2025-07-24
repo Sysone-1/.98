@@ -10,6 +10,14 @@ import javafx.scene.text.Text;
 
 import java.io.File;
 
+/**
+ * NFC 카드 태그 기능을 담당하는 컨트롤러입니다.
+ * <p>
+ * 사원증 카드의 UID를 실시간으로 감지하여, 등록된 사원의 정보 및 프로필 이미지를 조회하고 표시합니다.
+ * 미인가 카드의 경우 알림과 함께 출입 기록을 저장합니다.
+ *
+ * @author 김민호
+ */
 public class NFCCardTagController {
 
     @FXML private Text empName;
@@ -23,7 +31,8 @@ public class NFCCardTagController {
     private String scannedUID = null;
 
     /**
-        카드 감지 루프 시작
+     * 카드 감지 루프를 시작합니다.
+     * 별도 스레드에서 주기적으로 UID를 읽고, 새로운 UID가 감지되면 정보를 화면에 출력합니다.
      */
     public void startListeningLoop() {
         listening = true;
@@ -35,7 +44,7 @@ public class NFCCardTagController {
                 if (uid != null && !uid.equals(scannedUID)) {
                     scannedUID = uid;
                     Platform.runLater(() -> {
-                        if(nfcService.getEmployeeInfo(uid.getBytes()) == null) {
+                        if(nfcService.getEmployeeNameByCardId(uid.getBytes()) == null) {
                             nfcService.insertUnauthorizedAccessTime();
 
                             Image image = new Image(getClass().getResource("/images/fail.jpg").toExternalForm());
@@ -49,7 +58,7 @@ public class NFCCardTagController {
                             System.out.println("❌ 미인가 카드입니다.");
                             return;
                         }
-                        onCardDetected();
+                        detecteCard();
                     });
 
                     try {
@@ -75,14 +84,17 @@ public class NFCCardTagController {
     }
 
     /**
-        카드 데이터 읽기
+     * UID를 통해 카드에 저장된 사원 데이터를 읽고 화면에 표시합니다.
+     * - 블록 4~6에서 데이터 읽기
+     * - 프로필 이미지 및 사원 이름/부서 표시
+     * - 출입 시간 저장
      */
     @FXML
-    private void onCardDetected() {
+    private void detecteCard() {
         String[] data = nfcService.readDataFromCard(4, 3).split(","); // 블록 4~6
 
         if (data != null) {
-            String dir = nfcService.getProfileDir(Integer.parseInt(data[0]));
+            String dir = nfcService.getProfileImagePath(Integer.parseInt(data[0]));
             File file = new File("src/main/resources" + dir);
             Image image = new Image(file.toURI().toString());
 
@@ -107,7 +119,8 @@ public class NFCCardTagController {
     }
 
     /**
-        감지 루프 종료
+     * 카드 감지 루프를 종료합니다.
+     * 백그라운드 스레드를 안전하게 종료합니다.
      */
     public void stopListeningLoop() {
         listening = false;

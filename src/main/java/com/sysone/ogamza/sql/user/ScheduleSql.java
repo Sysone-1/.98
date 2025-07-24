@@ -1,5 +1,11 @@
 package com.sysone.ogamza.sql.user;
 
+/**
+ * 일정(Schedule) 관련 기능에서 사용되는 SQL 쿼리들을 상수로 정의한 클래스입니다.
+ * <p>일정 생성, 승인 일정 조회, 출근 상태 기록 등의 작업에 사용됩니다.</p>
+ *
+ * @author 김민호
+ */
 public class ScheduleSql {
     public static final String FIND_SCHEDULE_GRANTED_CONTENT =
             "SELECT * " +
@@ -23,7 +29,7 @@ public class ScheduleSql {
             "INSERT INTO SCHEDULE (EMPLOYEE_ID, START_DATE, END_DATE, SCHEDULE_TYPE, TITLE, CONTENT) " +
             "VALUES (?, ?, ?, ?, ?, ?)";
 
-    public static final String CANCEL_SCHEDULE =
+    public static final String UPDATE_CANCEL_SCHEDULE =
             "UPDATE SCHEDULE " +
             "SET IS_GRANTED = 3 " +
             "WHERE EMPLOYEE_ID = ? AND " +

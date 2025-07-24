@@ -31,6 +31,14 @@ import javafx.util.Duration;
 
 import java.util.Locale;
 
+/**
+ * 사용자 대시보드에 대한 기능을 담당하는 컨트롤러입니다.
+ * <p>
+ * 사용자의 출퇴근 시간, 근로 시간, 연차, 일정 등의 정보를 조회 및 표시하며,
+ * 일정 등록 및 결재 내역 확인, 사원 등록, 카드 태깅, 달력 상세 보기 등의 기능을 제공합니다.
+ *
+ * @author 김민호
+ */
 public class DashboardController {
     @FXML private Text accessTime, leaveTime, workingHours, remainingWorkingHours, totalVacation, usedVacation, remainingVacation;
     @FXML private Text totalWorkingHours, totalRemainingWorkingHours, extendWorkingTime, weekendWorkingTime;
@@ -44,6 +52,10 @@ public class DashboardController {
     private static final Session employeeSession = Session.getInstance();
     public static final long empId = employeeSession.getLoginUser().getId();
 
+    /**
+     * 컨트롤러 초기화 메서드.
+     * 사용자 출퇴근 시간, 근로 시간, 연차 정보, 일정 등을 로드합니다.
+     */
     @FXML
     public void initialize() {
         loadAccessTime();
@@ -65,16 +77,16 @@ public class DashboardController {
             Tooltip.install(tooltipImage, tooltip);
         });
     }
-  
+
     /**
-        출근 시간 조회 및 setText
+     * 출근 시간 조회 및 화면에 설정합니다.
      */
     private void loadAccessTime() {
         accessTime.setText(dashboardService.getTodayAccessTime(empId));
     }
 
     /**
-        퇴근 시간 조회 및 setText
+     * 퇴근 시간 조회 및 화면에 설정합니다.
      */
     private void loadLeaveTime() {
         String time = dashboardService.getTodayLeaveTime(empId);
@@ -82,7 +94,7 @@ public class DashboardController {
     }
 
     /**
-        근로 시간 및 잔여 근로 시간 조회
+     * 금일 근로 시간 및 잔여 근로 시간을 조회하고 화면에 반영합니다.
      */
     private void loadWorkingHours() {
         String[] timeArray = dashboardService.getWorkingTime(empId);
@@ -94,7 +106,7 @@ public class DashboardController {
     }
 
     /**
-        총연차, 사용 연차, 남은 연차 조회
+     * 총 연차, 사용 연차, 남은 연차를 조회하여 화면에 표시하고, 연차 프로그레스바를 설정합니다.
      */
     private void loadVacationDays() {
         int total = dashboardService.getVacationDays(empId);
@@ -116,7 +128,8 @@ public class DashboardController {
     }
 
     /**
-        총 근무 시간, 남은 근무 시간, 남은 연장 근무 시간, 남은 휴일 연장 근무 시간 조회
+     * 월간 총 근로 시간 및 남은 근무 시간을 계산하여 화면에 설정합니다.
+     * 연장 및 휴일 근무 시간도 포함됩니다.
      */
     private void loadTotalWorkingHours() {
         LocalDateTime now = LocalDateTime.now();
@@ -155,7 +168,8 @@ public class DashboardController {
     }
 
     /**
-        일정 등록 리스트 조회
+     * 금주 등록된 일정 리스트를 조회하여 화면에 표시합니다.
+     * 일정이 없을 경우 등록된 일정이 없다는 표시를 합니다.
      */
     private void loadTodayScheduleList() {
         scheduleListBox.getChildren().clear();
@@ -179,7 +193,10 @@ public class DashboardController {
     }
 
     /**
-        결재 상신 클릭 핸들러
+     * '결재 상신' 버튼 클릭 시 실행되는 핸들러입니다.
+     * 결재 등록 폼을 모달 형태로 표시합니다.
+     *
+     * @param event 클릭 이벤트
      */
     @FXML
     private void handleAddScheduleClick(ActionEvent event) {
@@ -190,7 +207,7 @@ public class DashboardController {
 
             Stage dialogStage = new Stage();
             dialogStage.initModality(Modality.APPLICATION_MODAL);
-            dialogStage.setTitle("일정 상신");
+            dialogStage.setTitle("결재 상신");
 
             Window parentWindow = ((Node) event.getSource()).getScene().getWindow();
             dialogStage.initOwner(parentWindow);
@@ -207,7 +224,10 @@ public class DashboardController {
     }
 
     /**
-        결재 내역 클릭 핸들러
+     * '결재 내역' 버튼 클릭 시 실행되는 핸들러입니다.
+     * 사용자의 결재 내역 리스트를 모달로 표시합니다.
+     *
+     * @param event 클릭 이벤트
      */
     @FXML
     private void handleFetchScheduleClick(ActionEvent event) {
@@ -235,11 +255,15 @@ public class DashboardController {
             e.printStackTrace();
         }
     }
+
     /**
-        임시 회원 등록 버튼 핸들러
+     * 사원 등록 버튼 클릭 시 실행되는 핸들러입니다.
+     * 사원 등록 폼을 모달로 표시합니다.
+     *
+     * @param event 클릭 이벤트
      */
     @FXML
-    private void handleAddEmployee(ActionEvent event) {
+    private void handleAddEmployeeClick(ActionEvent event) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/user/EmployeeRegister.fxml"));
             Parent formRoot = loader.load();
@@ -263,40 +287,35 @@ public class DashboardController {
     }
 
     /**
-        임시 카드 태그 버튼 핸들러
+     * NFC 카드 태그 버튼 클릭 시 실행되는 핸들러입니다.
+     * 카드 태깅을 위한 창을 열고 NFC 리스닝을 시작합니다.
+     *
+     * @param event 클릭 이벤트
      */
     @FXML
-    private void handleTagCard(ActionEvent event) {
+    private void handleTagCardClick(ActionEvent event) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/user/EmployeeTag.fxml"));
             Parent formRoot = loader.load();
 
-            // 컨트롤러 가져오기
             NFCCardTagController tagController = loader.getController();
 
-            // 다이얼로그 스테이지 설정
             Stage dialogStage = new Stage();
             dialogStage.initModality(Modality.APPLICATION_MODAL);
             dialogStage.setTitle("카드 태그");
 
-            // 부모 창 설정
             Window parentWindow = ((Node) event.getSource()).getScene().getWindow();
             dialogStage.initOwner(parentWindow);
 
-            // 장면 설정
             Scene dialogScene = new Scene(formRoot);
             dialogStage.setScene(dialogScene);
             dialogStage.setResizable(false);
 
-            // 창 닫힐 때 NFC 루프 종료
             dialogStage.setOnCloseRequest(e -> {
                 tagController.stopListeningLoop();
             });
 
-            // NFC 감지 루프 시작
             tagController.startListeningLoop();
-
-            // 창 열기 (모달)
             dialogStage.showAndWait();
 
 
@@ -306,10 +325,13 @@ public class DashboardController {
     }
 
     /**
-        달력 상세 보기
+     * 달력 상세 버튼 클릭 시 실행되는 핸들러입니다.
+     * 월별 일정 상세 정보를 보여주는 달력 창을 모달로 표시합니다.
+     *
+     * @param event 클릭 이벤트
      */
     @FXML
-    private void handleCalendarDetail(ActionEvent event) {
+    private void handleCalendarDetailClick(ActionEvent event) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/user/CalendarDetail.fxml"));
             Parent formRoot = loader.load();

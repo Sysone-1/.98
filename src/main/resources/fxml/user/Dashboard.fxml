@@ -451,7 +451,7 @@
               <DropShadow color="gray" offsetX="2" offsetY="2" radius="5" />
           </effect>
           <children>
-            <Button fx:id="addScheduleButton111" mnemonicParsing="false" onAction="#handleCalendarDetail" prefHeight="32.0" prefWidth="496.0" style="-fx-cursor: hand; -fx-padding: 10 0 0 410; -fx-background-color: parent;" text="더보기" textFill="#7f8c8d">
+            <Button fx:id="addScheduleButton111" mnemonicParsing="false" onAction="#handleCalendarDetailClick" prefHeight="32.0" prefWidth="496.0" style="-fx-cursor: hand; -fx-padding: 10 0 0 410; -fx-background-color: parent;" text="더보기" textFill="#7f8c8d">
                <font>
                   <Font name="SansSerif Bold" size="14.0" />
                </font>
@@ -475,12 +475,12 @@
             </VBox>
          </children>
       </VBox>
-      <Button fx:id="addScheduleButton1" layoutX="359.0" layoutY="11.0" mnemonicParsing="false" onAction="#handleAddEmployee" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: #6E9BC7; -fx-background-radius: 8; -fx-cursor: hand;" text="회원등록" textFill="WHITE">
+      <Button fx:id="addScheduleButton1" layoutX="359.0" layoutY="11.0" mnemonicParsing="false" onAction="#handleAddEmployeeClick" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: #6E9BC7; -fx-background-radius: 8; -fx-cursor: hand;" text="회원등록" textFill="WHITE">
          <font>
             <Font name="SansSerif Bold" size="18.0" />
          </font>
       </Button>
-      <Button fx:id="addScheduleButton11" layoutX="209.0" layoutY="11.0" mnemonicParsing="false" onAction="#handleTagCard" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: #6E9BC7; -fx-background-radius: 8; -fx-cursor: hand;" text="카드 태그" textFill="WHITE">
+      <Button fx:id="addScheduleButton11" layoutX="209.0" layoutY="11.0" mnemonicParsing="false" onAction="#handleTagCardClick" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: #6E9BC7; -fx-background-radius: 8; -fx-cursor: hand;" text="카드 태그" textFill="WHITE">
          <font>
             <Font name="SansSerif Bold" size="18.0" />
          </font>
