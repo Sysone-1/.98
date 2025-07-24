@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="743.0" prefWidth="1151.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sysone.ogamza.LoginController">
+<AnchorPane prefHeight="832" prefWidth="1300" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sysone.ogamza.LoginController">
    <children>
        <ImageView fitHeight="95.0" fitWidth="380.0" layoutX="458.0" layoutY="157.0">
            <image>
