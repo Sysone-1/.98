@@ -1,118 +1,90 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.sysone.ogamza.controller.user.EditMemberModalController"
-            prefHeight="400.0" prefWidth="600.0"
-            style="-fx-background-color: white; -fx-background-radius:20;">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: white; -fx-background-radius:20;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sysone.ogamza.controller.user.EditMemberModalController">
+    <children>
+        <VBox alignment="CENTER_LEFT" spacing="20" AnchorPane.leftAnchor="20" AnchorPane.rightAnchor="30" AnchorPane.topAnchor="20">
+            <children>
+                <!-- 제목 -->
+                <Label style="-fx-font-size: 20px; -fx-font-weight:bold;" text="회원 정보 수정" />
 
-    <!-- VBox로 전체 내용을 새로 배치 -->
-    <VBox alignment="CENTER_LEFT" spacing="20" AnchorPane.topAnchor="20" AnchorPane.leftAnchor="20" AnchorPane.rightAnchor="30">
-        <!-- 제목-->
-        <Label text = "회원 정보 수정" style="-fx-font-size: 20px; -fx-font-weight:bold;" />
+                <!-- 입력 필드 영역 -->
+                <GridPane hgap="15" vgap="10">
+                    <columnConstraints>
+                        <ColumnConstraints prefWidth="120" />
+                        <ColumnConstraints hgrow="ALWAYS" />
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints prefHeight="27.0" />
+                        <RowConstraints />
+                        <RowConstraints />
+                        <RowConstraints />
+                        <RowConstraints />
+                        <RowConstraints />
+                        <RowConstraints />
+                        <RowConstraints />
+                    </rowConstraints>
+                    <children>
+                        <!-- 이름 -->
+                        <Label text="이름" style="-fx-font-size: 16px" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                        <Label fx:id="nameLabel" text="김선호" style="-fx-font-size: 16px" GridPane.columnIndex="1" GridPane.rowIndex="0" />
 
-        <!-- 입력 필드 이름 그룹 -->
-        <GridPane hgap="20" vgap="15">
-            <columnConstraints>
-                <!-- 라벨 영역 너비 고정 -->
-                <ColumnConstraints prefWidth="120"/>
-                <!-- 입력 영역 너비 자동 -->
-                <ColumnConstraints hgrow="ALWAYS"/>
-            </columnConstraints>
-            <rowConstraints>
-                <RowConstraints prefHeight="27"/>
-            </rowConstraints>
+                        <!-- 직책 -->
+                        <Label text="직급" style="-fx-font-size: 16px" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                        <Label fx:id="positionLabel" text="사원" style="-fx-font-size: 16px" GridPane.columnIndex="1" GridPane.rowIndex="1" />
 
-            <!-- 이름 -->
-            <Label text="이름" GridPane.rowIndex="0" GridPane.columnIndex="0"
-            style="-fx-font-size: 16px"/>
-            <Label fx:id="nameLabel" text="김선호" GridPane.rowIndex = "0" GridPane.columnIndex="1"
-            style="-fx-font-size: 16px"/>
+                        <!-- 비밀번호 -->
+                        <Label text="비밀번호" style="-fx-font-size: 16px" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                        <PasswordField fx:id="passwordField" prefHeight="27" style="-fx-background-color: #F1F9FF; -fx-background-radius: 10;" GridPane.columnIndex="1" GridPane.rowIndex="2" />
 
-            <!-- 직책 -->
-            <Label text="직급" GridPane.rowIndex="1" GridPane.columnIndex="0"
-            style="-fx-font-size: 16px"/>
-            <Label fx:id="positionLabel" text="30세" GridPane.rowIndex = "1" GridPane.columnIndex="1"
-            style="-fx-font-size: 16px"/>
+                        <!-- 비밀번호 확인 -->
+                        <Label text="비밀번호 확인" style="-fx-font-size: 16px;" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+                        <PasswordField fx:id="confirmPasswordField" prefHeight="27" style="-fx-background-color: #F1F9FF; -fx-background-radius: 10;" GridPane.columnIndex="1" GridPane.rowIndex="3" />
 
-            <!-- 비밀번호 -->
-            <Label text="비밀번호" GridPane.rowIndex="2" GridPane.columnIndex="0"
-            style="-fx-font-size: 16px"/>
-            <PasswordField fx:id="passwordField" GridPane.rowIndex = "2" GridPane.columnIndex="1" prefHeight="27"
-            style="-fx-background-color: #F1F9FF; -fx-background-radius: 10;"/>
+                        <!-- 비밀번호 에러 메시지 -->
+                        <Label fx:id="pwErrorLabel" textFill="red" style="-fx-font-size:12px;" visible="false" managed="false" GridPane.columnIndex="1" GridPane.rowIndex="4" />
 
-            <!-- 비밀번호 확인-->
-            <Label text="비밀번호 확인" GridPane.rowIndex="3" GridPane.columnIndex="0"
-                   style="-fx-font-size: 16px;"
-                   />
-            <PasswordField fx:id="confirmPasswordField" GridPane.rowIndex = "3" GridPane.columnIndex="1" prefHeight="27"
-                   style="-fx-background-color: #F1F9FF; -fx-background-radius: 10;" />
+                        <!-- 연락처 -->
+                        <Label text="연락처" style="-fx-font-size: 16px" GridPane.columnIndex="0" GridPane.rowIndex="5" />
+                        <GridPane hgap="5" GridPane.columnIndex="1" GridPane.rowIndex="5">
+                            <columnConstraints>
+                                <ColumnConstraints hgrow="ALWAYS" />
+                                <ColumnConstraints prefWidth="10" />
+                                <ColumnConstraints hgrow="ALWAYS" />
+                                <ColumnConstraints prefWidth="10" />
+                                <ColumnConstraints hgrow="ALWAYS" />
+                            </columnConstraints>
+                            <children>
+                                <!-- 010 -->
+                                <Label text="010" GridPane.columnIndex="0" style="-fx-font-size: 14px; -fx-background-color: #F1F9FF; -fx-background-radius: 8; -fx-border-color: #F1F9FF; -fx-border-radius: 8; -fx-alignment: center; -fx-padding: 5 10; -fx-pref-width: 50; -fx-pref-height: 27;" />
 
-            <!-- 연락처 라벨 -->
-            <Label text="연락처" GridPane.rowIndex="4" GridPane.columnIndex="0"
-                   style="-fx-font-size: 16px"/>
+                                <!-- 하이픈 -->
+                                <Label text="-" style="-fx-font-size: 18px; -fx-alignment: center;" GridPane.columnIndex="1" />
 
-            <!-- 연락처 입력 영역 -->
-            <GridPane GridPane.rowIndex="4" GridPane.columnIndex="1" hgap="5" vgap="0">
-                <columnConstraints>
-                    <ColumnConstraints hgrow="ALWAYS"/> <!-- 010 -->
-                    <ColumnConstraints prefWidth="10"/> <!-- 하이픈 -->
-                    <ColumnConstraints hgrow="ALWAYS"/> <!-- 가운데 번호 -->
-                    <ColumnConstraints prefWidth="10"/> <!-- 하이픈 -->
-                    <ColumnConstraints hgrow="ALWAYS"/> <!-- 뒷번호 -->
-                </columnConstraints>
+                                <!-- 가운데 번호 -->
+                                <TextField fx:id="phonePart2" promptText="1234" prefHeight="27" style="-fx-background-color: #F1F9FF; -fx-background-radius: 10;" GridPane.columnIndex="2" />
 
-                <!-- 010 고정 라벨 -->
-                <Label text="010"
-                       GridPane.columnIndex="0"
-                       style="-fx-background-color: #F1F9FF;
-                  -fx-alignment: center;
-                  -fx-padding: 5 10;
-                  -fx-border-color: #F1F9FF;
-                  -fx-border-radius: 10;
-                  -fx-background-radius: 10;"/>
+                                <!-- 하이픈 -->
+                                <Label text="-" style="-fx-font-size: 18px; -fx-alignment: center;" GridPane.columnIndex="3" />
 
-                <!-- 하이픈 -->
-                <Label text="-" GridPane.columnIndex="1"
-                       style="-fx-font-size: 18px; -fx-alignment: center;"/>
+                                <!-- 뒷번호 -->
+                                <TextField fx:id="phonePart3" promptText="5678" prefHeight="27" style="-fx-background-color: #F1F9FF; -fx-background-radius: 10;" GridPane.columnIndex="4" />
+                            </children>
+                        </GridPane>
 
-                <!-- 가운데 번호 입력 -->
-                <TextField fx:id="phonePart2"
-                           GridPane.columnIndex="2"
-                           promptText="1234"
-                           prefHeight="27"
-                           style="-fx-background-color: #F1F9FF;
-                      -fx-background-radius: 10;"/>
+                        <!-- 연락처 에러 메시지 -->
+                        <Label fx:id="telErrorLabel" textFill="red" style="-fx-font-size: 12px;" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                    </children>
+                </GridPane>
 
-                <!-- 하이픈 -->
-                <Label text="-" GridPane.columnIndex="3"
-                       style="-fx-font-size: 18px; -fx-alignment: center;"/>
-
-                <!-- 뒷번호 입력 -->
-                <TextField fx:id="phonePart3"
-                           GridPane.columnIndex="4"
-                           promptText="5678"
-                           prefHeight="27"
-                           style="-fx-background-color: #F1F9FF;
-                      -fx-background-radius: 10;"/>
-            </GridPane>
-
-        </GridPane>
-
-        <!-- 버튼 영역 -->
-        <HBox alignment="CENTER" spacing="10">
-            <Button text="저장" fx:id="saveButton"
-                    style="-fx-background-color: #009DFF; -fx-text-fill: white; -fx-background-radius: 8;
-                    -fx-pref-height:27px; -fx-pref-width: 60px; -fx-font-size:16px"
-                    onAction="#handleSave"/>
-        </HBox>
-    </VBox>
+                <!-- 버튼 영역 -->
+                <HBox alignment="CENTER" spacing="10" prefHeight="54.0" prefWidth="550.0">
+                    <children>
+                        <Button fx:id="saveButton" text="저장" onAction="#handleSave" style="-fx-background-color: #009DFF; -fx-text-fill: white; -fx-background-radius: 8; -fx-pref-height:27px; -fx-pref-width: 60px; -fx-font-size:16px" />
+                    </children>
+                </HBox>
+            </children>
+        </VBox>
+    </children>
 </AnchorPane>
