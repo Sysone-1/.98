@@ -59,7 +59,7 @@
                <children>
                   <VBox maxHeight="98.0" prefHeight="50.0" prefWidth="70.0" style="-fx-background-radius: 30; -fx-alignment: center-left; -fx-max-width: 80; -fx-max-height: 20; -fx-min-height: 20;">
                      <children>
-            
+
                                   <Label text="직위">
                            <font>
                               <Font size="16.0" />
@@ -73,7 +73,7 @@
                <children>
                   <VBox maxHeight="98.0" prefHeight="50.0" prefWidth="70.0" style="-fx-background-radius: 30; -fx-alignment: center-left; -fx-max-width: 80; -fx-min-height: 20; -fx-max-height: 20;">
                      <children>
-            
+
                             <Label text="이메일">
                            <font>
                               <Font size="16.0" />

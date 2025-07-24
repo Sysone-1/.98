@@ -21,6 +21,7 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.concurrent.Executors;
@@ -210,6 +211,7 @@ public class AdminHomeController implements Initializable {
 
     // ========================= 메인/전체 통계 (기존 로직 완전 유지) =========================
     private void loadHomeStats() {
+//        System.out.println(">> loadHomeStats 시작");
         try {
             int[] stats = statsService.getTodayStats();
             Platform.runLater(() -> {
@@ -226,6 +228,7 @@ public class AdminHomeController implements Initializable {
             System.out.println("근태 현황 로드 완료: " +
                     "[총원:" + stats[0] + ", 출근:" + stats[1] + ", 지각:" + stats[2] +
                     ", 결근:" + stats[3] + ", 휴가:" + stats[4] + "]");
+//            System.out.println(">>loadHomeStats 완료" + Arrays.toString(stats));
         } catch (Exception e) {
             System.err.println("근태 현황 로드 실패: " + e.getMessage());
             e.printStackTrace();
@@ -306,7 +309,7 @@ public class AdminHomeController implements Initializable {
                             statusColor = "#F44336"; // 빨간색
                             break;
                         case "휴가":
-                            statusColor = "#9C27B0"; // 보라색
+                            statusColor = "#2196f3"; // 파란색
                             break;
                         default:
                             statusColor = "#CCCCCC"; // 기본 회색

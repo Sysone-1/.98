@@ -308,7 +308,7 @@ public class ChartGroupController implements Initializable {
                             statusColor = "#F44336";  // 빨간색
                             break;
                         case "휴가":
-                            statusColor = "#9C27B0";  // 보라색
+                            statusColor = "#2196f3";  // 파란색
                             break;
                         default:
                             statusColor = "#CCCCCC";  // 기본 회색
