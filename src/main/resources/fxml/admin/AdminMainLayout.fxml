@@ -1,28 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.StackPane?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.shape.Circle?>
+
+<!--
+    AdminMain.fxml
+    관리자 메인 화면 레이아웃 정의 파일입니다.
+
+    작성자: 조윤상
+-->
 
 <AnchorPane id="anchorPane" fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
             minWidth="-Infinity" prefHeight="832.0" prefWidth="1284.0"
             style="-fx-background-radius: 50; -fx-background-color: #F3F5F9;" xmlns="http://javafx.com/javafx/8"
             xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sysone.ogamza.controller.admin.AdminMainController">
     <children>
+        <!--
+            좌측 사이드바 메뉴 영역
+            배경색: #7F90DB (블루 계열)
+            메뉴 아이템: Home, Dashboard, Record, Setting, Logout
+            각 아이콘 클릭 시 해당 화면으로 이동 (컨트롤러 메서드 바인딩)
+        -->
         <VBox prefHeight="834.0" prefWidth="130.0" style="-fx-background-color: #7F90DB;">
             <children>
+                <!-- Home 메뉴 -->
                 <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
                       prefHeight="100.0" prefWidth="130.0" style="-fx-alignment: center; -fx-spacing: 10;"
                       styleClass="sidebar-items" translateY="100.0">
@@ -40,6 +44,8 @@
                         </Label>
                     </children>
                 </VBox>
+
+                <!-- Dashboard 메뉴 -->
                 <VBox layoutX="10.0" layoutY="10.0" prefHeight="100.0" prefWidth="130.0"
                       style="-fx-alignment: center; -fx-spacing: 10;" styleClass="sidebar-items" translateY="100.0">
                     <children>
@@ -57,6 +63,8 @@
                         </Label>
                     </children>
                 </VBox>
+
+                <!-- Record 메뉴 -->
                 <VBox layoutX="10.0" layoutY="160.0" prefHeight="100.0" prefWidth="130.0"
                       style="-fx-alignment: center; -fx-spacing: 10;" styleClass="sidebar-items" translateY="100.0">
                     <children>
@@ -73,6 +81,8 @@
                         </Label>
                     </children>
                 </VBox>
+
+                <!-- Setting 메뉴 -->
                 <VBox layoutX="10.0" layoutY="160.0" prefHeight="100.0" prefWidth="130.0"
                       style="-fx-alignment: center; -fx-spacing: 10;" styleClass="sidebar-items" translateY="100.0">
                     <children>
@@ -89,6 +99,8 @@
                         </Label>
                     </children>
                 </VBox>
+
+                <!-- Logout 버튼 -->
                 <VBox layoutX="10.0" prefHeight="100.0" prefWidth="130.0" style="-fx-alignment: center;"
                       styleClass="sidebar-items" translateY="180.0">
                     <children>
@@ -102,10 +114,13 @@
                 </VBox>
             </children>
         </VBox>
+
+        <!-- 상단 헤더 영역 -->
         <VBox layoutX="130.0" prefHeight="110.0" prefWidth="1151.0" style="-fx-background-color: #ffffff;">
             <children>
                 <HBox alignment="CENTER_LEFT" prefHeight="110.0" prefWidth="1151.0">
                     <children>
+                        <!-- 관리자 로고 및 클릭 시 홈 이동 -->
                         <VBox maxWidth="-Infinity" minWidth="-Infinity" prefHeight="110.0" prefWidth="250.0"
                               style="-fx-alignment: center; -fx-padding: 20;">
                             <children>
@@ -117,9 +132,11 @@
                                 </ImageView>
                             </children>
                         </VBox>
+
+                        <!-- 우측 사용자 정보 및 알림 아이콘 영역 -->
                         <HBox alignment="CENTER_RIGHT" spacing="10" style="-fx-padding: 0 20 0 0;" HBox.hgrow="ALWAYS">
                             <children>
-                                <!-- 이름과 부서 -->
+                                <!-- 관리자 이름, 부서명 표시 -->
                                 <VBox alignment="CENTER_RIGHT" spacing="5">
                                     <children>
                                         <Label fx:id="adminNameLabel"
@@ -128,14 +145,16 @@
                                                style="-fx-font-size: 14px; -fx-text-fill: grey;" text="부서명"/>
                                     </children>
                                 </VBox>
-                                <!-- 프로필 이미지 -->
+
+                                <!-- 프로필 이미지 (원형 클리핑) -->
                                 <ImageView fx:id="adminProfileImageView" fitHeight="50.0" fitWidth="50.0"
                                            pickOnBounds="true" preserveRatio="false">
                                     <clip>
                                         <Circle centerX="25.0" centerY="25.0" radius="25.0"/>
                                     </clip>
                                 </ImageView>
-                                <!-- 알림 아이콘 및 카운터 -->
+
+                                <!-- 알림 아이콘과 알림 카운트 -->
                                 <StackPane alignment="CENTER" prefHeight="30.0" prefWidth="30.0">
                                     <!-- 알림 아이콘 -->
                                     <ImageView fx:id="notificationIcon" fitHeight="30.0" fitWidth="30.0"
@@ -145,7 +164,7 @@
                                         </image>
                                     </ImageView>
 
-                                    <!-- 알림 숫자 -->
+                                    <!-- 알림 숫자 표시 (숨겨졌다가 알림 있을 때 보임) -->
                                     <Label fx:id="notificationCountLabel"
                                            style="-fx-background-color: red; -fx-text-fill: white; -fx-font-size: 10px; -fx-padding: 2 5; -fx-background-radius: 10;"
                                            text="0"
@@ -160,6 +179,8 @@
                 </HBox>
             </children>
         </VBox>
+
+        <!-- 메인 컨텐츠 표시 영역 -->
         <StackPane fx:id="contentArea" layoutX="144.0" layoutY="123.0" prefHeight="687.0" prefWidth="1120.0"
                    style="-fx-padding:24;" AnchorPane.bottomAnchor="22.0" AnchorPane.leftAnchor="144.0"
                    AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="123.0"/>

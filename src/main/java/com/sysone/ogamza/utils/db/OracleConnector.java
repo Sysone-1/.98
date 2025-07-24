@@ -98,9 +98,21 @@ public class OracleConnector {
         return Optional.empty();
     }
 
-    /*
-        DB 에서 데이터 조회 후 리스트 값 반환
-    */
+    /**
+     * 데이터베이스에서 지정한 SQL 쿼리를 실행하고 결과를 리스트로 반환합니다.
+     * 쿼리 결과의 첫 번째 컬럼 값을 지정된 타입으로 변환하여 리스트에 담아 반환합니다.
+     *  LocalDateTime, Integer 타입에 대해 특별한 변환 로직을 수행하며,
+     * 그 외 타입은 기본 타입 캐스팅을 시도합니다.
+     *
+     * @author 조윤상
+     * @since 2025-07-23
+     *
+     * @param <T>    반환할 리스트 요소의 타입
+     * @param sql    실행할 SQL 쿼리 문자열
+     * @param type   결과값의 타입 클래스 (예: LocalDateTime.class, Integer.class)
+     * @param params SQL 쿼리의 파라미터 (가변 인자)
+     * @return 쿼리 실행 결과를 지정 타입으로 변환한 리스트
+     */
     public static <T> List<T> fetchList(String sql, Class<T> type, Object... params) {
         List<T> results = new java.util.ArrayList<>();
         try (Connection conn = OracleConnector.getConnection();
@@ -135,9 +147,18 @@ public class OracleConnector {
         return results;
     }
 
-    /*
-        DB 에 데이터 삽입, 수정, 삭제
-    */
+    /**
+     * 데이터베이스에 대해 DML(데이터 조작어) 작업을 실행합니다.
+     *
+     * 주로 INSERT, UPDATE, DELETE 문을 수행하며, 지정한 SQL과 파라미터를 사용합니다.
+     * 실행 중 예외가 발생하면 스택 트레이스를 출력합니다.
+     *
+     * @author 조윤상
+     * @since 2025-07-23
+     *
+     * @param sql    실행할 DML SQL 문
+     * @param params SQL 문의 파라미터 (가변 인자)
+     */
     public static void executeDML(String sql, Object... params) {
         try (Connection conn = OracleConnector.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
