@@ -31,7 +31,7 @@ public class LoginController {
                 try {
                     handleLogin(null);
                 } catch (Exception e) {
-                    e.printStackTrace();
+
                 }
             }
         });
