@@ -165,7 +165,8 @@ public class DashboardService {
                 "-fx-text-fill: black;" +
                 "-fx-padding: 10 20 10 20;" +
                 "-fx-background-radius: 8;" +
-                "-fx-font-size: 18px;"
+                "-fx-font-size: 16px;" +
+                "-fx-font-family: 'Inter'"
         );
         DropShadow shadow = new DropShadow();
         shadow.setColor(Color.GRAY);
