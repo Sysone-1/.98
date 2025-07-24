@@ -21,7 +21,7 @@
                   <VBox prefHeight="750.0" prefWidth="130.0" style="-fx-background-color: #0099FF; -fx-background-radius: 30 0 0 30; -fx-alignment: center;">
                      <children>
                         <!-- Sidebar Items -->
-                        <VBox prefHeight="100.0" prefWidth="130.0" style="-fx-alignment: center; -fx-spacing: 10;" styleClass="sidebar-items">
+                        <VBox prefHeight="100.0" prefWidth="130.0" style="-fx-alignment: center;-fx-cursor:hand; -fx-spacing: 10;" styleClass="sidebar-items">
                            <children>
                               <ImageView fitHeight="40.0" fitWidth="40.0" onMouseClicked="#goHome" pickOnBounds="true" preserveRatio="true" style="-fx-cursor: hand;">
                                  <image><Image url="@../../images/home.png" /></image>
@@ -29,7 +29,7 @@
                               <Label style="-fx-text-fill: #ffffff;" text="home"><font><Font name="Inter Regular" size="18.0" /></font></Label>
                            </children>
                         </VBox>
-                        <VBox prefHeight="100.0" prefWidth="130.0" style="-fx-alignment: center; -fx-spacing: 10;" styleClass="sidebar-items">
+                        <VBox prefHeight="100.0" prefWidth="130.0" style="-fx-alignment: center;-fx-cursor:hand; -fx-spacing: 10;" styleClass="sidebar-items">
                            <children>
                               <ImageView fitHeight="40.0" fitWidth="40.0" onMouseClicked="#goDashboard" pickOnBounds="true" preserveRatio="true" style="-fx-cursor: hand;">
                                  <image><Image url="@../../images/dashboard.png" /></image>
@@ -37,7 +37,7 @@
                               <Label style="-fx-text-fill: #ffffff;" text="dashboard"><font><Font name="Inter Regular" size="18.0" /></font></Label>
                            </children>
                         </VBox>
-                        <VBox prefHeight="100.0" prefWidth="130.0" style="-fx-alignment: center; -fx-spacing: 10;" styleClass="sidebar-items">
+                        <VBox prefHeight="100.0" prefWidth="130.0" style="-fx-alignment: center;-fx-cursor:hand; -fx-spacing: 10;" styleClass="sidebar-items">
                            <children>
                               <ImageView fitHeight="40.0" fitWidth="40.0" onMouseClicked="#goRecord" pickOnBounds="true" preserveRatio="true" style="-fx-cursor: hand;">
                                  <image><Image url="@../../images/record.png" /></image>
@@ -45,7 +45,7 @@
                               <Label style="-fx-text-fill: #ffffff;" text="record"><font><Font name="Inter Regular" size="18.0" /></font></Label>
                            </children>
                         </VBox>
-                        <VBox prefHeight="100.0" prefWidth="130.0" style="-fx-alignment: center; -fx-spacing: 10;" styleClass="sidebar-items">
+                        <VBox prefHeight="100.0" prefWidth="130.0" style="-fx-alignment: center;-fx-cursor:hand; -fx-spacing: 10;" styleClass="sidebar-items">
                            <children>
                               <ImageView fitHeight="40.0" fitWidth="40.0" onMouseClicked="#goSettings" pickOnBounds="true" preserveRatio="true" style="-fx-cursor: hand;">
                                  <image><Image url="@../../images/setting.png" /></image>
@@ -53,9 +53,9 @@
                               <Label style="-fx-text-fill: #ffffff;" text="setting"><font><Font name="Inter Regular" size="18.0" /></font></Label>
                            </children>
                         </VBox>
-                        <VBox prefHeight="100.0" prefWidth="130.0" style="-fx-alignment: center;" styleClass="sidebar-items" translateY="50.0">
+                        <VBox prefHeight="100.0" prefWidth="130.0" style="-fx-alignment: center; -fx-cursor:hand;" styleClass="sidebar-items" translateY="50.0">
                            <children>
-                              <ImageView fitHeight="40.0" fitWidth="40.0" onMouseClicked="#logout" pickOnBounds="true" preserveRatio="true" style="-fx-cursor: hand;">
+                              <ImageView fitHeight="40.0" fitWidth="40.0" onMouseClicked="#logout" pickOnBounds="true" preserveRatio="true">
                                  <image><Image url="@../../images/logout.png" /></image>
                               </ImageView>
                            </children>
@@ -81,7 +81,7 @@
                                  <children>
                                     <StackPane>
                                        <!-- 쪽지 아이콘 -->
-                                       <ImageView fx:id="messageInBox" fitHeight="40.0" fitWidth="40.0" onMouseClicked="#handleMessageInBox" pickOnBounds="true" preserveRatio="true">
+                                       <ImageView fx:id="messageInBox" fitHeight="40.0" fitWidth="40.0" onMouseClicked="#handleMessageInBox" pickOnBounds="true" preserveRatio="true" style="-fx-cursor: hand;">
                                           <image>
                                              <Image url="@../../images/mail-box.gif" />
                                           </image>

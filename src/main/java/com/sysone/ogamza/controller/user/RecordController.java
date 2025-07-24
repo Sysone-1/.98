@@ -4,89 +4,107 @@ import com.sysone.ogamza.LoginUserDTO;
 import com.sysone.ogamza.Session;
 import com.sysone.ogamza.dao.user.UserRecordDAO;
 import com.sysone.ogamza.dto.user.UserRecordDTO;
-import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.TableCell;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
-import javafx.scene.text.Text;
 
-import java.time.LocalDate;
-import java.util.List;
+import java.util.Date;
 
+
+/**
+ * 근태 기록 TableView 컨트롤러 (리팩터링 버전)
+ */
 public class RecordController {
-    @FXML private TableView<UserRecordDTO> recordTable;
-    @FXML private TableColumn<UserRecordDTO, Integer> id;
-    @FXML private TableColumn<UserRecordDTO, String> name;
-    @FXML private TableColumn<UserRecordDTO, LocalDate> date;
-    @FXML private TableColumn<UserRecordDTO, String> inTime;
-    @FXML private TableColumn<UserRecordDTO, String> outTime;
-    @FXML private TableColumn<UserRecordDTO, String> status;
 
+    @FXML private TableView<UserRecordDTO> table;
+    @FXML private TableColumn<UserRecordDTO, Integer> colId;
+    @FXML private TableColumn<UserRecordDTO, String> colName;
+    @FXML private TableColumn<UserRecordDTO, Date> colDate;
+    @FXML private TableColumn<UserRecordDTO, String> colIn;
+    @FXML private TableColumn<UserRecordDTO, String> colOut;
+    @FXML private TableColumn<UserRecordDTO, String> colStatus;
+
+    @FXML private Label cntPresent;
+    @FXML private Label cntLate;
+    @FXML private Label cntAbsent;
+    @FXML private Label cntAll;
+
+    private final ObservableList<UserRecordDTO> records = FXCollections.observableArrayList();
 
     @FXML
-    public void initialize(){
-
+    public void initialize() {
         LoginUserDTO user = Session.getInstance().getLoginUser();
         if (user == null) {
-            System.err.println("⚠️ 로그인 유저 정보 없음! 세션이 비어 있음");
+            System.err.println("[RecordController] 로그인 정보 없음");
             return;
         }
 
-        id.setCellValueFactory(new PropertyValueFactory<>("employeeId"));
-        name.setCellValueFactory(new PropertyValueFactory<>("name"));
-        date.setCellValueFactory(new PropertyValueFactory<>("workDate"));
-        inTime.setCellValueFactory(new PropertyValueFactory<>("checkInTime"));
-        outTime.setCellValueFactory(new PropertyValueFactory<>("checkOutTime"));
-        status.setCellValueFactory(new PropertyValueFactory<>("workStatus"));
+        configureColumns();
+        loadData(user.getId());
+    }
 
-        ObservableList<UserRecordDTO> records = FXCollections.observableArrayList();
+    private void configureColumns() {
+        colId.setCellValueFactory(new PropertyValueFactory<>("employeeId"));
+        colName.setCellValueFactory(new PropertyValueFactory<>("name"));
+        colDate.setCellValueFactory(new PropertyValueFactory<>("workDate"));
+        colIn.setCellValueFactory(new PropertyValueFactory<>("checkInTime"));
+        colOut.setCellValueFactory(new PropertyValueFactory<>("checkOutTime"));
+        colStatus.setCellValueFactory(new PropertyValueFactory<>("workStatus"));
 
-        try {
-        List<UserRecordDTO> datas = UserRecordDAO.getInstance().getWorkingRecord(user.getId());
-            for(UserRecordDTO data : datas ){
-                records.add(data);
-            }
-            recordTable.setItems(records);
-        }catch (Exception e){
-            System.out.println("사용자 데이터를 불러오는데 실패하였습니다."+ e.getMessage());
-        }
-            inTime.setCellFactory(column -> new TableCell<UserRecordDTO, String>() {
-                @Override
-                protected void updateItem(String item, boolean empty) {
-                    super.updateItem(item, empty);
-                    if (empty) {
-                        setText(null);
-                    } else if (item == null || item.isBlank()) {
-                        setText("결근");
-                        setStyle("-fx-text-fill: red;");
-                    } else {
-                        setText(item);
-                        setStyle("");
-                    }
-                }
-            });
+        colIn.setCellFactory(col -> createBlankTimeCell());
+        colOut.setCellFactory(col -> createBlankTimeCell());
 
-        outTime.setCellFactory(column -> new TableCell<UserRecordDTO, String>() {
+        colStatus.setCellFactory(col -> new TableCell<>() {
             @Override
-            protected void updateItem(String item, boolean empty) {
-                super.updateItem(item, empty);
-                if (empty) {
-                    setText(null);
-                } else if (item == null || item.isBlank()) {
-                    setText("결근");
-                    setStyle("-fx-text-fill: red;");
-                } else {
-                    setText(item);
+            protected void updateItem(String status, boolean empty) {
+                super.updateItem(status, empty);
+                if (empty || status == null) {
+                    setText("");
                     setStyle("");
+                    return;
                 }
+                setText(status);
+                setStyle(switch (status) {
+                    case "결근" -> "-fx-text-fill:#E03131; -fx-font-weight:bold;";
+                    case "지각" -> "-fx-text-fill:#F08C00; -fx-font-weight:bold;";
+                    default -> "-fx-text-fill:#2B8A3E; -fx-font-weight:bold;";
+                });
             }
         });
+    }
 
+    private TableCell<UserRecordDTO, String> createBlankTimeCell() {
+        return new TableCell<>() {
+            @Override
+            protected void updateItem(String time, boolean empty) {
+                super.updateItem(time, empty);
+                setText((empty || time == null || time.isBlank()) ? "" : time);
+            }
+        };
+    }
+
+    private void loadData(int userId) {
+        try {
+            records.setAll(UserRecordDAO.getInstance().getWorkingRecord(userId));
+            table.setItems(records);
+            table.getSortOrder().setAll(colDate);
+
+            updateSummaryCounts();
+        } catch (Exception e) {
+            System.err.println("[RecordController] 데이터 로드 실패: " + e.getMessage());
         }
+    }
+
+    private void updateSummaryCounts() {
+        long presentCount = records.stream().filter(r -> "출근".equals(r.getWorkStatus())).count();
+        long lateCount = records.stream().filter(r -> "지각".equals(r.getWorkStatus())).count();
+        long absentCount = records.stream().filter(r -> "결근".equals(r.getWorkStatus())).count();
+
+        cntAll.setText(records.size() + "건");
+        cntPresent.setText(presentCount + "일");
+        cntLate.setText(lateCount + "일");
+        cntAbsent.setText(absentCount + "일");
+    }
 }

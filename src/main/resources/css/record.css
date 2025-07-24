@@ -3,4 +3,53 @@
     -fx-font-size: 20px;
     -fx-pref-height: 40px;
     -fx-background-color:#A0DEFF;
+
+}
+.table-view{
+    -fx-background-radius:10;
+    -fx-border-radius:10;
+}
+/* 카드 공통 */
+.card {
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 12px;
+    -fx-padding: 12 16 12 16;
+    -fx-alignment: center;
+    -fx-pref-width: 120;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.25), 16, 0.4, 0, 8);
+}
+
+
+/* 전체 */
+.card-selected {
+    -fx-border-color: #228be6;
+    -fx-border-width: 2;
+}
+
+/* 타이틀 */
+.label-title {
+    -fx-font-size: 13;
+    -fx-text-fill: #555;
+}
+
+/* 숫자 (기본) */
+.label-count {
+    -fx-font-size: 16;
+    -fx-font-weight: bold;
+    -fx-text-fill: #228be6;
+}
+
+/* 출근 */
+#cntPresent {
+    -fx-text-fill: #2B8A3E;
+}
+
+/* 지각 */
+#cntLate {
+    -fx-text-fill: #F08C00;
+}
+
+/* 결근 */
+#cntAbsent {
+    -fx-text-fill: #E03131;
 }

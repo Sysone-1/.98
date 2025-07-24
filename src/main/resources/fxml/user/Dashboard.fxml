@@ -5,6 +5,7 @@
 <?import javafx.scene.control.ProgressBar?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
@@ -484,6 +485,9 @@
             <Font name="SansSerif Bold" size="20.0" />
          </font>
       </Button>
-      <ImageView fx:id="tooltipImage" fitHeight="30.0" fitWidth="34.0" layoutX="127.0" layoutY="31.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="tooltipImage" fitHeight="28.0" fitWidth="28.0" layoutX="123.0" layoutY="32.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../images/tooltip.png" />
+         </image></ImageView>
    </children>
 </AnchorPane>

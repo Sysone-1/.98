@@ -30,10 +30,10 @@
         <Label style="-fx-font-weight: bold;" text="내용:" />
         <TextArea fx:id="contentArea" editable="false" prefRowCount="8" style="-fx-control-inner-background: #ffffff;" wrapText="true" />
 
-        <!-- 버튼 영역 -->
-        <HBox alignment="CENTER_RIGHT">
-            <Button fx:id="closeButton" onAction="#handleClose" style="-fx-background-color: #2196F3; -fx-text-fill: white; -fx-font-weight: bold;" text="닫기" />
-        </HBox>
+<!--        &lt;!&ndash; 버튼 영역 &ndash;&gt;-->
+<!--        <HBox alignment="CENTER_RIGHT">-->
+<!--            <Button fx:id="closeButton" onAction="#handleClose" style="-fx-background-color: #2196F3; -fx-text-fill: white; -fx-font-weight: bold;" text="닫기" />-->
+<!--        </HBox>-->
 
     </VBox>
 </AnchorPane>

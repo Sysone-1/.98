@@ -1,0 +1,36 @@
+.card {
+    -fx-alignment: CENTER;
+    -fx-padding: 10 14;
+    -fx-border-color: #E4EAF1;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-background-color: white;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 4, 0, 0, 2);
+    -fx-min-width: 120;
+}
+
+
+.label-title {
+    -fx-font-size: 13;
+    -fx-text-fill: #495057;
+}
+
+.card-selected .label-title {
+    -fx-text-fill: white;
+}
+
+.label-count {
+    -fx-font-size: 15;
+    -fx-font-weight: bold;
+    -fx-text-fill: #26C6DA;
+}
+
+.card-selected .label-count {
+    -fx-text-fill: white;
+}
+
+.planned-label {
+    -fx-font-size: 14;
+    -fx-font-weight: bold;
+    -fx-text-fill: #343A40;
+}
