@@ -7,8 +7,6 @@ import com.sysone.ogamza.utils.db.OracleConnector;
 import oracle.jdbc.OracleTypes;
 
 import java.sql.*;
-import java.time.LocalDate;
-import java.time.temporal.WeekFields;
 import java.util.*;
 
 public class DashboardDAO {
@@ -52,12 +50,8 @@ public class DashboardDAO {
 
 
     public Map<String, List<OvertimeData>> getDepartmentOvertimeData() {
-        // 최종적으로 반환할 부서별 초과 근무 데이터 맵
-        Map<String, List<OvertimeData>> finalDepartmentData = new LinkedHashMap<>();
-
-        // DB에서 가져온 원본 데이터를 임시로 저장할 맵 (부서명 -> 주차 식별자 -> OvertimeData)
-        Map<String, Map<String, OvertimeData>> rawDepartmentData = new HashMap<>();
-
+        // 최종적으로 반환할 부서별 초과 근무 데이터 맵 (순서 보장을 위해 LinkedHashMap 사용)
+        Map<String, List<OvertimeData>> departmentData = new LinkedHashMap<>();
         String procedureCall = "{call sp_get_overtime_stats_by_dept(?)}";
 
         try (Connection conn = OracleConnector.getConnection();
@@ -69,7 +63,7 @@ public class DashboardDAO {
             try (ResultSet rs = (ResultSet) cstmt.getObject(1)) {
                 while (rs.next()) {
                     String departmentName = rs.getString("name");
-                    String weekLabel = rs.getString("week_label"); // 예: "2024-30"
+                    String weekLabel = rs.getString("week_label");
                     int r0 = rs.getInt("range0to4");
                     int r4 = rs.getInt("range4to8");
                     int r8 = rs.getInt("range8to12");
@@ -77,56 +71,17 @@ public class DashboardDAO {
 
                     OvertimeData data = new OvertimeData(weekLabel, r0, r4, r8, r12);
 
-                    // rawDepartmentData 맵에 데이터 추가
-                    rawDepartmentData
-                            .computeIfAbsent(departmentName, k -> new HashMap<>())
-                            .put(weekLabel, data);
+                    // 해당 부서의 리스트가 없으면 새로 만들고, 데이터 추가
+                    departmentData.computeIfAbsent(departmentName, k -> new ArrayList<>()).add(data);
                 }
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            // 오류 발생 시 빈 맵을 반환
-            return finalDepartmentData;
+            // 오류 발생 시에도 현재까지 처리된 데이터라도 반환하도록 함
+            return departmentData;
         }
 
-        // --- 누락된 주차 데이터 채우기 로직 ---
-
-        // 최근 4주차의 ISO 주차 식별자 (예: "2024-30")를 계산
-        List<String> recentWeekIdentifiers = new ArrayList<>();
-        WeekFields weekFields = WeekFields.ISO; // ISO 주차 기준
-        LocalDate today = LocalDate.now();
-
-        for (int i = 0; i < 4; i++) {
-            LocalDate weekDate = today.minusWeeks(i);
-            int year = weekDate.get(weekFields.weekBasedYear());
-            int weekOfYear = weekDate.get(weekFields.weekOfWeekBasedYear());
-            recentWeekIdentifiers.add(String.format("%d-%02d", year, weekOfYear));
-        }
-        // 가장 최근 주차가 먼저 오도록 역순 정렬 (UI 표시 순서에 맞춤)
-        Collections.reverse(recentWeekIdentifiers);
-
-
-        // 모든 부서에 대해 4주치 데이터를 채웁니다.
-        // rawDepartmentData에 있는 부서들만 처리하거나, 모든 부서 목록을 별도로 가져와 처리할 수 있습니다.
-        // 여기서는 DB에서 데이터가 반환된 부서들만 처리합니다.
-        for (Map.Entry<String, Map<String, OvertimeData>> entry : rawDepartmentData.entrySet()) {
-            String departmentName = entry.getKey();
-            Map<String, OvertimeData> departmentWeeklyData = entry.getValue();
-            List<OvertimeData> departmentFullWeekList = new ArrayList<>();
-
-            for (String weekIdentifier : recentWeekIdentifiers) {
-                // 해당 주차의 데이터가 DB 결과에 있는지 확인
-                if (departmentWeeklyData.containsKey(weekIdentifier)) {
-                    departmentFullWeekList.add(departmentWeeklyData.get(weekIdentifier));
-                } else {
-                    // 데이터가 없으면 0%로 채워진 OvertimeData 객체 생성
-                    departmentFullWeekList.add(new OvertimeData(weekIdentifier, 0, 0, 0, 0));
-                }
-            }
-            finalDepartmentData.put(departmentName, departmentFullWeekList);
-        }
-
-        return finalDepartmentData;
+        return departmentData;
     }
 
     /**
