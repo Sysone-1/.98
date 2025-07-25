@@ -23,40 +23,70 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Text;
 
 import java.net.URL;
 import java.util.*;
 
 /**
- * 관리자 대시보드 컨트롤러 클래스.
- * 출근 현황, 초과근무 통계, 출입 거부 로그 등의 정보를 UI에 표시한다.
+ * 관리자 대시보드 화면의 컨트롤러 클래스입니다.
+ * 출결 상태 테이블, 부서별 주간 초과근무 그래프, 출입 거부 차트 등을 초기화하고 데이터를 로드하여 표시합니다.
  *
  * @author 조윤상
+ * @since 2025-07-25
  */
 public class AdminDashboardController implements Initializable {
 
+    /** 차트 그룹을 포함하는 HBox */
+    @FXML private HBox chartGroup;
+
+    /** 차트 그룹의 컨트롤러 */
+    @FXML private ChartGroupController chartGroupController;
+
+    /** 근무 현황 테이블 */
     @FXML private TableView<Map<String, Object>> statusTable;
+
+    /** 근무 현황 테이블의 출근율 컬럼 */
     @FXML private TableColumn<Map<String, Object>, String> colAttendanceRate;
+
+    /** 근무 현황 테이블의 각 인원 관련 컬럼 */
     @FXML private TableColumn<Map<String, Object>, Integer> colTotal, colPresent, colLate, colAbsent, colVacation, colOut, colEtc;
+
+    /** 주간 초과근무 그래프를 표시하는 VBox */
     @FXML private VBox overtimeGraphBox;
+
+    /** 부서 선택 콤보박스 */
     @FXML private ComboBox<String> departmentComboBox;
+
+    /** 초과근무 범례를 표시하는 HBox */
     @FXML private HBox overtimeLegendBox;
+
+    /** 출입 거부 횟수 차트 */
     @FXML private LineChart<String, Number> deniedAccessChart;
+
+    /** 출입 거부 차트의 X축 */
     @FXML private CategoryAxis deniedAccessXAxis;
+
+    /** 출입 거부 차트의 Y축 */
     @FXML private NumberAxis deniedAccessYAxis;
 
+    /** 대시보드 관련 데이터를 처리하는 서비스 */
     private final AdminDashboardService adminDashboardService = new AdminDashboardService();
+
+    /** 부서별 주간 초과근무 데이터 맵 */
     private Map<String, List<OvertimeData>> departmentOvertimeMap = new HashMap<>();
 
     /**
-     * FXML 초기화 메서드.
+     * FXML 초기화 메서드입니다. 각 UI 요소에 데이터 바인딩 및 리스너를 등록하고 데이터를 로드합니다.
      *
      * @param location  FXML 파일의 위치
      * @param resources 리소스 번들
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        if (chartGroupController != null) {
+            chartGroupController.loadCharts();
+        }
+
         setupTableColumnFactories();
         statusTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         loadAndDisplayAllDashboardData();
@@ -71,7 +101,7 @@ public class AdminDashboardController implements Initializable {
     }
 
     /**
-     * 초과근무 범례를 설정한다.
+     * 초과근무 범례 색상과 설명을 overtimeLegendBox에 표시합니다.
      */
     private void setupOvertimeLegend() {
         overtimeLegendBox.getChildren().clear();
@@ -94,7 +124,7 @@ public class AdminDashboardController implements Initializable {
     }
 
     /**
-     * 모든 대시보드 데이터를 로드하고 화면에 반영한다.
+     * 전체 대시보드 데이터를 서비스로부터 받아와 UI에 반영합니다.
      */
     private void loadAndDisplayAllDashboardData() {
         AttendanceStatusDTO statusData = adminDashboardService.getAttendanceStatusData();
@@ -108,7 +138,7 @@ public class AdminDashboardController implements Initializable {
     }
 
     /**
-     * 출입 거부 로그 차트를 갱신한다.
+     * 출입 거부 차트를 주간 데이터로 업데이트합니다.
      *
      * @param deniedAccessData 주차별 출입 거부 횟수 데이터
      */
@@ -127,7 +157,7 @@ public class AdminDashboardController implements Initializable {
     }
 
     /**
-     * 출근 현황 테이블의 컬럼 팩토리를 설정한다.
+     * 근무 현황 테이블의 컬럼에 대한 CellValueFactory를 설정합니다.
      */
     private void setupTableColumnFactories() {
         colAttendanceRate.setCellValueFactory(cellData -> new SimpleStringProperty((String) cellData.getValue().get("출근율")));
@@ -141,9 +171,9 @@ public class AdminDashboardController implements Initializable {
     }
 
     /**
-     * 출근 현황 테이블에 데이터를 반영한다.
+     * 근무 현황 테이블에 데이터를 설정합니다.
      *
-     * @param data 출근 현황 DTO
+     * @param data 출결 상태 DTO
      */
     private void updateStatusTable(AttendanceStatusDTO data) {
         Map<String, Object> row = new HashMap<>();
@@ -160,7 +190,7 @@ public class AdminDashboardController implements Initializable {
     }
 
     /**
-     * 부서 선택 콤보박스를 초기화하고 기본 선택 부서에 대해 그래프를 갱신한다.
+     * 부서 콤보박스를 초기화하고 첫 번째 부서의 데이터를 초과근무 그래프에 표시합니다.
      */
     private void updateDepartmentComboBox() {
         departmentComboBox.getItems().clear();
@@ -172,7 +202,7 @@ public class AdminDashboardController implements Initializable {
     }
 
     /**
-     * 특정 부서의 주차별 초과근무 그래프를 갱신한다.
+     * 선택된 부서의 초과근무 데이터를 그래프에 표시합니다.
      *
      * @param department 부서명
      */
@@ -202,10 +232,10 @@ public class AdminDashboardController implements Initializable {
     }
 
     /**
-     * 초과근무 데이터를 바탕으로 누적 막대를 생성한다.
+     * OvertimeData 객체로부터 누적형 막대 그래프(HBox)를 생성합니다.
      *
-     * @param data OvertimeData 객체
-     * @return HBox 형태의 막대 그래프
+     * @param data 초과근무 데이터
+     * @return 누적형 막대 HBox
      */
     private HBox createStackedBar(OvertimeData data) {
         HBox bar = new HBox();
@@ -220,11 +250,11 @@ public class AdminDashboardController implements Initializable {
     }
 
     /**
-     * 단일 구간에 해당하는 색상과 퍼센트에 맞는 세그먼트를 생성한다.
+     * 특정 구간의 색상과 비율로 그래프의 Segment를 생성합니다.
      *
-     * @param color      색상
-     * @param percentage 퍼센트 (0~100)
-     * @return StackPane 형태의 세그먼트
+     * @param color 색상
+     * @param percentage 해당 구간의 비율 (0~100)
+     * @return StackPane 형태의 그래프 세그먼트
      */
     private StackPane createSegment(Color color, int percentage) {
         double width = 400.0 * (percentage / 100.0);

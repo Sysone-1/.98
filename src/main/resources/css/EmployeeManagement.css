@@ -1,0 +1,64 @@
+/* 헤더 공통 스타일링 */
+.table-view .column-header {
+    -fx-font-size: 18px;
+    -fx-pref-height: 30px;
+    -fx-background-color: #CBD8F2;
+    -fx-padding: 20 0 0 0;
+
+}
+
+
+.table-view .scroll-bar:vertical,
+.table-view .scroll-bar:horizontal {
+    -fx-opacity: 0;
+    -fx-max-width: 0;
+    -fx-max-height: 0;
+    -fx-pref-width: 0;
+    -fx-pref-height: 0;
+}
+
+.table-view .table-row-cell {
+    -fx-cell-size: 32px;
+}
+
+.table-view .table-cell {
+    -fx-font-size: 15px;
+    -fx-padding: 4 8 4 8;
+}
+
+/* 공통 입력 컴포넌트 스타일 */
+.combo-box, .text-field {
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 10;
+    -fx-border-color: #d0d7de;
+    -fx-border-radius: 8;
+    -fx-padding: 2 12 2 12; /* padding 조정해서 높이 균형 */
+    -fx-font-size: 14px;
+    -fx-pref-height: 35px;
+    -fx-min-height: 35px;
+    -fx-max-height: 35px;
+    -fx-alignment: CENTER_LEFT; /* 텍스트 수직 정렬 */
+}
+
+/* ComboBox 드롭다운 화살표 */
+.combo-box .arrow-button {
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+    -fx-pref-height: 30px;
+    -fx-min-height: 30px;
+    -fx-max-height: 30px;
+}
+.combo-box .arrow {
+    -fx-shape: "M 0 0 L 4 4 L 8 0 Z";
+    -fx-background-color: #6e9bc7;
+}
+
+/* 포커스 시 효과 */
+.combo-box:focused, .text-field:focused {
+    -fx-border-color: #6e9bc7;
+    -fx-effect: dropshadow(three-pass-box, rgba(110, 155, 199, 0.3), 5, 0.0, 0, 0);
+}
+
+.hbox {
+    -fx-padding: 0 0 10 0; /* 하단 여백 */
+}

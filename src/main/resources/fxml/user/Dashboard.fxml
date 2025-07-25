@@ -480,16 +480,6 @@
             </VBox>
          </children>
       </VBox>
-      <Button fx:id="addScheduleButton1" layoutX="359.0" layoutY="11.0" mnemonicParsing="false" onAction="#handleAddEmployeeClick" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: #6E9BC7; -fx-background-radius: 8; -fx-cursor: hand;" text="회원등록" textFill="WHITE">
-         <font>
-            <Font name="SansSerif Bold" size="18.0" />
-         </font>
-      </Button>
-      <Button fx:id="addScheduleButton11" layoutX="209.0" layoutY="11.0" mnemonicParsing="false" onAction="#handleTagCardClick" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: #6E9BC7; -fx-background-radius: 8; -fx-cursor: hand;" text="카드 태그" textFill="WHITE">
-         <font>
-            <Font name="SansSerif Bold" size="18.0" />
-         </font>
-      </Button>
       <ImageView fx:id="tooltipImage" fitHeight="22.0" fitWidth="24.0" layoutX="110.0" layoutY="25.0" pickOnBounds="true" preserveRatio="true" style="-fx-fit-width: 25; -fx-fit-height: 25;" />
       <Button layoutX="979.0" layoutY="5.0" mnemonicParsing="false" onAction="#handleFetchScheduleClick" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: #6E9BC7; -fx-background-radius: 8; -fx-cursor: hand; -fx-min-width: 100; -fx-max-width: 200; -fx-max-height: 35; -fx-min-width: 35;" text="결재 내역" textFill="WHITE">
          <font>
@@ -500,9 +490,9 @@
             <Font name="SansSerif Bold" size="18.0" />
          </font>
       </Button>
-      <ImageView fx:id="tooltipImage" fitHeight="28.0" fitWidth="28.0" layoutX="109.0" layoutY="19.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../images/tooltip.png" />
-         </image></ImageView>
+<!--      <ImageView fx:id="tooltipImage" fitHeight="28.0" fitWidth="28.0" layoutX="109.0" layoutY="19.0" pickOnBounds="true" preserveRatio="true">-->
+<!--         <image>-->
+<!--            <Image url="@../../images/tooltip.png" />-->
+<!--         </image></ImageView>-->
    </children>
 </AnchorPane>
