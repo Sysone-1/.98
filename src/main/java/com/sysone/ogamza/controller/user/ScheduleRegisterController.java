@@ -1,6 +1,7 @@
 package com.sysone.ogamza.controller.user;
 
 import com.sysone.ogamza.dto.user.ScheduleContentDTO;
+import com.sysone.ogamza.dto.user.ScheduleListDTO;
 import com.sysone.ogamza.service.user.ScheduleService;
 import com.sysone.ogamza.utils.api.alert.AlertCreate;
 import javafx.event.ActionEvent;
@@ -14,6 +15,8 @@ import javafx.stage.Stage;
 
 import java.time.DateTimeException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * 일정 상신 등록 화면의 컨트롤러입니다.
@@ -60,6 +63,22 @@ public class ScheduleRegisterController {
 
             AlertCreate.showAlert(Alert.AlertType.ERROR, "결재 상신", "모든 항목을 입력해주세요.");
             return;
+        }
+
+        List<ScheduleListDTO> list = scheduleService.getApprovedScheduleList(DashboardController.empId);
+
+        for (ScheduleListDTO dto : list) {
+            LocalDateTime startDate = dto.getStartDate();
+            LocalDateTime endDate = dto.getEndDate();
+
+            LocalDateTime newStart = startDatePicker.getValue().atStartOfDay();
+            LocalDateTime newEnd = endDatePicker.getValue().atStartOfDay();
+
+            boolean isOverlapping = !(newEnd.isBefore(startDate) || newStart.isAfter(endDate));
+            if (isOverlapping) {
+                AlertCreate.showAlert(Alert.AlertType.ERROR, "결재 상신", "기존 일정과 겹치는 기간이 있습니다.");
+                return;
+            }
         }
 
         if (startDatePicker.getValue().isAfter(endDatePicker.getValue())) {
