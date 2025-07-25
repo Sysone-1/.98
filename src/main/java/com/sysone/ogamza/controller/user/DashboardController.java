@@ -48,6 +48,7 @@ public class DashboardController {
     @FXML private Text noScheduleText;
     @FXML private ScrollPane scheduleScrollPane;
     @FXML private ImageView tooltipImage;
+    @FXML private Button tagbtn;
     private static final DashboardService dashboardService = DashboardService.getInstance();
     private static final Session employeeSession = Session.getInstance();
     public static long empId = 0L;
