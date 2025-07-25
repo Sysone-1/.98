@@ -7,28 +7,27 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="700.0" prefWidth="1000.0" style="-fx-background-color: #F1F9FF;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sysone.ogamza.controller.admin.EmployeeManagementController">
+<AnchorPane prefHeight="700.0" prefWidth="1000.0" style="-fx-background-color: #F3F5F9;" stylesheets="@../../css/EmployeeManagement.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sysone.ogamza.controller.admin.EmployeeManagementController">
 
     <children>
         <!-- 상단 제목 -->
-        <Label layoutX="40.0" layoutY="30.0" text="사원 관리" textFill="#2c3e50">
-            <font>
-                <Font name="System Bold" size="28.0" />
-            </font>
-        </Label>
+        <Label layoutX="40.0" layoutY="10.0" style="-fx-font-size: 26px; -fx-font-weight: bold;" text="사원 관리" textFill="#2c3e50">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font></Label>
 
         <!-- 검색 및 필터 영역 -->
-        <HBox alignment="CENTER_LEFT" layoutX="40.0" layoutY="80.0" spacing="20.0">
+        <HBox alignment="CENTER_LEFT" layoutX="40.0" layoutY="55.0" spacing="20.0">
             <children>
                 <!-- 부서 필터 -->
-                <Label text="부서:" />
+                <Label style="-fx-font-size: 18;" text="부서:" />
                 <ComboBox fx:id="departmentComboBox" onAction="#handleDepartmentFilter" prefWidth="150.0" promptText="전체" />
 
                 <!-- 검색 -->
-                <Label text="검색:" />
+                <Label style="-fx-font-size: 18;" text="검색:" />
                 <TextField fx:id="searchField" onKeyReleased="#handleSearch" prefWidth="200.0" promptText="사번 또는 이름 입력" />
 
-                <Button fx:id="addScheduleButton1" layoutX="359.0" layoutY="11.0" mnemonicParsing="false" onAction="#handleAddEmployeeClick" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: #6E9BC7; -fx-background-radius: 8; -fx-cursor: hand;" text="회원등록" textFill="WHITE">
+                <Button fx:id="addScheduleButton1" layoutX="359.0" layoutY="11.0" mnemonicParsing="false" onAction="#handleAddEmployeeClick" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: #83ACFF; -fx-background-radius: 8; -fx-cursor: hand;" text="회원등록" textFill="WHITE">
                     <font>
                         <Font name="SansSerif Bold" size="18.0" />
                     </font>
@@ -40,17 +39,16 @@
         </HBox>
 
         <!-- 사원 목록 테이블 -->
-        <TableView fx:id="employeeTable" layoutX="40.0" layoutY="130.0" prefHeight="458.0" prefWidth="921.0">
+        <TableView fx:id="employeeTable" layoutX="40.0" layoutY="120.0" prefHeight="459.0" prefWidth="1004" style=" -fx-focus-color: transparent; -fx-faint-focus-color: transparent;">
             <columns>
-                <TableColumn fx:id="employeeIdColumn" prefWidth="80.0" text="사번" />
+                <TableColumn fx:id="employeeIdColumn" prefWidth="130.0" text="사번" />
                 <TableColumn fx:id="employeeNameColumn" prefWidth="120.0" text="이름" />
                 <TableColumn fx:id="departmentColumn" prefWidth="120.0" text="부서" />
-                <TableColumn fx:id="positionColumn" prefWidth="100.0" text="직급" />
-                <TableColumn fx:id="emailColumn" prefWidth="180.0" text="이메일" />
-                <TableColumn fx:id="telColumn" prefWidth="130.0" text="전화번호" />
-                <TableColumn fx:id="cardUidColumn" prefWidth="190.0" text="NFC 카드 UID" />
+                <TableColumn fx:id="positionColumn" prefWidth="120.0" text="직급" />
+                <TableColumn fx:id="emailColumn" prefWidth="172.0" text="이메일" />
+                <TableColumn fx:id="telColumn" prefWidth="168.0" text="전화번호" />
+                <TableColumn fx:id="cardUidColumn" prefWidth="173.0" text="카드 UID" />
             </columns>
         </TableView>
-
     </children>
 </AnchorPane>
