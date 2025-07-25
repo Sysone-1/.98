@@ -64,7 +64,6 @@ public class ChartGroupController implements Initializable {
         try {
             List<String> departments = statsService.getAllDepartments();
             departmentComboBox.setItems(FXCollections.observableArrayList(departments));
-            departmentComboBox.getItems().add(0, "전체");
             departmentComboBox.setValue("전체");
         } catch (Exception e) {
             System.err.println("부서 필터 설정 오류: " + e.getMessage());
