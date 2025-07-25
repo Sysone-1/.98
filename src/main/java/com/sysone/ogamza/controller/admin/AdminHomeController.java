@@ -10,6 +10,7 @@ import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Side;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -60,6 +61,8 @@ public class AdminHomeController implements Initializable {
 
     // 자동 새로고침을 위한 스케줄러
     private ScheduledExecutorService scheduler;
+    private volatile String currentDept = "전체";
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -129,11 +132,14 @@ public class AdminHomeController implements Initializable {
 
     @FXML
     private void handleDepartmentChange() {
+        currentDept = departmentComboBox.getValue();   // ★ 지금 선택한 부서를 저장
+
         String dept = departmentComboBox.getValue();
         if (dept != null) {
             loadDepartmentStats(dept);
         }
     }
+
 
     private void loadDepartmentStats(String departmentName) {
         try {
@@ -141,15 +147,15 @@ public class AdminHomeController implements Initializable {
                     ? statsService.getTodayStats()
                     : statsService.getTodayStatsByDept(departmentName);
 
-            // 차트 업데이트 (기존 로직 완전 유지)
+            System.out.println("[DEBUG] " + departmentName + " → " + Arrays.toString(stats));
+            // 차트 업데이트
             updateDepartmentChart(stats, departmentName);
-        } catch (Exception e) {
-            System.err.println("부서별 통계 로드 실패: " + e.getMessage());
+        } catch (Exception e) {  System.err.println("부서별 통계 로드 실패: " + e.getMessage());
             e.printStackTrace();
             // 오류 시 기본값 설정
-            updateDepartmentChart(new int[]{0, 0, 0, 0, 0}, departmentName);
-        }
+            updateDepartmentChart(new int[]{0, 0, 0, 0, 0}, departmentName); }
     }
+
 
     /**
      * 부서별 차트 업데이트 (기존 로직 완전 유지)
@@ -157,57 +163,48 @@ public class AdminHomeController implements Initializable {
     private void updateDepartmentChart(int[] stats, String deptName) {
         Platform.runLater(() -> {
             try {
-                // 기존 차트 데이터 완전히 제거
-                departmentChart.getData().clear();
+                if (!deptName.equals(departmentComboBox.getValue())) return;
 
-                // 0이 아닌 데이터만 추가하여 차트가 보이도록 함
-                ObservableList<PieChart.Data> chartData = FXCollections.observableArrayList();
-                if (stats[1] > 0) chartData.add(new PieChart.Data("출근", stats[1])); // 출근
-                if (stats[2] > 0) chartData.add(new PieChart.Data("지각", stats[2])); // 지각
-                if (stats[3] > 0) chartData.add(new PieChart.Data("결근", stats[3])); // 결근
-                if (stats[4] > 0) chartData.add(new PieChart.Data("휴가", stats[4])); // 휴가
-
-                // 데이터가 있을 때만 차트 설정
-                if (!chartData.isEmpty()) {
-                    departmentChart.setData(chartData);
-                    String title = "전체".equals(deptName)
-                            ? "전체 부서 (" + stats[0] + "명)"
-                            : deptName + " 부서 (" + stats[0] + "명)";
-                    departmentChart.setTitle(title);
-                    overallChart.setLegendVisible(false);
-                    departmentChart.setLegendVisible(false);
-
-                    // 차트 visibility 확실히 설정
-                    departmentChart.setVisible(true);
-                    departmentChart.setManaged(true);
-
-                    // 고정 색상 적용 (기존 로직 유지)
-                    applyFixedStatusColors(departmentChart);
+                int sum = stats[1] + stats[2] + stats[3] + stats[4];
+                ObservableList<PieChart.Data> data = FXCollections.observableArrayList();
+                if (sum > 0) {
+                    if (stats[1] > 0) data.add(new PieChart.Data("출근", stats[1]));
+                    if (stats[2] > 0) data.add(new PieChart.Data("지각", stats[2]));
+                    if (stats[3] > 0) data.add(new PieChart.Data("결근", stats[3]));
+                    if (stats[4] > 0) data.add(new PieChart.Data("휴가", stats[4]));
                 } else {
-                    // 데이터가 없을 때는 빈 차트 표시
-                    departmentChart.setTitle(deptName + " 부서 (출근 기록 없음)");
-                    chartData.add(new PieChart.Data("출근 기록 없음", 1));
-                    departmentChart.setData(chartData);
-
-                    // 기록 없음 항목에는 회색 적용
-                    Platform.runLater(() -> {
-                        for (PieChart.Data data : departmentChart.getData()) {
-                            if (data.getNode() != null) {
-                                data.getNode().setStyle("-fx-pie-color: #CCCCCC;");
-                            }
-                        }
-                    });
+                    data.add(new PieChart.Data("출근 기록 없음", 1));
                 }
 
-                System.out.println("부서별 차트 업데이트 완료: " + deptName +
-                        " [총원:" + stats[0] + ", 출근:" + stats[1] + ", 지각:" + stats[2] +
-                        ", 결근:" + stats[3] + ", 휴가:" + stats[4] + "]");
-            } catch (Exception e) {
-                System.err.println("부서별 차트 업데이트 오류: " + e.getMessage());
-                e.printStackTrace();
-            }
+                departmentChart.setData(data);
+                departmentChart.setTitle(
+                        ("전체".equals(deptName) ? "전체 부서" : deptName + " 부서")
+                                + " (" + stats[0] + "명)");
+
+                /* ---------- 범례를 전체 차트랑 똑같이 ---------- */
+                departmentChart.setLegendVisible(true);         // 켜기
+                departmentChart.setLegendSide(Side.BOTTOM);     // 하단 고정
+
+                // 흰색 말풍선-박스 스타일
+
+                Node legend = departmentChart.lookup(".chart-legend");
+                if (legend != null) {                            // 흰색 말풍선-박스
+                    legend.setStyle("""
+                    -fx-background-color: #ffffffee;
+                    -fx-background-radius: 8;
+                    -fx-border-radius: 8;
+                    -fx-padding: 6 12 6 12;
+                """);
+                }
+                /* ---------------------------------------------- */
+
+                departmentChart.setVisible(true);
+                departmentChart.setManaged(true);
+                applyFixedStatusColors(departmentChart);
+            } catch (Exception e) { e.printStackTrace(); }
         });
     }
+
 
     // ========================= 메인/전체 통계 (기존 로직 완전 유지) =========================
     private void loadHomeStats() {
@@ -216,11 +213,11 @@ public class AdminHomeController implements Initializable {
             int[] stats = statsService.getTodayStats();
             Platform.runLater(() -> {
                 // 텍스트 업데이트 (기존 로직 유지)
-                if (txtTotal != null) txtTotal.setText("총원: " + stats[0] + "명");
-                if (txtPresent != null) txtPresent.setText("출근: " + stats[1] + "명");
-                if (txtLate != null) txtLate.setText("지각: " + stats[2] + "명");
-                if (txtBusiness != null) txtBusiness.setText("결근: " + stats[3] + "명");
-                if (txtVacation != null) txtVacation.setText("휴가: " + stats[4] + "명");
+                if (txtTotal != null) txtTotal.setText( stats[0] + "명");
+                if (txtPresent != null) txtPresent.setText( stats[1] + "명");
+                if (txtLate != null) txtLate.setText(  stats[2] + "명");
+                if (txtBusiness != null) txtBusiness.setText( stats[3] + "명");
+                if (txtVacation != null) txtVacation.setText( stats[4] + "명");
 
                 // 전체 차트 업데이트 (기존 로직 유지)
                 updateOverallChart(stats);
@@ -289,51 +286,34 @@ public class AdminHomeController implements Initializable {
         });
     }
 
+
     /**
      * 부서별 필터링과 관계없이 상태별로 고정 색상을 적용하는 메서드 (기존 로직 완전 유지)
      */
     private void applyFixedStatusColors(PieChart chart) {
-        Platform.runLater(() -> {
-            try {
-                for (PieChart.Data data : chart.getData()) {
-                    String statusColor;
-                    // 상태별 고정 색상 매핑
-                    switch (data.getName()) {
-                        case "출근":
-                            statusColor = "#4CAF50"; // 초록색
-                            break;
-                        case "지각":
-                            statusColor = "#FF9800"; // 주황색
-                            break;
-                        case "결근":
-                            statusColor = "#F44336"; // 빨간색
-                            break;
-                        case "휴가":
-                            statusColor = "#2196f3"; // 파란색
-                            break;
-                        default:
-                            statusColor = "#CCCCCC"; // 기본 회색
-                            break;
-                    }
 
-                    // 파이 슬라이스에 색상 직접 적용
-                    Node pieSlice = data.getNode();
-                    if (pieSlice != null) {
-                        pieSlice.setStyle("-fx-pie-color: " + statusColor + ";");
-                    }
+        Runnable paint = () -> {
+            for (PieChart.Data d : chart.getData()) {
+                String c = switch (d.getName()) {
+                    case "출근"  -> "#4CAF50";   // mint-green
+                    case "지각"  -> "#FF9800";   // apricot-yellow
+                    case "결근"  -> "#F44336";   // coral-red
+                    case "휴가"  -> "#2196f3";   // sky-blue
+                    default      -> "#CCCCCC";   // placeholder
 
-                    // 범례 아이콘 색상도 동일하게 적용
-                    Node legendSymbol = chart.lookup(".chart-legend-item[data=\"" + data.getName() +
-                            "\"] .chart-legend-item-symbol");
-                    if (legendSymbol != null) {
-                        legendSymbol.setStyle("-fx-background-color: " + statusColor + ";");
-                    }
-                }
-            } catch (Exception e) {
-                System.err.println("고정 색상 적용 오류: " + e.getMessage());
-                e.printStackTrace();
+                };
+                if (d.getNode() != null)
+                    d.getNode().setStyle("-fx-pie-color:" + c + ";");
+
+                Node legend = chart.lookup(
+                        ".chart-legend-item[data=\"" + d.getName() + "\"] .chart-legend-item-symbol");
+                if (legend != null)
+                    legend.setStyle("-fx-background-color:" + c + ";");
             }
-        });
+        };
+
+        /* slice 가 만들어진 다음 프레임에 색을 입혀야 깜빡임이 없음 */
+        Platform.runLater(() -> Platform.runLater(paint));
     }
 
     // ========================= 승인관리 기능 (DB 실제값 표시 및 카운팅 동기화 개선) =========================
@@ -475,7 +455,7 @@ public class AdminHomeController implements Initializable {
     }
 
     /**
-     * 컨트롤러 종료 시 리소스 정리 (기존 유지)
+     * 컨트롤러 종료 시 리소스 정리
      */
     public void cleanup() {
         if (scheduler != null && !scheduler.isShutdown()) {

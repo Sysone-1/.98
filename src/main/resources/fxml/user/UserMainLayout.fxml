@@ -13,7 +13,7 @@
 
 <AnchorPane fx:id="anchorPane" maxHeight="820.0" maxWidth="-Infinity" minHeight="820.0" minWidth="-Infinity" prefHeight="820.0" prefWidth="1330.0" style="-fx-background-color: #D9D9D9;" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sysone.ogamza.controller.user.MainController">
    <children>
-      <VBox layoutX="25.0" layoutY="29.0" prefHeight="750.0" prefWidth="1280.0" style="-fx-background-radius: 30 30 30 30; -fx-background-color: #F1F9FF; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0.5, 0, 4);">
+      <VBox layoutX="25.0" layoutY="29.0" prefHeight="750.0" prefWidth="1240.0" style="-fx-background-radius: 30 30 30 30; -fx-background-color: #F1F9FF; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0.5, 0, 4);">
          <children>
             <!-- 사이드바 -->
             <HBox>
@@ -21,41 +21,41 @@
                   <VBox prefHeight="750.0" prefWidth="130.0" style="-fx-background-color: #0099FF; -fx-background-radius: 30 0 0 30; -fx-alignment: center;">
                      <children>
                         <!-- Sidebar Items -->
-                        <VBox prefHeight="100.0" prefWidth="130.0" style="-fx-alignment: center;-fx-cursor:hand; -fx-spacing: 10;" styleClass="sidebar-items">
+                        <VBox prefHeight="100.0" prefWidth="130.0" style="-fx-alignment: center;-fx-cursor: hand; -fx-spacing: 10;" styleClass="sidebar-items">
                            <children>
-                              <ImageView fitHeight="40.0" fitWidth="40.0" onMouseClicked="#goHome" pickOnBounds="true" preserveRatio="true" style="-fx-cursor: hand;">
+                              <ImageView fitHeight="40.0" fitWidth="40.0" onMouseClicked="#goHome" pickOnBounds="true" preserveRatio="true">
                                  <image><Image url="@../../images/home.png" /></image>
                               </ImageView>
                               <Label style="-fx-text-fill: #ffffff;" text="home"><font><Font name="Inter Regular" size="18.0" /></font></Label>
                            </children>
                         </VBox>
-                        <VBox prefHeight="100.0" prefWidth="130.0" style="-fx-alignment: center;-fx-cursor:hand; -fx-spacing: 10;" styleClass="sidebar-items">
+                        <VBox prefHeight="100.0" prefWidth="130.0" style="-fx-alignment: center; -fx-cursor: hand;-fx-spacing: 10;" styleClass="sidebar-items">
                            <children>
-                              <ImageView fitHeight="40.0" fitWidth="40.0" onMouseClicked="#goDashboard" pickOnBounds="true" preserveRatio="true" style="-fx-cursor: hand;">
+                              <ImageView fitHeight="40.0" fitWidth="40.0" onMouseClicked="#goDashboard" pickOnBounds="true" preserveRatio="true">
                                  <image><Image url="@../../images/dashboard.png" /></image>
                               </ImageView>
                               <Label style="-fx-text-fill: #ffffff;" text="dashboard"><font><Font name="Inter Regular" size="18.0" /></font></Label>
                            </children>
                         </VBox>
-                        <VBox prefHeight="100.0" prefWidth="130.0" style="-fx-alignment: center;-fx-cursor:hand; -fx-spacing: 10;" styleClass="sidebar-items">
+                        <VBox prefHeight="100.0" prefWidth="130.0" style="-fx-alignment: center;-fx-cursor: hand; -fx-spacing: 10;" styleClass="sidebar-items">
                            <children>
-                              <ImageView fitHeight="40.0" fitWidth="40.0" onMouseClicked="#goRecord" pickOnBounds="true" preserveRatio="true" style="-fx-cursor: hand;">
+                              <ImageView fitHeight="40.0" fitWidth="40.0" onMouseClicked="#goRecord" pickOnBounds="true" preserveRatio="true" >
                                  <image><Image url="@../../images/record.png" /></image>
                               </ImageView>
                               <Label style="-fx-text-fill: #ffffff;" text="record"><font><Font name="Inter Regular" size="18.0" /></font></Label>
                            </children>
                         </VBox>
-                        <VBox prefHeight="100.0" prefWidth="130.0" style="-fx-alignment: center;-fx-cursor:hand; -fx-spacing: 10;" styleClass="sidebar-items">
+                        <VBox prefHeight="100.0" prefWidth="130.0" style="-fx-alignment: center;-fx-cursor: hand; -fx-spacing: 10;" styleClass="sidebar-items">
                            <children>
-                              <ImageView fitHeight="40.0" fitWidth="40.0" onMouseClicked="#goSettings" pickOnBounds="true" preserveRatio="true" style="-fx-cursor: hand;">
+                              <ImageView fitHeight="40.0" fitWidth="40.0" onMouseClicked="#goSettings" pickOnBounds="true" preserveRatio="true">
                                  <image><Image url="@../../images/setting.png" /></image>
                               </ImageView>
                               <Label style="-fx-text-fill: #ffffff;" text="setting"><font><Font name="Inter Regular" size="18.0" /></font></Label>
                            </children>
                         </VBox>
-                        <VBox prefHeight="100.0" prefWidth="130.0" style="-fx-alignment: center; -fx-cursor:hand;" styleClass="sidebar-items" translateY="50.0">
+                        <VBox prefHeight="100.0" prefWidth="130.0" style="-fx-alignment: center;-fx-cursor: hand;" styleClass="sidebar-items" translateY="50.0">
                            <children>
-                              <ImageView fitHeight="40.0" fitWidth="40.0" onMouseClicked="#logout" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fitHeight="40.0" fitWidth="40.0" onMouseClicked="#logout" pickOnBounds="true" preserveRatio="true" >
                                  <image><Image url="@../../images/logout.png" /></image>
                               </ImageView>
                            </children>
@@ -64,9 +64,9 @@
                   </VBox>
 
                   <!-- 우측 콘텐츠 -->
-                  <VBox prefWidth="1151.0">
+                  <VBox prefWidth="1110.0">
                      <!-- 헤더 -->
-                     <VBox prefHeight="90.0" prefWidth="1151.0" style="-fx-background-color: #ffffff;-fx-background-radius: 0 30 0 0; ">
+                     <VBox prefHeight="90.0" prefWidth="1110.0" style="-fx-background-color: #ffffff;-fx-background-radius: 0 30 0 0; ">
                         <HBox maxHeight="-Infinity" minHeight="-Infinity" prefHeight="100.0" prefWidth="1151.0">
                            <children>
                               <VBox prefHeight="100.0" prefWidth="250.0" style="-fx-alignment: center; -fx-padding: 20;">
@@ -111,7 +111,7 @@
                      </VBox>
 
                                           <!-- 콘텐츠 영역 -->
-                     <StackPane fx:id="contentArea" prefHeight="650.0" prefWidth="1151.0" style="-fx-padding: 10;" />
+                     <StackPane fx:id="contentArea" prefHeight="650.0" prefWidth="1110.0" style="-fx-padding: 10;" />
                   </VBox>
                </children>
             </HBox>
