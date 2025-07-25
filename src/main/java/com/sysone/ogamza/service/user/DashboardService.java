@@ -78,6 +78,7 @@ public class DashboardService {
         int today = LocalDateTime.now().getDayOfMonth();
         LocalDateTime currentTime = (leaveTime.getDayOfMonth() == today) ? LocalDateTime.now() : leaveTime;
 
+        currentTime = LocalDateTime.of(2025, 7, 25, 15, 0);
         Duration duration = Duration.between(accessTime, currentTime);
 
         long hours = duration.toHours();

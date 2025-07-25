@@ -1,6 +1,5 @@
 package com.sysone.ogamza.controller.user;
 
-import com.sysone.ogamza.LoginUserDTO;
 import com.sysone.ogamza.Session;
 import com.sysone.ogamza.service.user.DashboardService;
 import com.sysone.ogamza.view.ArcProgress;
@@ -131,7 +130,7 @@ public class DashboardController {
     }
 
     /**
-     * 월간 총 근로 시간 및 남은 근무 시간을 계산하여 화면에 설정합니다.
+     * 주간 총 근로 시간 및 남은 근무 시간을 계산하여 화면에 설정합니다.
      * 연장 및 휴일 근무 시간도 포함됩니다.
      */
     private void loadTotalWorkingHours() {
@@ -142,13 +141,13 @@ public class DashboardController {
         todayMonth.setText(String.format("%02d월", month));
         todayWeek.setText(week + "주차");
 
-        // 해당 월 평일 근로 시간
+        // 해당 주의 평일 근로 시간
         int base = dashboardService.getTotalWorkingHours(empId);
 
-        // 해당 월 연장 근무 횟수
+        // 해당 주의 연장 근무 횟수
         int extend = dashboardService.getTotalExtendWorkingHours(empId);
 
-        // 해당 월 휴일 근무 횟수
+        // 해당 주의 휴일 근무 횟수
         int weekend = dashboardService.getTotalWeekendWorkingHours(empId);
 
         int totalMinutes = base + (extend + weekend) * 60;
