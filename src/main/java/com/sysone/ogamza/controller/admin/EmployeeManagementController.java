@@ -284,6 +284,12 @@ public class EmployeeManagementController implements Initializable {
         }
     }
 
+    /**
+     * 사원 등록 버튼 클릭 시 실행되는 핸들러입니다.
+     * 사원 등록 폼을 모달로 표시합니다.
+     *
+     * @param event 클릭 이벤트
+     */
     @FXML
     private void handleAddEmployeeClick(ActionEvent event) {
         try {

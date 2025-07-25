@@ -48,7 +48,7 @@ public class LoginController {
                 try {
                     handleLogin(new ActionEvent(passwordField, null)); // fake event
                 } catch (Exception e) {
-                    e.printStackTrace();
+
                 }
             }
         });

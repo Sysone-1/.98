@@ -32,7 +32,8 @@ public class DashboardSql {
     public static final String FIND_USED_VACATION_NUM =
                 "SELECT SCHEDULE_TYPE, START_DATE, END_DATE " +
                 "FROM SCHEDULE " +
-                "WHERE EMPLOYEE_ID = ?";
+                "WHERE EMPLOYEE_ID = ? AND " +
+                "IS_GRANTED = 1";
 
     public static final String FIND_TOTAL_WORKING_TIME =
                 "SELECT SUM(WORKING_TIME) AS TOTAL_WORKING_TIME " +
