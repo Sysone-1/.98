@@ -64,12 +64,12 @@
         <TableView fx:id="table" layoutY="241.0" prefHeight="459.0" prefWidth="1004.0" styleClass="table-view" AnchorPane.bottomAnchor="43.0" AnchorPane.leftAnchor="56.0" AnchorPane.rightAnchor="66.0" AnchorPane.topAnchor="241.0">
 
             <columns>
-                <TableColumn fx:id="colId" prefWidth="150.0" text="사원번호" />
-                <TableColumn fx:id="colName" prefWidth="150.0" text="이름" />
+                <TableColumn fx:id="colId" prefWidth="136.79999160766602" text="사원번호" />
+                <TableColumn fx:id="colName" prefWidth="163.99998474121094" text="이름" />
                 <TableColumn fx:id="colDate" prefWidth="190.0" text="근무 날짜" />
                 <TableColumn fx:id="colIn" prefWidth="190.0" text="출근 시간" />
-                <TableColumn fx:id="colOut" prefWidth="190.0" text="퇴근 시간" />
-                <TableColumn fx:id="colStatus" prefWidth="133.0" text="근무 상태" />
+                <TableColumn fx:id="colOut" prefWidth="160.79998779296875" text="퇴근 시간" />
+                <TableColumn fx:id="colStatus" prefWidth="130.39984130859375" text="근무 상태" />
             </columns>
         </TableView>
 
