@@ -100,10 +100,10 @@ public class AdminMainController {
 
         loadPage("/fxml/admin/AdminHome.fxml");
 
-        Rectangle clip = new Rectangle(anchorPane.getPrefWidth(), anchorPane.getPrefHeight());
-        clip.setArcWidth(50);
-        clip.setArcHeight(50);
-        anchorPane.setClip(clip);
+//        Rectangle clip = new Rectangle(anchorPane.getPrefWidth(), anchorPane.getPrefHeight());
+//        clip.setArcWidth(50);
+//        clip.setArcHeight(50);
+//        anchorPane.setClip(clip);
     }
 
     /**

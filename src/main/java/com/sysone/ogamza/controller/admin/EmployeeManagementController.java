@@ -293,7 +293,7 @@ public class EmployeeManagementController implements Initializable {
     @FXML
     private void handleAddEmployeeClick(ActionEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/user/EmployeeRegister.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/admin/EmployeeRegister.fxml"));
             Parent formRoot = loader.load();
 
             Stage dialogStage = new Stage();
