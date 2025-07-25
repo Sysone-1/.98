@@ -44,7 +44,6 @@ public class EmployeeManagementController implements Initializable {
     @FXML private TableColumn<EmployeeDTO, String> positionColumn;
     @FXML private TableColumn<EmployeeDTO, String> emailColumn;
     @FXML private TableColumn<EmployeeDTO, String> telColumn;
-    @FXML private TableColumn<EmployeeDTO, String> cardUidColumn;
 
     @FXML private Label selectedEmployeeLabel;
     @FXML private TextField nfcUidField;
@@ -76,25 +75,6 @@ public class EmployeeManagementController implements Initializable {
         positionColumn.setCellValueFactory(new PropertyValueFactory<>("position"));
         emailColumn.setCellValueFactory(new PropertyValueFactory<>("email"));
         telColumn.setCellValueFactory(new PropertyValueFactory<>("tel"));
-        cardUidColumn.setCellValueFactory(new PropertyValueFactory<>("cardUid"));
-
-        // NFC 카드 UID 컬럼에 스타일 적용
-        cardUidColumn.setCellFactory(col -> new TableCell<EmployeeDTO, String>() {
-            @Override
-            protected void updateItem(String item, boolean empty) {
-                super.updateItem(item, empty);
-                if (empty || item == null) {
-                    setText("");
-                    setStyle("");
-                } else if (item.trim().isEmpty()) {
-                    setText("미등록");
-                    setStyle("-fx-text-fill: #e74c3c; -fx-font-weight: bold;");
-                } else {
-                    setText(item);
-                    setStyle("-fx-text-fill: #27ae60; -fx-font-weight: bold;");
-                }
-            }
-        });
     }
 
     /**

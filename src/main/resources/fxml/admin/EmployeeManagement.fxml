@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="700.0" prefWidth="1000.0" style="-fx-background-color: #F3F5F9;" stylesheets="@../../css/EmployeeManagement.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sysone.ogamza.controller.admin.EmployeeManagementController">
+<AnchorPane prefHeight="700.0" prefWidth="1000.0" style="-fx-background-color: #F3F5F9; -fx-padding: 0 30 0 0;" stylesheets="@../../css/EmployeeManagement.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sysone.ogamza.controller.admin.EmployeeManagementController">
 
     <children>
         <!-- 상단 제목 -->
@@ -39,15 +39,14 @@
         </HBox>
 
         <!-- 사원 목록 테이블 -->
-        <TableView fx:id="employeeTable" layoutX="40.0" layoutY="120.0" prefHeight="459.0" prefWidth="1004" style=" -fx-focus-color: transparent; -fx-faint-focus-color: transparent;">
+        <TableView fx:id="employeeTable" layoutX="40.0" layoutY="120.0" prefHeight="459.0" prefWidth="1004.0" style=" -fx-focus-color: transparent; -fx-faint-focus-color: transparent;">
             <columns>
                 <TableColumn fx:id="employeeIdColumn" prefWidth="130.0" text="사번" />
                 <TableColumn fx:id="employeeNameColumn" prefWidth="120.0" text="이름" />
                 <TableColumn fx:id="departmentColumn" prefWidth="120.0" text="부서" />
-                <TableColumn fx:id="positionColumn" prefWidth="120.0" text="직급" />
-                <TableColumn fx:id="emailColumn" prefWidth="172.0" text="이메일" />
-                <TableColumn fx:id="telColumn" prefWidth="168.0" text="전화번호" />
-                <TableColumn fx:id="cardUidColumn" prefWidth="173.0" text="카드 UID" />
+                <TableColumn fx:id="positionColumn" prefWidth="163.0" text="직급" />
+                <TableColumn fx:id="emailColumn" prefWidth="249.0" text="이메일" />
+                <TableColumn fx:id="telColumn" prefWidth="221.0" text="전화번호" />
             </columns>
         </TableView>
     </children>
