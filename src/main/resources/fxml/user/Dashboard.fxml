@@ -480,11 +480,11 @@
             </VBox>
          </children>
       </VBox>
-      <Button fx:id="addScheduleButton1" layoutX="359.0" layoutY="11.0" mnemonicParsing="false" onAction="#handleAddEmployeeClick" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: #6E9BC7; -fx-background-radius: 8; -fx-cursor: hand;" text="회원등록" textFill="WHITE">
-         <font>
-            <Font name="SansSerif Bold" size="18.0" />
-         </font>
-      </Button>
+<!--      <Button fx:id="addScheduleButton1" layoutX="359.0" layoutY="11.0" mnemonicParsing="false" onAction="#handleAddEmployeeClick" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: #6E9BC7; -fx-background-radius: 8; -fx-cursor: hand;" text="회원등록" textFill="WHITE">-->
+<!--         <font>-->
+<!--            <Font name="SansSerif Bold" size="18.0" />-->
+<!--         </font>-->
+<!--      </Button>-->
       <Button fx:id="addScheduleButton11" layoutX="209.0" layoutY="11.0" mnemonicParsing="false" onAction="#handleTagCardClick" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: #6E9BC7; -fx-background-radius: 8; -fx-cursor: hand;" text="카드 태그" textFill="WHITE">
          <font>
             <Font name="SansSerif Bold" size="18.0" />
@@ -500,9 +500,9 @@
             <Font name="SansSerif Bold" size="18.0" />
          </font>
       </Button>
-      <ImageView fx:id="tooltipImage" fitHeight="28.0" fitWidth="28.0" layoutX="109.0" layoutY="19.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../images/tooltip.png" />
-         </image></ImageView>
+<!--      <ImageView fx:id="tooltipImage" fitHeight="28.0" fitWidth="28.0" layoutX="109.0" layoutY="19.0" pickOnBounds="true" preserveRatio="true">-->
+<!--         <image>-->
+<!--            <Image url="@../../images/tooltip.png" />-->
+<!--         </image></ImageView>-->
    </children>
 </AnchorPane>
