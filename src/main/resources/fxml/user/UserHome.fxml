@@ -193,11 +193,11 @@
             </VBox>
          </children>
       </VBox>
-      <VBox layoutX="457.0" layoutY="368.0" prefHeight="200.0" prefWidth="100.0" style="-fx-pref-height: 40;">
+      <VBox layoutX="426.0" layoutY="368.0" prefHeight="200.0" prefWidth="183.0" style="-fx-pref-height: 40;">
          <children>
             <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 23; -fx-font-weight: 600;" text="Today Message" />
          </children></VBox>
-      <VBox layoutX="424.0" layoutY="403.0" maxHeight="212.0" maxWidth="-Infinity" minHeight="212.0" minWidth="-Infinity" prefHeight="212.0" prefWidth="647.0" style="-fx-pref-width: 597; -fx-pref-height: 225; -fx-background-radius: 20; -fx-background-color: #ffffff; -fx-alignment: center;">
+      <VBox layoutX="424.0" layoutY="403.0" maxHeight="212.0" maxWidth="-Infinity" minHeight="212.0" minWidth="-Infinity" prefHeight="212.0" prefWidth="632.0" style="-fx-pref-width: 630; -fx-pref-height: 225; -fx-background-radius: 20; -fx-background-color: #ffffff; -fx-alignment: center;">
          <effect>
             <DropShadow color="rgba(0, 0, 0, 0.25)" offsetX="4" offsetY="6" radius="12" />
          </effect>
