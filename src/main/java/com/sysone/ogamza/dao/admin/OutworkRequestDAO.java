@@ -4,6 +4,7 @@ import com.sysone.ogamza.dto.admin.OutworkRequestDTO;
 import com.sysone.ogamza.utils.db.OracleConnector;
 
 import java.sql.*;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,45 +48,54 @@ public class OutworkRequestDAO implements RequestDAO {
      * ------------------------------------------------------- */
     @Override
     public List<OutworkRequestDTO> getPendingRequests() {
+
+        // 1) TIMESTAMP 그대로 가져오고, 문자열 변환은 자바에서
         final String sql = """
         SELECT
-            S.ID              AS request_id,
-            S.EMPLOYEE_ID     AS employee_id,
-            E.NAME            AS employee_name,
-            D.NAME            AS department,
-            E.POSITION        AS position,
-            TO_CHAR(S.START_DATE,   'YYYY-MM-DD HH24:MI') AS start_time,
-            TO_CHAR(S.END_DATE,     'YYYY-MM-DD HH24:MI') AS end_time,
-            S.TITLE           AS location,
-            S.CONTENT         AS content,
-            S.IS_GRANTED      AS is_granted
-        FROM   SCHEDULE S
-        JOIN   EMPLOYEE   E ON S.EMPLOYEE_ID = E.ID
-        JOIN   DEPARTMENT D ON E.DEPARTMENT_ID = D.ID
+            S.ID            AS request_id,
+            S.EMPLOYEE_ID   AS employee_id,
+            E.NAME          AS employee_name,
+            D.NAME          AS department,
+            E.POSITION      AS position,
+            S.START_DATE    AS start_ts,     -- TIMESTAMP
+            S.END_DATE      AS end_ts,       -- TIMESTAMP
+            S.TITLE         AS location,
+            NVL(S.CONTENT,'') AS content,
+            S.IS_GRANTED    AS is_granted
+        FROM   SCHEDULE   S
+               JOIN EMPLOYEE   E ON E.ID = S.EMPLOYEE_ID
+               JOIN DEPARTMENT D ON D.ID = E.DEPARTMENT_ID
         WHERE  S.SCHEDULE_TYPE = ?
           AND  S.IS_GRANTED    = 0
-        ORDER BY S.START_DATE DESC
+        ORDER  BY S.START_DATE DESC
         """;
 
+        DateTimeFormatter DT_FMT = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         List<OutworkRequestDTO> list = new ArrayList<>();
 
         try (Connection conn = OracleConnector.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
-            // ★ 필수 바인딩 추가
-            ps.setString(1, REQUEST_TYPE);
+            ps.setString(1, REQUEST_TYPE);          // ‘출장’ 같은 스케줄 유형
 
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
+                    String start = rs.getTimestamp("start_ts")
+                            .toLocalDateTime()
+                            .format(DT_FMT);
+                    String end   = rs.getTimestamp("end_ts")
+                            .toLocalDateTime()
+                            .format(DT_FMT);
+
                     list.add(new OutworkRequestDTO(
                             rs.getInt("request_id"),
                             rs.getInt("employee_id"),
                             rs.getString("employee_name"),
                             rs.getString("department"),
                             rs.getString("position"),
-                            null,                       // approval_date is null while pending
-                            rs.getString("start_time"),
-                            rs.getString("end_time"),
+                            null,                 // approval_date: 대기 중이므로 null
+                            start,                // yyyy-MM-dd
+                            end,                  // yyyy-MM-dd
                             rs.getString("location"),
                             rs.getString("content"),
                             rs.getInt("is_granted")
@@ -93,10 +103,12 @@ public class OutworkRequestDAO implements RequestDAO {
                 }
             }
         } catch (SQLException e) {
-            System.err.println("[OutworkDAO] getPendingRequests 실패: " + e.getMessage());
+            throw new RuntimeException("[OutworkDAO] getPendingRequests 실패", e);
         }
+
         return list;
     }
+
 
 
     /* ------------------------------------------------------- *
