@@ -5,16 +5,19 @@
     -fx-background-color:#A0DEFF;
 
 }
-.table-view{
-    -fx-background-radius:10;
-    -fx-border-radius:10;
-}
 
 .table-view .scroll-bar:vertical,
 .table-view .scroll-bar:horizontal {
-    -fx-opacity: 0;
+    -fx-pref-width: 0;
+    -fx-pref-height: 0;
+    -fx-min-width: 0;
+    -fx-min-height: 0;
     -fx-max-width: 0;
     -fx-max-height: 0;
+    -fx-opacity: 0;
+    -fx-padding: 0;
+    -fx-background-insets: 0;
+    -fx-background-color: transparent;
 }
 
 

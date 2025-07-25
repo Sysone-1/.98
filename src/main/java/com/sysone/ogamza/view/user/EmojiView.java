@@ -36,6 +36,10 @@ public class EmojiView {
         buildGrid(onSelect);
         scroll.setContent(grid);
         scroll.setPrefSize(300, 220);
+        scroll.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        scroll.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        scroll.setStyle("-fx-background-color: transparent; -fx-background-insets: 0; -fx-padding: 0;");
+
         popup.getContent().add(scroll);
         popup.setAutoHide(true);
 
