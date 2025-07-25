@@ -498,7 +498,6 @@
             <Font name="SansSerif Bold" size="18.0" />
          </font>
       </Button>
-      <Button fx:id="tagbtn" layoutX="180.0" layoutY="17.0" mnemonicParsing="false" text="Button" onAction="#handleTagCardClick"/>
 <!--      <ImageView fx:id="tooltipImage" fitHeight="28.0" fitWidth="28.0" layoutX="109.0" layoutY="19.0" pickOnBounds="true" preserveRatio="true">-->
 <!--         <image>-->
 <!--            <Image url="@../../images/tooltip.png" />-->
