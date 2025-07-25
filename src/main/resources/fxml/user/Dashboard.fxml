@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ProgressBar?>
@@ -14,7 +21,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="650.0" prefWidth="1150.0" stylesheets="@../../css/dashboard.css" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sysone.ogamza.controller.user.DashboardController">
+<AnchorPane prefHeight="650.0" prefWidth="1150.0" stylesheets="@../../css/dashboard.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sysone.ogamza.controller.user.DashboardController">
    <children>
       <Label layoutX="56.0" layoutY="12.0" prefHeight="33.0" prefWidth="83.0" text="Day">
          <font>
@@ -125,35 +132,37 @@
                         <HBox prefHeight="129.0" prefWidth="337.0" style="-fx-alignment: center; -fx-padding: 0 30 0 0;">
                            <children>
                                <StackPane prefHeight="117.0" prefWidth="300" translateY="-60">
-                                  <fx:include source="ArcProgress.fxml" />
-                                 <HBox maxHeight="98.0" prefHeight="263.0" prefWidth="300.0" style="-fx-alignment: center; -fx-max-height: 1000;">
-                                    <children>
-                                       <VBox prefHeight="139.0" prefWidth="198.0" style="-fx-alignment: center;">
-                                          <children>
-                                             <HBox prefHeight="162.0" prefWidth="198.0" style="-fx-alignment: center; -fx-max-height: 1000;" />
-                                             <VBox prefHeight="5.0" prefWidth="198.0" style="-fx-alignment: center; -fx-padding: 0 0 0 10;">
-                                                <children>
-                                                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="잔여근로" wrappingWidth="80.80005264282227">
-                                                      <font>
-                                                         <Font name="SansSerif Regular" size="18.0" />
-                                                      </font>
-                                                   </Text>
-                                                </children>
-                                             </VBox>
-                                             <HBox prefHeight="100.0" prefWidth="200.0" style="-fx-alignment: center; -fx-max-height: 20;" />
-                                             <VBox prefHeight="27.0" prefWidth="215.0" style="-fx-alignment: center; -fx-pref-height: 10; -fx-padding: 0 0 0 40;">
-                                                <children>
-                                                   <Text fx:id="remainingWorkingHours" strokeType="OUTSIDE" strokeWidth="0.0" text="155시간 15분" translateX="20" wrappingWidth="153.33337497711182">
-                                                      <font>
-                                                         <Font size="18.0" />
-                                                      </font>
-                                                   </Text>
-                                                </children>
-                                             </VBox>
-                                          </children>
-                                       </VBox>
-                                    </children>
-                                 </HBox>
+                                  <children>
+                                     <fx:include source="ArcProgress.fxml" />
+                                    <HBox maxHeight="98.0" prefHeight="263.0" prefWidth="300.0" style="-fx-alignment: center; -fx-max-height: 1000;">
+                                       <children>
+                                          <VBox prefHeight="139.0" prefWidth="198.0" style="-fx-alignment: center;">
+                                             <children>
+                                                <HBox prefHeight="162.0" prefWidth="198.0" style="-fx-alignment: center; -fx-max-height: 1000;" />
+                                                <VBox prefHeight="5.0" prefWidth="198.0" style="-fx-alignment: center; -fx-padding: 0 0 0 10;">
+                                                   <children>
+                                                      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="잔여근로" wrappingWidth="80.80005264282227">
+                                                         <font>
+                                                            <Font name="SansSerif Regular" size="18.0" />
+                                                         </font>
+                                                      </Text>
+                                                   </children>
+                                                </VBox>
+                                                <HBox prefHeight="100.0" prefWidth="200.0" style="-fx-alignment: center; -fx-max-height: 20;" />
+                                                <VBox prefHeight="27.0" prefWidth="215.0" style="-fx-alignment: center; -fx-pref-height: 10; -fx-padding: 0 0 0 40;">
+                                                   <children>
+                                                      <Text fx:id="remainingWorkingHours" strokeType="OUTSIDE" strokeWidth="0.0" text="155시간 15분" translateX="20" wrappingWidth="153.33337497711182">
+                                                         <font>
+                                                            <Font size="18.0" />
+                                                         </font>
+                                                      </Text>
+                                                   </children>
+                                                </VBox>
+                                             </children>
+                                          </VBox>
+                                       </children>
+                                    </HBox>
+                                  </children>
                   
                                </StackPane>
                            </children>
@@ -479,7 +488,7 @@
             </VBox>
          </children>
       </VBox>
-      <ImageView fx:id="tooltipImage" fitHeight="22.0" fitWidth="24.0" layoutX="110.0" layoutY="25.0" pickOnBounds="true" preserveRatio="true" style="-fx-fit-width: 25; -fx-fit-height: 25;" />
+      <ImageView fx:id="tooltipImage" fitHeight="22.0" fitWidth="24.0" layoutX="105.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true" style="-fx-fit-width: 25; -fx-fit-height: 25;" />
       <Button layoutX="979.0" layoutY="5.0" mnemonicParsing="false" onAction="#handleFetchScheduleClick" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: #6E9BC7; -fx-background-radius: 8; -fx-cursor: hand; -fx-min-width: 100; -fx-max-width: 200; -fx-max-height: 35; -fx-min-width: 35;" text="결재 내역" textFill="WHITE">
          <font>
             <Font name="SansSerif Bold" size="18.0" />
