@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<!--
+    작성자: 서샘이
+    작성일: 2025-07-27
+    설명: 사용자 홈 화면 구성 (근태 현황, 오늘의 운세, 감정 선택 등)
+-->
+
 <?import javafx.scene.Group?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.effect.DropShadow?>
@@ -12,25 +18,37 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="650.0" maxWidth="-Infinity" minHeight="650.0" minWidth="0.0" prefHeight="650.0" prefWidth="1110.0" style="-fx-background-color: #F1F9FF;" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sysone.ogamza.controller.user.UserHomeController">
+<AnchorPane
+        maxHeight="650.0" minHeight="650.0"
+        prefHeight="650.0" prefWidth="1110.0"
+        style="-fx-background-color: #F1F9FF;"
+        xmlns="http://javafx.com/javafx/24.0.1"
+        xmlns:fx="http://javafx.com/fxml/1"
+        fx:controller="com.sysone.ogamza.controller.user.UserHomeController">
 
-    <children>
+   <children>
+
+      <!-- 사용자 환영 인사 라벨 -->
       <HBox layoutX="26.0" layoutY="14.0" prefHeight="43.0" prefWidth="200.0" styleClass="helloMentBox">
          <children>
-              
-              <Label fx:id="welcomeLabel" text="안녕하세요 :)" textFill="#0099ff">
+            <Label fx:id="welcomeLabel" text="안녕하세요 :)" textFill="#0099ff">
                <font>
                   <Font name="System Bold Italic" size="25.0" />
                </font>
             </Label>
          </children>
       </HBox>
-      <VBox id="employeeBox" layoutX="26.0" layoutY="63.0" prefHeight="311.0" prefWidth="335.0" style="-fx-background-color: #ffffff; -fx-background-radius: 20;">
+
+      <!-- 사용자 프로필 카드 -->
+      <VBox id="employeeBox" layoutX="26.0" layoutY="63.0" prefHeight="311.0" prefWidth="335.0"
+            style="-fx-background-color: #ffffff; -fx-background-radius: 20;">
          <effect>
             <DropShadow color="rgba(0, 0, 0, 0.25)" offsetX="4" offsetY="6" radius="12" />
          </effect>
          <children>
-            <VBox alignment="CENTER" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="210.0" prefWidth="296.0" style="-fx-background-color: #D6E1F1; -fx-background-radius: 20 20 0 0;">
+            <!-- 상단 이미지 영역 -->
+            <VBox alignment="CENTER" prefHeight="210.0" prefWidth="296.0"
+                  style="-fx-background-color: #D6E1F1; -fx-background-radius: 20 20 0 0;">
                <children>
                   <ImageView fx:id="employeeProfile" fitHeight="209.0" fitWidth="249.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -39,21 +57,21 @@
                   </ImageView>
                </children>
             </VBox>
+            <!-- 이름 및 부서 -->
             <VBox prefHeight="101.0" prefWidth="259.0" style="-fx-padding: 20; -fx-spacing: 5;">
                <children>
-                  <Text fx:id="employeeName" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 26; -fx-font-weight: 700;" text="김선호">
-                     <font>
-                        <Font name="System Bold" size="13.0" />
-                     </font>
-                  </Text>
-                  <Text fx:id="departmentName" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 18;" text="개발 1팀" />
+                  <Text fx:id="employeeName" style="-fx-font-size: 26; -fx-font-weight: 700;" text="김선호" />
+                  <Text fx:id="departmentName" style="-fx-font-size: 18;" text="개발 1팀" />
                </children>
             </VBox>
          </children>
       </VBox>
+
+      <!-- 달력 컴포넌트가 들어갈 컨테이너 (동적으로 삽입됨) -->
       <AnchorPane fx:id="calendarContainer" layoutX="422.0" layoutY="115.0">
          <children>
-            <VBox layoutX="1.0" prefHeight="230.0" prefWidth="247.0" style="-fx-background-color: #ffffff; -fx-background-radius: 20; -fx-alignment: center;">
+            <VBox layoutX="1.0" prefHeight="230.0" prefWidth="247.0"
+                  style="-fx-background-color: #ffffff; -fx-background-radius: 20;">
                <effect>
                   <DropShadow color="rgba(0, 0, 0, 0.25)" offsetX="4" offsetY="6" radius="12" />
                </effect>
@@ -61,76 +79,7 @@
          </children>
       </AnchorPane>
 
-      
-            <VBox layoutX="712.0" layoutY="115.0" prefHeight="250.0" prefWidth="344.0" style="-fx-background-radius: 20; -fx-spacing: 15;">
-         <children>
-            <VBox prefHeight="200.0" prefWidth="100.0" style="-fx-pref-height: 67; -fx-pref-width: 302; -fx-background-color: #C9D4E4; -fx-background-radius: 20;">
-               <effect>
-                  <DropShadow color="rgba(0, 0, 0, 0.25)" offsetX="4" offsetY="6" radius="12" />
-               </effect>
-               <children>
-                  <HBox id="rankingBox" prefHeight="100.0" prefWidth="200.0" style="-fx-alignment: center;">
-                     <children>
-                        <StackPane alignment="CENTER_LEFT" prefHeight="65.0" prefWidth="66.0" style="-fx-alignment: center_left;">
-                           <children>
-                              <Text fx:id="rankingNum1" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 35; -fx-font-weight: 700;" text="3" />
-                           </children>
-                        </StackPane>
-                        <StackPane alignment="CENTER_RIGHT" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="150.0" prefWidth="240.0">
-                           <children>
-                              <Text fx:id="rankingDept1" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 26; -fx-font-weight: bold;" text="인사팀" />
-                           </children>
-                        </StackPane>
-                     </children>
-                  </HBox>
-               </children>
-            </VBox>
-            <VBox id="rankingBox" layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0" style="-fx-pref-height: 67; -fx-pref-width: 302; -fx-background-color: #D6E1F1; -fx-background-radius: 20;">
-               <effect>
-                  <DropShadow color="rgba(0, 0, 0, 0.25)" offsetX="4" offsetY="6" radius="12" />
-               </effect>
-               <children>
-                  <HBox prefHeight="100.0" prefWidth="200.0" style=" -fx-alignment: center;">
-                     <children>
-                        <StackPane alignment="CENTER_LEFT" prefHeight="65.0" prefWidth="66.0" style="-fx-alignment: center_left;">
-                           <children>
-                              <Text fx:id="rankingNum2" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 35; -fx-font-weight: 700;" text="3" />
-                           </children>
-                        </StackPane>
-                        <StackPane prefHeight="150.0" prefWidth="240.0">
-                           <children>
-                              <Text fx:id="rankingDept2" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 26; -fx-font-weight: bold;" text="인사팀" StackPane.alignment="CENTER_RIGHT" />
-                           </children>
-                        </StackPane>
-                     </children>
-                  </HBox>
-               </children>
-            </VBox>
-            <VBox id="rankingBox" layoutX="10.0" layoutY="75.0" prefHeight="200.0" prefWidth="325.0" style="-fx-pref-height: 67; -fx-pref-width: 302; -fx-background-color: #E2ECFB; -fx-background-radius: 20;">
-               <effect>
-                  <DropShadow color="rgba(0, 0, 0, 0.25)" offsetX="4" offsetY="6" radius="12" />
-               </effect>
-               <children>
-                  <HBox prefHeight="100.0" prefWidth="200.0" style="-fx-alignment: center;">
-                     <children>
-                        <StackPane alignment="CENTER_LEFT" prefHeight="65.0" prefWidth="66.0" style="-fx-alignment: center_left;">
-                           <children>
-                              <Text fx:id="rankingNum3" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 35; -fx-font-weight: 700;" text="3" />
-                           </children>
-                        </StackPane>
-                        <StackPane prefHeight="150.0" prefWidth="240.0">
-                           <children>
-                              <Text fx:id="rankingDept3" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 26; -fx-font-weight: bold;" text="인사팀" StackPane.alignment="CENTER_RIGHT" />
-                           </children>
-                        </StackPane>
-                     </children>
-                  </HBox>
-               </children>
-            </VBox>
-         </children>
-      </VBox>
-
-
+      <!-- 근태 랭킹 타이틀 -->
       <HBox alignment="CENTER_LEFT" layoutX="710.0" layoutY="49.0" prefHeight="43.0" prefWidth="200.0" style="-fx-spacing: 10;">
          <children>
             <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
@@ -138,72 +87,151 @@
                   <Image url="@../../images/cup.gif" />
                </image>
             </ImageView>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 26; -fx-text-alignment: center;" text="근태 랭킹" />
+            <Text style="-fx-font-size: 26;" text="근태 랭킹" />
          </children>
       </HBox>
-      <VBox fx:id="todayMood" layoutX="27.0" layoutY="389.0" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="52.0" prefWidth="329.0" style="-fx-background-color: #ffffff; -fx-background-radius: 20; -fx-pref-width: 335; -fx-pref-height: 30; -fx-alignment: center;">
+
+      <!-- 근태 랭킹 박스 1~3위 -->
+      <VBox layoutX="712.0" layoutY="115.0" prefHeight="250.0" prefWidth="344.0"
+            style="-fx-background-radius: 20; -fx-spacing: 15;">
+         <children>
+
+            <!-- 1위 -->
+            <VBox style="-fx-pref-height: 67; -fx-pref-width: 302; -fx-background-color: #C9D4E4; -fx-background-radius: 20;">
+               <effect>
+                  <DropShadow color="rgba(0, 0, 0, 0.25)" offsetX="4" offsetY="6" radius="12" />
+               </effect>
+               <children>
+                  <HBox style="-fx-alignment: center;">
+                     <children>
+                        <StackPane alignment="CENTER_LEFT" prefHeight="65.0" prefWidth="66.0">
+                           <children>
+                              <Text fx:id="rankingNum1" fill="WHITE" style="-fx-font-size: 35; -fx-font-weight: 700;" text="3" />
+                           </children>
+                        </StackPane>
+                        <StackPane prefHeight="150.0" prefWidth="240.0">
+                           <children>
+                              <Text fx:id="rankingDept1" style="-fx-font-size: 26; -fx-font-weight: bold;" text="인사팀" />
+                           </children>
+                        </StackPane>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+
+            <!-- 2위 -->
+            <VBox style="-fx-pref-height: 67; -fx-pref-width: 302; -fx-background-color: #D6E1F1; -fx-background-radius: 20;">
+               <effect>
+                  <DropShadow color="rgba(0, 0, 0, 0.25)" offsetX="4" offsetY="6" radius="12" />
+               </effect>
+               <children>
+                  <HBox style="-fx-alignment: center;">
+                     <children>
+                        <StackPane alignment="CENTER_LEFT" prefHeight="65.0" prefWidth="66.0">
+                           <children>
+                              <Text fx:id="rankingNum2" fill="WHITE" style="-fx-font-size: 35; -fx-font-weight: 700;" text="3" />
+                           </children>
+                        </StackPane>
+                        <StackPane prefHeight="150.0" prefWidth="240.0">
+                           <children>
+                              <Text fx:id="rankingDept2" style="-fx-font-size: 26; -fx-font-weight: bold;" text="인사팀" StackPane.alignment="CENTER_RIGHT" />
+                           </children>
+                        </StackPane>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+
+            <!-- 3위 -->
+            <VBox style="-fx-pref-height: 67; -fx-pref-width: 302; -fx-background-color: #E2ECFB; -fx-background-radius: 20;">
+               <effect>
+                  <DropShadow color="rgba(0, 0, 0, 0.25)" offsetX="4" offsetY="6" radius="12" />
+               </effect>
+               <children>
+                  <HBox style="-fx-alignment: center;">
+                     <children>
+                        <StackPane alignment="CENTER_LEFT" prefHeight="65.0" prefWidth="66.0">
+                           <children>
+                              <Text fx:id="rankingNum3" fill="WHITE" style="-fx-font-size: 35; -fx-font-weight: 700;" text="3" />
+                           </children>
+                        </StackPane>
+                        <StackPane prefHeight="150.0" prefWidth="240.0">
+                           <children>
+                              <Text fx:id="rankingDept3" style="-fx-font-size: 26; -fx-font-weight: bold;" text="인사팀" StackPane.alignment="CENTER_RIGHT" />
+                           </children>
+                        </StackPane>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+
+         </children>
+      </VBox>
+
+      <!-- 오늘의 감정 선택 -->
+      <VBox fx:id="todayMood" layoutX="27.0" layoutY="389.0" prefHeight="52.0" prefWidth="329.0"
+            style="-fx-background-color: #ffffff; -fx-background-radius: 20;">
          <effect>
             <DropShadow color="rgba(0, 0, 0, 0.25)" offsetX="4" offsetY="6" radius="12" />
-
          </effect>
          <children>
-            <HBox fx:id="moodBox" prefHeight="52.0" prefWidth="301.0" style="-fx-padding: 8; -fx-spacing: 130; -fx-alignment: center;">
+            <HBox fx:id="moodBox" prefHeight="52.0" prefWidth="301.0"
+                  style="-fx-padding: 8; -fx-spacing: 130; -fx-alignment: center;">
                <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 18;" text="Pick Mood" />
-                  <ImageView fx:id="emojiView" fitHeight="35" fitWidth="35" pickOnBounds="true" preserveRatio="true" style="-fx-cursor: hand;" />
+                  <Text style="-fx-font-size: 18;" text="Pick Mood" />
+                  <ImageView fx:id="emojiView" fitHeight="35" fitWidth="35" style="-fx-cursor: hand;" />
                </children>
             </HBox>
          </children>
       </VBox>
 
-
-       <VBox id="LuckyContainer" layoutX="26.0" layoutY="461.0" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="160.0" prefWidth="100.0" style="-fx-background-color: #ffffff; -fx-background-radius: 20; -fx-pref-width: 335; -fx-pref-height: 155; -fx-spacing: 10; -fx-alignment: center;">
+      <!-- 오늘의 행운 정보 (컬러 + 숫자) -->
+      <VBox id="LuckyContainer" layoutX="26.0" layoutY="461.0" prefHeight="160.0" prefWidth="335.0"
+            style="-fx-background-color: #ffffff; -fx-background-radius: 20; -fx-spacing: 10; -fx-alignment: center;">
          <effect>
             <DropShadow color="rgba(0, 0, 0, 0.25)" offsetX="4" offsetY="6" radius="12" />
-
          </effect>
          <children>
-            <VBox id="luckyColorBox" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="70.0" prefWidth="337.0" style="-fx-alignment: center;">
+            <VBox id="luckyColorBox" prefHeight="70.0" prefWidth="337.0" style="-fx-alignment: center;">
                <children>
-                  <HBox minHeight="-Infinity" prefHeight="60.0" prefWidth="341.0" style="-fx-spacing: 110; -fx-alignment: center;">
+                  <HBox prefHeight="60.0" prefWidth="341.0" style="-fx-spacing: 110; -fx-alignment: center;">
                      <children>
                         <Group fx:id="luckyShape" />
-                        <Text fx:id="luckyNumber" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 60; -fx-font-weight: bold; -fx-font-family: 'KoPubWorldBatang Light';" text="99" />
+                        <Text fx:id="luckyNumber" style="-fx-font-size: 60; -fx-font-weight: bold;" text="99" />
                      </children>
                   </HBox>
                </children>
             </VBox>
-            <VBox prefHeight="50.0" prefWidth="100.0">
+            <VBox prefHeight="50.0">
                <children>
                   <HBox id="luckyBox" prefHeight="53.0" prefWidth="337.0" style="-fx-alignment: center; -fx-spacing: 50;">
                      <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Lucky Color">
-                           <font>
-                              <Font size="18.0" />
-                           </font>
-                        </Text>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Lucky Number">
-                           <font>
-                              <Font size="18.0" />
-                           </font>
-                        </Text>
+                        <Text text="Lucky Color" style="-fx-font-size: 18;" />
+                        <Text text="Lucky Number" style="-fx-font-size: 18;" />
                      </children>
                   </HBox>
                </children>
             </VBox>
          </children>
       </VBox>
-      <VBox layoutX="426.0" layoutY="368.0" prefHeight="200.0" prefWidth="183.0" style="-fx-pref-height: 40;">
+
+      <!-- 오늘의 메시지 타이틀 -->
+      <VBox layoutX="426.0" layoutY="368.0" prefHeight="40.0">
          <children>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 23; -fx-font-weight: 600;" text="Today Message" />
-         </children></VBox>
-      <VBox layoutX="424.0" layoutY="403.0" maxHeight="212.0" maxWidth="-Infinity" minHeight="212.0" minWidth="-Infinity" prefHeight="212.0" prefWidth="632.0" style="-fx-pref-width: 630; -fx-pref-height: 225; -fx-background-radius: 20; -fx-background-color: #ffffff; -fx-alignment: center;">
+            <Text style="-fx-font-size: 23; -fx-font-weight: 600;" text="Today Message" />
+         </children>
+      </VBox>
+
+      <!-- 오늘의 랜덤 메시지 박스 -->
+      <VBox layoutX="424.0" layoutY="403.0" prefHeight="212.0" prefWidth="632.0"
+            style="-fx-background-radius: 20; -fx-background-color: #ffffff; -fx-alignment: center;">
          <effect>
             <DropShadow color="rgba(0, 0, 0, 0.25)" offsetX="4" offsetY="6" radius="12" />
          </effect>
          <children>
-            <Text fx:id="randomMsg" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 28; -fx-font-family: 'ylee MHIM'; -fx-text-alignment: center;" text="오늘도 화이팅" wrappingWidth="500" />
+            <Text fx:id="randomMsg" style="-fx-font-size: 28; -fx-font-family: 'ylee MHIM'; -fx-text-alignment: center;" text="오늘도 화이팅" wrappingWidth="500" />
          </children>
       </VBox>
-    </children>
+
+   </children>
 </AnchorPane>

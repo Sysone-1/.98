@@ -145,26 +145,6 @@
 
         <ComboBox fx:id="departmentComboBox" layoutX="837.0" layoutY="320.0" onAction="#handleDepartmentChange" promptText="부서 선택" />
 
-<!--        <VBox fx:id="legendBox" alignment="CENTER_RIGHT" layoutX="536.0" layoutY="475.0" maxWidth="70.0" minWidth="70.0" prefHeight="83.0" prefWidth="70.0" spacing="6">-->
-<!--            <children>-->
-<!--                <HBox fx:id="legendWork" maxWidth="70.0" minWidth="70.0" prefWidth="100.0" spacing="10">-->
-<!--                    <Rectangle arcHeight="20" arcWidth="10.0" fill="#4CAF50" height="14" width="34" />-->
-<!--                    <Text text="출근" />-->
-<!--                </HBox>-->
-<!--                <HBox fx:id="legendLate" maxWidth="70.0" minWidth="70.0" prefWidth="70.0" spacing="10">-->
-<!--                    <Rectangle arcHeight="20" arcWidth="10.0" fill="#FF9800" height="14" width="34" />-->
-<!--                    <Text text="지각" />-->
-<!--                </HBox>-->
-<!--                <HBox fx:id="legendVacation" maxWidth="70.0" minWidth="70.0" prefWidth="70.0" spacing="10">-->
-<!--                    <Rectangle arcHeight="20" arcWidth="10.0" fill="#F44336" height="14" width="34" />-->
-<!--                    <Text text="휴가" />-->
-<!--                </HBox>-->
-<!--                <HBox fx:id="legendAbsent" maxWidth="70.0" minWidth="70.0" prefWidth="70.0" spacing="10">-->
-<!--                    <Rectangle arcHeight="20.0" arcWidth="10.0" fill="#2196f3" height="14" width="34" />-->
-<!--                    <Text text="결근" />-->
-<!--                </HBox>-->
-<!--            </children>-->
-<!--        </VBox>-->
           <Text fx:id="attendanceTitle" layoutX="60.0" layoutY="174.0" style="-fx-font-weight: 700;" text="근태 현황">
               <font>
             <Font name="System Bold" size="21.0" />
