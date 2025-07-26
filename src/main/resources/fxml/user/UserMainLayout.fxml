@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<!--
+    작성자: 서샘이
+    작성일: 2025-07-27
+    설명: 사용자 메인 레이아웃 FXML (사이드바 + 헤더 + 동적 콘텐츠 영역)
+-->
+
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -11,111 +17,157 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="anchorPane" maxHeight="820.0" maxWidth="-Infinity" minHeight="820.0" minWidth="-Infinity" prefHeight="820.0" prefWidth="1330.0" style="-fx-background-color: #D9D9D9;" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sysone.ogamza.controller.user.MainController">
+<AnchorPane fx:id="anchorPane"
+            maxHeight="820.0" minHeight="820.0"
+            prefHeight="820.0" prefWidth="1330.0"
+            style="-fx-background-color: #D9D9D9;"
+            xmlns="http://javafx.com/javafx/24.0.1"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.sysone.ogamza.controller.user.MainController">
    <children>
-      <VBox layoutX="25.0" layoutY="29.0" prefHeight="750.0" prefWidth="1240.0" style="-fx-background-radius: 30 30 30 30; -fx-background-color: #F1F9FF; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0.5, 0, 4);">
+
+      <!-- 전체 화면을 감싸는 메인 VBox -->
+      <VBox layoutX="25.0" layoutY="29.0" prefHeight="750.0" prefWidth="1240.0"
+            style="-fx-background-radius: 30; -fx-background-color: #F1F9FF; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0.5, 0, 4);">
          <children>
-            <!-- 사이드바 -->
+
+            <!-- 수평 레이아웃: 사이드바 + 우측 콘텐츠 -->
             <HBox>
                <children>
-                  <VBox prefHeight="750.0" prefWidth="130.0" style="-fx-background-color: #0099FF; -fx-background-radius: 30 0 0 30; -fx-alignment: center;">
+
+                  <!-- 🌐 왼쪽 사이드바 (Navigation) -->
+                  <VBox prefHeight="750.0" prefWidth="130.0"
+                        style="-fx-background-color: #0099FF; -fx-background-radius: 30 0 0 30; -fx-alignment: center;">
                      <children>
-                        <!-- Sidebar Items -->
-                        <VBox prefHeight="100.0" prefWidth="130.0" style="-fx-alignment: center;-fx-cursor: hand; -fx-spacing: 10;" styleClass="sidebar-items">
+
+                        <!-- 홈 버튼 -->
+                        <VBox styleClass="sidebar-items" prefHeight="100.0" prefWidth="130.0"
+                              style="-fx-alignment: center; -fx-cursor: hand; -fx-spacing: 10;">
                            <children>
-                              <ImageView fitHeight="40.0" fitWidth="40.0" onMouseClicked="#goHome" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fitHeight="40" fitWidth="40" onMouseClicked="#goHome" preserveRatio="true" pickOnBounds="true">
                                  <image><Image url="@../../images/home.png" /></image>
                               </ImageView>
-                              <Label style="-fx-text-fill: #ffffff;" text="home"><font><Font name="Inter Regular" size="18.0" /></font></Label>
+                              <Label text="home" style="-fx-text-fill: #ffffff;">
+                                 <font><Font name="Inter Regular" size="18.0" /></font>
+                              </Label>
                            </children>
                         </VBox>
-                        <VBox prefHeight="100.0" prefWidth="130.0" style="-fx-alignment: center; -fx-cursor: hand;-fx-spacing: 10;" styleClass="sidebar-items">
+
+                        <!-- 대시보드 버튼 -->
+                        <VBox styleClass="sidebar-items" prefHeight="100.0" prefWidth="130.0"
+                              style="-fx-alignment: center; -fx-cursor: hand; -fx-spacing: 10;">
                            <children>
-                              <ImageView fitHeight="40.0" fitWidth="40.0" onMouseClicked="#goDashboard" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fitHeight="40" fitWidth="40" onMouseClicked="#goDashboard" preserveRatio="true" pickOnBounds="true">
                                  <image><Image url="@../../images/dashboard.png" /></image>
                               </ImageView>
-                              <Label style="-fx-text-fill: #ffffff;" text="dashboard"><font><Font name="Inter Regular" size="18.0" /></font></Label>
+                              <Label text="dashboard" style="-fx-text-fill: #ffffff;">
+                                 <font><Font name="Inter Regular" size="18.0" /></font>
+                              </Label>
                            </children>
                         </VBox>
-                        <VBox prefHeight="100.0" prefWidth="130.0" style="-fx-alignment: center;-fx-cursor: hand; -fx-spacing: 10;" styleClass="sidebar-items">
+
+                        <!-- 출입기록 버튼 -->
+                        <VBox styleClass="sidebar-items" prefHeight="100.0" prefWidth="130.0"
+                              style="-fx-alignment: center; -fx-cursor: hand; -fx-spacing: 10;">
                            <children>
-                              <ImageView fitHeight="40.0" fitWidth="40.0" onMouseClicked="#goRecord" pickOnBounds="true" preserveRatio="true" >
+                              <ImageView fitHeight="40" fitWidth="40" onMouseClicked="#goRecord" preserveRatio="true" pickOnBounds="true">
                                  <image><Image url="@../../images/record.png" /></image>
                               </ImageView>
-                              <Label style="-fx-text-fill: #ffffff;" text="record"><font><Font name="Inter Regular" size="18.0" /></font></Label>
+                              <Label text="record" style="-fx-text-fill: #ffffff;">
+                                 <font><Font name="Inter Regular" size="18.0" /></font>
+                              </Label>
                            </children>
                         </VBox>
-                        <VBox prefHeight="100.0" prefWidth="130.0" style="-fx-alignment: center;-fx-cursor: hand; -fx-spacing: 10;" styleClass="sidebar-items">
+
+                        <!-- 설정 버튼 -->
+                        <VBox styleClass="sidebar-items" prefHeight="100.0" prefWidth="130.0"
+                              style="-fx-alignment: center; -fx-cursor: hand; -fx-spacing: 10;">
                            <children>
-                              <ImageView fitHeight="40.0" fitWidth="40.0" onMouseClicked="#goSettings" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fitHeight="40" fitWidth="40" onMouseClicked="#goSettings" preserveRatio="true" pickOnBounds="true">
                                  <image><Image url="@../../images/setting.png" /></image>
                               </ImageView>
-                              <Label style="-fx-text-fill: #ffffff;" text="setting"><font><Font name="Inter Regular" size="18.0" /></font></Label>
+                              <Label text="setting" style="-fx-text-fill: #ffffff;">
+                                 <font><Font name="Inter Regular" size="18.0" /></font>
+                              </Label>
                            </children>
                         </VBox>
-                        <VBox prefHeight="100.0" prefWidth="130.0" style="-fx-alignment: center;-fx-cursor: hand;" styleClass="sidebar-items" translateY="50.0">
+
+                        <!-- 로그아웃 버튼 -->
+                        <VBox styleClass="sidebar-items" prefHeight="100.0" prefWidth="130.0"
+                              style="-fx-alignment: center; -fx-cursor: hand;" translateY="50.0">
                            <children>
-                              <ImageView fitHeight="40.0" fitWidth="40.0" onMouseClicked="#logout" pickOnBounds="true" preserveRatio="true" >
+                              <ImageView fitHeight="40" fitWidth="40" onMouseClicked="#logout" preserveRatio="true" pickOnBounds="true">
                                  <image><Image url="@../../images/logout.png" /></image>
                               </ImageView>
                            </children>
                         </VBox>
+
                      </children>
                   </VBox>
 
-                  <!-- 우측 콘텐츠 -->
+                  <!-- 📄 우측 메인 콘텐츠 -->
                   <VBox prefWidth="1110.0">
-                     <!-- 헤더 -->
-                     <VBox prefHeight="90.0" prefWidth="1110.0" style="-fx-background-color: #ffffff;-fx-background-radius: 0 30 0 0; ">
-                        <HBox maxHeight="-Infinity" minHeight="-Infinity" prefHeight="100.0" prefWidth="1151.0">
+
+                     <!-- 🔝 헤더 영역 -->
+                     <VBox prefHeight="90.0" prefWidth="1110.0" style="-fx-background-color: #ffffff; -fx-background-radius: 0 30 0 0;">
+                        <HBox prefHeight="100.0" prefWidth="1151.0">
                            <children>
+
+                              <!-- 로고 -->
                               <VBox prefHeight="100.0" prefWidth="250.0" style="-fx-alignment: center; -fx-padding: 20;">
                                  <children>
-                                    <ImageView fitHeight="150.0" fitWidth="180.0" onMouseClicked="#goHome" pickOnBounds="true" preserveRatio="true" style="-fx-cursor: hand;">
+                                    <ImageView fitHeight="150" fitWidth="180" onMouseClicked="#goHome" preserveRatio="true" pickOnBounds="true" style="-fx-cursor: hand;">
                                        <image><Image url="@../../images/userLogo.png" /></image>
                                     </ImageView>
                                  </children>
                               </VBox>
-                              <Region fx:id="spacer" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="100.0" prefWidth="600.0" HBox.hgrow="ALWAYS" />
-                              <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="100.0" prefWidth="323.0" spacing="40.0" style="-fx-padding: 20;">
-                                 <children>
-                                    <StackPane>
-                                       <!-- 쪽지 아이콘 -->
-                                       <ImageView fx:id="messageInBox" fitHeight="40.0" fitWidth="40.0" onMouseClicked="#handleMessageInBox" pickOnBounds="true" preserveRatio="true" style="-fx-cursor: hand;">
-                                          <image>
-                                             <Image url="@../../images/mail-box.gif" />
-                                          </image>
-                                       </ImageView>
 
-                                       <!-- 뱃지 라벨 -->
-                                       <Label fx:id="unreadCountLabel" style="-fx-background-color: red; -fx-text-fill: white; -fx-font-size: 10px; -fx-font-weight: bold; -fx-background-radius: 10; -fx-padding: 2 5 2 5;" text="0" translateX="-5" translateY="5" visible="false" StackPane.alignment="TOP_RIGHT" />
+                              <!-- 간격 확보용 Region -->
+                              <Region fx:id="spacer" prefHeight="100.0" prefWidth="600.0" HBox.hgrow="ALWAYS" />
+
+                              <!-- 사용자 정보 및 쪽지 -->
+                              <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="323.0" spacing="40.0" style="-fx-padding: 20;">
+                                 <children>
+
+                                    <!-- 쪽지 아이콘 + 알림 뱃지 -->
+                                    <StackPane>
+                                       <ImageView fx:id="messageInBox" fitHeight="40" fitWidth="40" onMouseClicked="#handleMessageInBox" preserveRatio="true" pickOnBounds="true" style="-fx-cursor: hand;">
+                                          <image><Image url="@../../images/mail-box.gif" /></image>
+                                       </ImageView>
+                                       <Label fx:id="unreadCountLabel" text="0" visible="false"
+                                              style="-fx-background-color: red; -fx-text-fill: white; -fx-font-size: 10px; -fx-font-weight: bold; -fx-background-radius: 10; -fx-padding: 2 5 2 5;"
+                                              translateX="-5" translateY="5"
+                                              StackPane.alignment="TOP_RIGHT" />
                                     </StackPane>
 
+                                    <!-- 프로필 사진 + 이름, 부서 -->
                                     <HBox prefHeight="100.0" prefWidth="200.0" spacing="20.0">
                                        <children>
-
                                           <StackPane fx:id="profileContainer" prefHeight="60.0" prefWidth="60.0" />
-
                                           <VBox alignment="CENTER_LEFT" spacing="5">
                                              <children>
-                                                <Text fx:id="name" style="-fx-font-size: 16px; -fx-font-weight: bold;" text="Text" />
-                                                <Text fx:id="dept" style="-fx-text-fill: gray;" text="Text" />
+                                                <Text fx:id="name" text="Text" style="-fx-font-size: 16px; -fx-font-weight: bold;" />
+                                                <Text fx:id="dept" text="Text" style="-fx-text-fill: gray;" />
                                              </children>
                                           </VBox>
                                        </children>
                                     </HBox>
+
                                  </children>
                               </HBox>
+
                            </children>
                         </HBox>
                      </VBox>
 
-                                          <!-- 콘텐츠 영역 -->
+                     <!-- 📌 콘텐츠 동적 영역 (각 메뉴별 화면이 로딩될 영역) -->
                      <StackPane fx:id="contentArea" prefHeight="650.0" prefWidth="1110.0" style="-fx-padding: 10;" />
+
                   </VBox>
                </children>
             </HBox>
          </children>
       </VBox>
+
    </children>
 </AnchorPane>

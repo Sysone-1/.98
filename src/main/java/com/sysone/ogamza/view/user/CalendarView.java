@@ -7,7 +7,6 @@ import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 
@@ -15,22 +14,38 @@ import java.time.LocalDate;
 import java.time.YearMonth;
 import java.util.Map;
 import java.util.stream.IntStream;
+
 import com.sysone.ogamza.service.user.HolidayService;
 
+/**
+ * 커스터마이징된 달력 컴포넌트 클래스.
+ * 월, 연도, 10년 단위로 전환 가능한 뷰 모드를 제공하며, 공휴일 표시 및 오늘 날짜 강조 기능을 포함함.
+ *
+ * 내부적으로 MONTH / SELECT_MONTH / SELECT_YEAR 모드를 전환하며 사용자 인터랙션을 처리함.
+ *
+ * @author 서샘이
+ */
 public class CalendarView extends VBox {
 
+    /**
+     * 달력 뷰의 모드를 정의하는 enum
+     */
     private enum ViewMode { MONTH, SELECT_MONTH, SELECT_YEAR }
 
-    private final VBox container = new VBox();
-    private final VBox contentWrapper = new VBox();
-    private final HBox header = new HBox();
-    private final Label titleLabel = new Label();
-    private final GridPane contentGrid = new GridPane();
+    private final VBox container = new VBox(); // 전체 달력 컨테이너
+    private final VBox contentWrapper = new VBox(); // 헤더와 그리드 포함하는 래퍼
+    private final HBox header = new HBox(); // 월/년 타이틀 + 네비게이션
+    private final Label titleLabel = new Label(); // 월/년 표시 라벨
+    private final GridPane contentGrid = new GridPane(); // 날짜, 월, 연도 표시하는 그리드
 
-    private ViewMode currentMode = ViewMode.MONTH;
-    private YearMonth currentYearMonth = YearMonth.now();
-    private final Map<Integer, String> holidayMap;
+    private ViewMode currentMode = ViewMode.MONTH; // 현재 달력 모드
+    private YearMonth currentYearMonth = YearMonth.now(); // 현재 선택된 연월
+    private final Map<Integer, String> holidayMap; // 공휴일 데이터
 
+    /**
+     * CalendarView 생성자
+     * - 초기화 및 레이아웃 구성
+     */
     public CalendarView() {
         this.holidayMap = HolidayService.getHolidays(YearMonth.now().getYear(), YearMonth.now().getMonthValue());
 
@@ -48,6 +63,9 @@ public class CalendarView extends VBox {
         getChildren().add(container);
     }
 
+    /**
+     * 달력 상단 헤더 구성 (← 년도/월 →)
+     */
     private void setupHeader() {
         Region spacer1 = new Region();
         Region spacer2 = new Region();
@@ -71,6 +89,9 @@ public class CalendarView extends VBox {
         header.getChildren().addAll(prev, spacer1, titleLabel, spacer2, next);
     }
 
+    /**
+     * 헤더 클릭 시 뷰 모드 전환
+     */
     private void switchViewMode(MouseEvent e) {
         switch (currentMode) {
             case MONTH -> renderMonthSelector();
@@ -79,23 +100,28 @@ public class CalendarView extends VBox {
         }
     }
 
+    /**
+     * 뷰 모드에 따라 연/월/10년 단위 이동
+     * @param direction -1: 이전, 1: 다음
+     */
     private void navigate(int direction) {
         switch (currentMode) {
             case MONTH -> currentYearMonth = currentYearMonth.plusMonths(direction);
             case SELECT_MONTH -> currentYearMonth = currentYearMonth.plusYears(direction);
             case SELECT_YEAR -> currentYearMonth = currentYearMonth.plusYears(direction * 10);
         }
-        // ✅ 공휴일 다시 로드
+
         holidayMap.clear();
         holidayMap.putAll(
                 HolidayService.getHolidays(currentYearMonth.getYear(), currentYearMonth.getMonthValue())
         );
 
         render();
-
-        render();
     }
 
+    /**
+     * 현재 모드에 따라 뷰 렌더링
+     */
     private void render() {
         switch (currentMode) {
             case MONTH -> renderMonthView();
@@ -104,6 +130,9 @@ public class CalendarView extends VBox {
         }
     }
 
+    /**
+     * 월별 날짜 뷰 렌더링
+     */
     private void renderMonthView() {
         currentMode = ViewMode.MONTH;
         titleLabel.setText(currentYearMonth.getYear() + "년 " + currentYearMonth.getMonthValue() + "월");
@@ -113,6 +142,7 @@ public class CalendarView extends VBox {
         contentGrid.setVgap(2);
         contentGrid.setAlignment(Pos.CENTER);
 
+        // 요일 헤더
         String[] days = {"일", "월", "화", "수", "목", "금", "토"};
         for (int i = 0; i < days.length; i++) {
             Label dayLabel = new Label(days[i]);
@@ -123,6 +153,7 @@ public class CalendarView extends VBox {
             contentGrid.add(dayLabel, i, 0);
         }
 
+        // 날짜 렌더링
         LocalDate firstDay = currentYearMonth.atDay(1);
         int startCol = firstDay.getDayOfWeek().getValue() % 7;
         int daysInMonth = currentYearMonth.lengthOfMonth();
@@ -134,14 +165,14 @@ public class CalendarView extends VBox {
             dayLabel.setPrefSize(28, 28);
             dayLabel.setAlignment(Pos.CENTER);
 
-            // ── 공휴일 처리 ──────────────────────────────
+            // 공휴일 강조
             if (holidayMap.containsKey(day)) {
                 dayLabel.setTextFill(Color.RED);
                 dayLabel.setFont(Font.font("SUIT", FontWeight.BOLD, 13));
                 Tooltip.install(dayLabel, new Tooltip(holidayMap.get(day)));
             }
 
-            // ── 오늘 날짜 강조 (공휴일보다 우선 적용) ───────
+            // 오늘 날짜 강조
             if (LocalDate.now().equals(currentYearMonth.atDay(day))) {
                 dayLabel.setTextFill(Color.WHITE);
                 dayLabel.setStyle("-fx-background-color: #3B82F6; -fx-background-radius: 100%;");
@@ -158,7 +189,10 @@ public class CalendarView extends VBox {
         }
     }
 
-        private void renderMonthSelector() {
+    /**
+     * 월 선택 화면 렌더링
+     */
+    private void renderMonthSelector() {
         currentMode = ViewMode.SELECT_MONTH;
         titleLabel.setText(currentYearMonth.getYear() + "");
         contentGrid.getChildren().clear();
@@ -180,6 +214,9 @@ public class CalendarView extends VBox {
         }
     }
 
+    /**
+     * 연도 선택 화면 렌더링 (10년 단위)
+     */
     private void renderYearSelector() {
         currentMode = ViewMode.SELECT_YEAR;
         int baseYear = (currentYearMonth.getYear() / 10) * 10;
@@ -202,7 +239,5 @@ public class CalendarView extends VBox {
             contentGrid.add(year, (y - baseYear) % 4, (y - baseYear) / 4);
         });
     }
-
-
 
 }

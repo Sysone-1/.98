@@ -5,7 +5,6 @@ import com.sysone.ogamza.Session;
 import com.sysone.ogamza.dto.user.MessageBoxViewDTO;
 import com.sysone.ogamza.dto.user.MessageDetailDTO;
 import com.sysone.ogamza.dto.user.MessageInBoxDTO;
-import com.sysone.ogamza.dto.user.MessageSentBoxDTO;
 import com.sysone.ogamza.service.user.MessageService;
 import com.sysone.ogamza.view.user.MessageBoxCell;
 import javafx.collections.FXCollections;
@@ -24,49 +23,59 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 사용자 쪽지함 화면의 컨트롤러 클래스입니다.
+ * 로그인한 사용자가 받은 쪽지와 보낸 쪽지를 조회하며,
+ * 탭을 전환해 각 목록을 확인하고 쪽지 상세 보기 및 쪽지 보내기 기능을 제공합니다.
+ *
+ * @author 서샘이
+ * @since 2025-07-27
+ */
+
 public class MessageInBoxController {
 
+    /** 쪽지 목록을 표시하는 ListView */
     @FXML private ListView<MessageBoxViewDTO> messageListView;
+
+    /** 받은 쪽지, 보낸 쪽지 탭 버튼 */
     @FXML private ToggleButton receivedTab;
     @FXML private ToggleButton sentTab;
 
+    /** 초기화 메서드 - 로그인 유저 확인, 탭 그룹 설정, 받은 쪽지 로딩 */
     @FXML
     public void initialize(){
-        // 유저 정보 가져오기
         LoginUserDTO user = Session.getInstance().getLoginUser();
         if (user == null) {
             System.err.println("⚠️ 로그인 유저 정보 없음! 세션이 비어 있음");
             return;
         }
 
-        // 📌 커스텀 셀 + 클릭 처리 콜백 전달
+        // 리스트뷰 셀 커스텀 및 콜백 연결
         messageListView.setCellFactory(listView -> new MessageBoxCell(this::openMessageDetailModal));
         messageListView.setPlaceholder(new Label("쪽지함이 비어있습니다."));
 
-
+        // 탭 토글 설정
         ToggleGroup tabGroup = new ToggleGroup();
         receivedTab.setToggleGroup(tabGroup);
         sentTab.setToggleGroup(tabGroup);
 
-        // 초기화
         receivedTab.setSelected(true);
         applyTabStyle();
         loadReceivedMessages();
 
-
-        // 이벤트 핸들링
+        // 탭 클릭 이벤트 설정
         receivedTab.setOnAction(e -> {
             applyTabStyle();
-            loadReceivedMessages(); // 받은 쪽지 리스트 로드
+            loadReceivedMessages();
         });
 
         sentTab.setOnAction(e -> {
             applyTabStyle();
-            loadSentMessages(); // 보낸 쪽지 리스트 로드
+            loadSentMessages();
         });
     }
 
-    //  상세 모달 열기
+    /** 쪽지 상세 보기 모달을 띄우는 메서드 */
     public void openMessageDetailModal(int messageId) {
         try {
             MessageDetailDTO detail = MessageService.getInstance().getMessageDetail(messageId);
@@ -82,6 +91,7 @@ public class MessageInBoxController {
             modal.initModality(Modality.APPLICATION_MODAL);
             modal.setScene(new Scene(root));
             modal.showAndWait();
+
             updateReadStatusInList(messageId);
 
         } catch (IOException e) {
@@ -90,20 +100,18 @@ public class MessageInBoxController {
         }
     }
 
-
-    // 읽음처리 view 실시간 적용
+    /** 읽음 처리된 쪽지를 리스트에서 실시간으로 갱신 */
     private void updateReadStatusInList(int messageId) {
         for (MessageBoxViewDTO dto : messageListView.getItems()) {
-            if (dto instanceof MessageInBoxDTO && dto.getMessageId() == messageId && dto.getIsRead() == 0)
-            {
-                dto.setIsRead(1); // ← DTO 내부 값 변경
-                messageListView.refresh(); // ← ListView 다시 그림
+            if (dto instanceof MessageInBoxDTO && dto.getMessageId() == messageId && dto.getIsRead() == 0) {
+                dto.setIsRead(1);
+                messageListView.refresh();
                 break;
             }
         }
     }
 
-    // 쪽지 보내기 모달 띄우기
+    /** 쪽지 보내기 화면을 모달로 띄우는 메서드 */
     public void handleWriteMessage(){
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/user/WriteMessage.fxml"));
@@ -115,15 +123,13 @@ public class MessageInBoxController {
             modal.setScene(new Scene(root));
             modal.showAndWait();
 
-        }catch (IOException e){
-            System.out.println("쪽지 보내기 모달 출력 실패"+e.getMessage());
+        } catch (IOException e){
+            System.out.println("쪽지 보내기 모달 출력 실패" + e.getMessage());
             e.printStackTrace();
         }
-
     }
 
-
-    // 💡 스타일 스위칭 함수
+    /** 탭 버튼 스타일을 선택 상태에 따라 동적으로 변경 */
     private void applyTabStyle() {
         if (receivedTab.isSelected()) {
             receivedTab.setStyle("-fx-font-size: 14px; -fx-font-weight: bold; -fx-background-color: #2196F3; -fx-text-fill: white; -fx-cursor:hand;");
@@ -134,18 +140,17 @@ public class MessageInBoxController {
         }
     }
 
-    // 받은 편지 로드
+    /** 로그인 유저 기준 받은 쪽지 리스트 로딩 */
     private void loadReceivedMessages(){
         int userId = Session.getInstance().getLoginUser().getId();
         List<MessageBoxViewDTO> list = new ArrayList<>(MessageService.getInstance().getInboxMessages(userId));
         messageListView.setItems(FXCollections.observableArrayList(list));
     }
 
-    // 보낸 편지 로드
+    /** 로그인 유저 기준 보낸 쪽지 리스트 로딩 */
     private void loadSentMessages(){
         int userId = Session.getInstance().getLoginUser().getId();
         List<MessageBoxViewDTO> list = new ArrayList<>(MessageService.getInstance().getSentBox(userId));
         messageListView.setItems(FXCollections.observableArrayList(list));
     }
-
 }

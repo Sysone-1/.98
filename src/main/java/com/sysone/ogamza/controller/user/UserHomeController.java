@@ -26,6 +26,13 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
+/**
+ * 사용자 홈 화면을 초기화하고 각종 위젯을 유저 데이터로 설정하는 컨트롤러입니다.
+ * 이모지 선택 기능, 오늘의 행운 정보 표시, 부서별 출근 랭킹 등을 담당합니다.
+ *
+ * @author 서샘이
+ * @since 2025-07-25
+ */
 public class UserHomeController implements Initializable {
 
     @FXML private AnchorPane calendarContainer;
@@ -44,7 +51,9 @@ public class UserHomeController implements Initializable {
     @FXML private Text rankingNum2;
     @FXML private Text rankingNum3;
 
-
+    /**
+     * FXML 초기화 메서드. 사용자 정보를 기반으로 화면을 구성하고 이벤트 리스너를 등록합니다.
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         LoginUserDTO user = Session.getInstance().getLoginUser();
@@ -53,55 +62,57 @@ public class UserHomeController implements Initializable {
             return;
         }
 
+        // 캘린더 뷰 추가 및 AnchorPane에 꽉 차도록 설정
         CalendarView calendarView = new CalendarView();
         calendarContainer.getChildren().add(calendarView);
-
-        // AnchorPane에 꽉 차게
         AnchorPane.setTopAnchor(calendarView, 0.0);
         AnchorPane.setBottomAnchor(calendarView, 0.0);
         AnchorPane.setLeftAnchor(calendarView, 0.0);
         AnchorPane.setRightAnchor(calendarView, 0.0);
 
+        // 유저 정보 기반 화면 세팅
         getHomeInfo(user.getId());
-        todayMood.setMouseTransparent(false); // 혹시라도 true로 되어 있으면
-        todayMood.setPickOnBounds(true); // 텍스트 바깥 여백도 클릭 가능하게
-        // Emoji 선택시 db 업뎃 후 뷰에 올리기
+
+        // 이모지 뷰 클릭 처리 설정
+        todayMood.setMouseTransparent(false); // 마우스 이벤트 받도록 설정
+        todayMood.setPickOnBounds(true); // 텍스트 영역 바깥도 클릭 가능하게 설정
+
+        // 이모지 선택 뷰 초기화 및 콜백 처리
         new EmojiView(emojiView, todayMood, selected -> {
             try {
-                // PNG 로드
                 String path = "/images/emoji/" + selected;
                 Image img   = new Image(getClass().getResourceAsStream(path));
-
-                // ImageView 업데이트
                 emojiView.setImage(img);
-
-                // DB에도 파일명 저장
                 int updated = EmojiDAO.getInstance().updateEmoji(user.getId(), selected);
                 if (updated == 0) throw new RuntimeException("0행 업데이트되었습니다.");
-
             } catch (Exception ex) {
                 System.out.println("이모지 업데이트 실패 :: " + ex.getMessage());
             }
         });
 
-        try{
-        List<RankingDTO> rankingList = RankingDAO.getInstance().getRanking();
+        // 부서별 랭킹 세팅
+        try {
+            List<RankingDTO> rankingList = RankingDAO.getInstance().getRanking();
             rankingDept1.setText(rankingList.get(0).getDeptName());
             rankingNum1.setText(String.valueOf(rankingList.get(0).getRanking()));
             rankingDept2.setText(rankingList.get(1).getDeptName());
             rankingNum2.setText(String.valueOf(rankingList.get(1).getRanking()));
             rankingDept3.setText(rankingList.get(2).getDeptName());
             rankingNum3.setText(String.valueOf(rankingList.get(2).getRanking()));
-        }catch (Exception e){
+        } catch (Exception e) {
             System.out.println("랭킹 불러오기 실패 :: "+ e.getMessage());
         }
     }
 
-
-    public void getHomeInfo(int userId){
-        // 유저 정보 불러오기
+    /**
+     * 로그인한 유저 ID를 기반으로 홈 화면 정보를 조회하고 UI에 설정합니다.
+     *
+     * @param userId 로그인한 유저의 ID
+     */
+    public void getHomeInfo(int userId) {
         UserInfoDTO user = UserHomeService.getInstance().getUserHomeInfo(userId);
-        //이미지 셋팅
+
+        // 프로필 이미지 설정
         String defaultPath = "/images/eunwoo.png";
         String userPath = user.getProfile();
         URL imageUrl = getClass().getResource(userPath);
@@ -109,45 +120,37 @@ public class UserHomeController implements Initializable {
             System.err.println("⚠프로필 이미지 없음: " + userPath + " → 기본 이미지로 대체");
             imageUrl = getClass().getResource(defaultPath);
         }
-
         Image userProfile = new Image(imageUrl.toExternalForm());
         employeeProfile.setImage(userProfile);
 
-        // 이름 / 부서 설정
+        // 텍스트 정보 설정
         employeeName.setText(user.getName());
         departmentName.setText(user.getDepartmentName());
 
-        // today lucky setting
+        // 오늘의 행운 설정
         luckyNumber.setText(String.valueOf(user.getLuckyNumber()));
         Shape todayShape = UserShape.getShape(user.getLuckyShape());
-
         Color todayColor;
         try {
             todayColor = Color.web(user.getLuckyColor());
         } catch (IllegalArgumentException | NullPointerException e) {
             System.err.println("⚠️ 잘못된 컬러 값입니다: " + user.getLuckyColor());
-            todayColor = Color.RED; // fallback color
+            todayColor = Color.RED;
         }
-
         if (todayShape == null) {
             System.err.println("⚠️ 알 수 없는 도형입니다: " + user.getLuckyShape());
             todayShape = new Circle(35);
         }
-
-        // painting
         todayShape.setFill(todayColor);
-            // clear old one and create new one
         luckyShape.getChildren().clear();
         luckyShape.getChildren().add(todayShape);
 
-        // random message
+        // 랜덤 메시지 설정
         randomMsg.setText("\"" + user.getRandomMessage() + "\"");
 
-        // emoji
-        String path = "/images/emoji/" +user.getEmoji();
+        // 이모지 이미지 설정
+        String path = "/images/emoji/" + user.getEmoji();
         Image img = new Image(getClass().getResourceAsStream(path));
         emojiView.setImage(img);
     }
-
-
 }

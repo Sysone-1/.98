@@ -12,34 +12,51 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Properties;
 
+/**
+ * Oracle DB 연결을 위한 커넥션 풀 설정 클래스
+ * - HikariCP 기반의 DataSource 생성
+ * - db-config.properties에서 설정 정보 로딩
+ * - Oracle 클라우드(ATP 등) 환경에서 필요한 TNS 경로도 자동 등록
+ *
+ * 사용 예시:
+ * try (Connection conn = OracleConnector.getInstance().getConnection()) { ... }
+ *
+ * @author 서샘이
+ */
 public class OracleConnector {
+
+    // 정적 커넥션 풀 인스턴스 (프로젝트 전역 공유)
     private static HikariDataSource dataSource;
 
+    // 클래스 로딩 시 정적 초기화 블록에서 설정 수행
     static {
-        try{
-            // 1. properties에서 경로 읽기
+        try {
+            // 1. properties 파일 로딩
             Properties props = new Properties();
-            try(InputStream input = OracleConnector.class
+            try (InputStream input = OracleConnector.class
                     .getClassLoader()
-                    .getResourceAsStream("db-config.properties")){
+                    .getResourceAsStream("db-config.properties")) {
                 props.load(input);
             }
-            // 2. 경로 시스템 속성으로 등록
+
+            // 2. TNS 설정 경로를 시스템 속성에 등록 (Oracle ATP 전용)
             System.setProperty("oracle.net.tns_admin", props.getProperty("tns_admin_path"));
 
-            // 3. HikariCP 설정
+            // 3. HikariCP 설정 객체 구성
             HikariConfig config = new HikariConfig();
+            config.setJdbcUrl(props.getProperty("ORACLE_JDBC_URL"));       // 예: jdbc:oracle:thin:@ontime98_tp
+            config.setUsername(props.getProperty("ORACLE_JDBC_USERNAME")); // 예: potatos
+            config.setPassword(props.getProperty("ORACLE_JDBC_PASSWORD")); // 예: Ogamja#12345
 
-            config.setJdbcUrl(props.getProperty("ORACLE_JDBC_URL"));
-            config.setUsername(props.getProperty("ORACLE_JDBC_USERNAME"));
-            config.setPassword(props.getProperty("ORACLE_JDBC_PASSWORD"));
+            // 4. 커넥션 풀 기본 설정
+            config.setMaximumPoolSize(5);  // 최대 5개의 커넥션 유지
+            config.setMinimumIdle(1);      // 최소 유휴 커넥션 수
 
-            // 풀 설정
-            config.setMaximumPoolSize(5);
-            config.setMinimumIdle(1);
-
+            // 5. 풀 초기화
             dataSource = new HikariDataSource(config);
-        }catch (Exception e){
+
+        } catch (Exception e) {
+            System.out.println("❌ OracleConnector 초기화 실패!");
             e.printStackTrace();
         }
     }
