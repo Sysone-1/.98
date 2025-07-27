@@ -78,12 +78,10 @@ public class DashboardService {
         int today = LocalDateTime.now().getDayOfMonth();
         LocalDateTime currentTime = (leaveTime.getDayOfMonth() == today) ? LocalDateTime.now() : leaveTime;
 
-        currentTime = LocalDateTime.of(2025, 7, 25, 15, 0);
         Duration duration = Duration.between(accessTime, currentTime);
 
         long hours = duration.toHours();
         long minutes = duration.toMinutes();
-        System.out.println(minutes);
 
         String worked = (minutes % 60 == 0) ? (hours != 0) ? (hours) + "시간" : "0시간" : (hours != 0) ? (hours) + "시간 " + (minutes % 60) + "분" : "0시간 " + (minutes % 60) + "분";
         String remaining = (hours >= 9) ? "0시간 0분" : (minutes !=  0) ? (hours != 0) ? (8 - hours) + "시간 " + (60 - ((minutes % 60))) + "분" : "7시간 " + (60 - ((minutes % 60))) + "분" : "8시간 0분";
