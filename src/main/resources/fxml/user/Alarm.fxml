@@ -1,37 +1,78 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ ===========================================
+ 알림 설정 화면 FXML (Alarm.fxml)
+ ===========================================
+ - 퇴근 알림을 설정하는 팝업 UI
+ - ToggleSwitch를 통해 알림 허용 여부 설정
+ - ComboBox를 통해 알림 시간 선택
+ - 저장 버튼 클릭 시 컨트롤러의 onSave 메서드 호출
+
+ 작성자: 구희원
+ 작성일: 2025-07-27
+ ===========================================
+-->
+
 <?import java.lang.*?>
 <?import java.util.*?>
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-
 <?import javafx.collections.FXCollections?>
 <?import java.net.URL?>
 <?import org.controlsfx.control.ToggleSwitch?>
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.sysone.ogamza.controller.user.AlramController"
-            prefHeight="220.0" prefWidth="500.0"
-            style="-fx-background-color: white; -fx-background-radius:20;">
+
+<AnchorPane
+        xmlns="http://javafx.com/javafx"
+        xmlns:fx="http://javafx.com/fxml"
+        fx:controller="com.sysone.ogamza.controller.user.AlramController"
+        prefHeight="220.0"
+        prefWidth="500.0"
+        style="-fx-background-color: white; -fx-background-radius:20;">
+
+    <!-- ▶ 외부 스타일 시트 연결 -->
     <stylesheets>
         <URL value="@/css/Alarm.css"/>
     </stylesheets>
 
-    <!-- VBox로 전체 내용을 새로 배치 -->
-    <VBox alignment="CENTER_LEFT" spacing="20" AnchorPane.topAnchor="20" AnchorPane.leftAnchor="20"
-          AnchorPane.rightAnchor="30">
-        <!-- 제목 -->
-        <Label text="퇴근 알림 설정" style="-fx-font-size: 20px;"/>
-        <!-- 허용 여부-->
+    <!-- ▶ 전체 레이아웃을 VBox로 구성 -->
+    <VBox
+            alignment="CENTER_LEFT"
+            spacing="20"
+            AnchorPane.topAnchor="20"
+            AnchorPane.leftAnchor="20"
+            AnchorPane.rightAnchor="30">
+
+        <!-- ▶ 화면 제목 -->
+        <Label
+                text="퇴근 알림 설정"
+                style="-fx-font-size: 20px;" />
+
+        <!-- ▶ 알림 허용 여부 설정 영역 -->
         <HBox spacing="20" alignment="CENTER_LEFT">
-            <Label text="허용 여부" style="-fx-font-size: 16px;" prefHeight="24"/>
-            <ToggleSwitch fx:id="toggleSwitch" prefWidth="50" prefHeight="27"/>
+            <Label
+                    text="허용 여부"
+                    style="-fx-font-size: 16px;"
+                    prefHeight="24" />
+            <!-- ControlsFX 라이브러리의 ToggleSwitch 사용 -->
+            <ToggleSwitch
+                    fx:id="toggleSwitch"
+                    prefWidth="50"
+                    prefHeight="27" />
         </HBox>
 
-        <!-- 시간대 설정-->
+        <!-- ▶ 알림 시간대 설정 영역 -->
         <HBox spacing="20" alignment="CENTER_LEFT">
-            <Label text="시간대 설정" style="-fx-font-size: 16px;" prefHeight="24"/>
-            <ComboBox fx:id="timeComboBox" prefWidth="300" prefHeight="27">
+            <Label
+                    text="시간대 설정"
+                    style="-fx-font-size: 16px;"
+                    prefHeight="24" />
+            <!-- 사용자 선택 가능한 알림 시간 리스트 -->
+            <ComboBox
+                    fx:id="timeComboBox"
+                    prefWidth="300"
+                    prefHeight="27">
                 <items>
                     <FXCollections fx:factory="observableArrayList">
                         <String fx:value="3분전"/>
@@ -42,11 +83,18 @@
             </ComboBox>
         </HBox>
 
-        <!-- 하단 버튼-->
+        <!-- ▶ 저장 버튼 (이벤트 핸들러 연결: #onSave) -->
         <HBox spacing="10" alignment="CENTER" prefHeight="24">
-            <Button text="저장" style="-fx-background-color: #009DFF; -fx-text-fill: white; -fx-background-radius: 8;
-                    -fx-pref-height:27px; -fx-pref-width: 60px; -fx-font-size:16px"
-                    onAction="#onSave"/>
+            <Button
+                    text="저장"
+                    style="
+                    -fx-background-color: #009DFF;
+                    -fx-text-fill: white;
+                    -fx-background-radius: 8;
+                    -fx-pref-height:27px;
+                    -fx-pref-width: 60px;
+                    -fx-font-size:16px;"
+                    onAction="#onSave" />
         </HBox>
     </VBox>
 </AnchorPane>
