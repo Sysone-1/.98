@@ -1,3 +1,7 @@
+package com.sysone.ogamza;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 /**
  * ===========================================
  * 로그인 사용자 DTO (LoginUserDTO)
@@ -11,11 +15,6 @@
  * 작성일: 2025-07-27
  * ===========================================
  */
-
-package com.sysone.ogamza;
-
-import lombok.AllArgsConstructor;
-import lombok.Getter;
 
 @Getter // ▶ 모든 필드에 대한 Getter 메서드를 자동 생성
 @AllArgsConstructor // ▶ 모든 필드를 매개변수로 받는 생성자 자동 생성
