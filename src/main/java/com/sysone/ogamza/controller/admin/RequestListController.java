@@ -17,49 +17,61 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
-
+/**
+ * 승인·반려 등 관리자 요청 상세 처리 컨트롤러
+ * - 승인/반려 목록 테이블 표시 (실제 scheduleType값 반영)
+ * - 승인/거절 버튼과 결과 실시간 업데이트
+ * - 선택된 타입별로 데이터 뷰 동작
+ * - 승인/반려시 DB 처리 및 UI 동기화
+ *
+ *  @author 허겸
+ *  @since 2025-07-24
+ */
 public class RequestListController implements Initializable {
 
-    @FXML private TableView<BaseRequestDTO> requestTable;
-    @FXML private TableColumn<BaseRequestDTO, Integer> employeeIdColumn;
-    @FXML private TableColumn<BaseRequestDTO, String> employeeNameColumn;
-    @FXML private TableColumn<BaseRequestDTO, String> departmentColumn;
-    @FXML private TableColumn<BaseRequestDTO, String> positionColumn;
-    @FXML private TableColumn<BaseRequestDTO, String> scheduleType;
-    @FXML private TableColumn<BaseRequestDTO, String> startDateColumn;
-    @FXML private TableColumn<BaseRequestDTO, String> endDateColumn;
-    @FXML private TableColumn<BaseRequestDTO, String> colReason;
-    @FXML private TableColumn<BaseRequestDTO, String> statusColumn;
-
-    // 🔥 핵심 추가: DB 실제값 표시용 컬럼
+    // ======================= FXML UI 컴포넌트 =======================
+    @FXML private TableView<BaseRequestDTO> requestTable;         // 요청 리스트 테이블
+    @FXML private TableColumn<BaseRequestDTO, Integer> employeeIdColumn;      // 사번
+    @FXML private TableColumn<BaseRequestDTO, String> employeeNameColumn;     // 사원이름
+    @FXML private TableColumn<BaseRequestDTO, String> departmentColumn;       // 부서
+    @FXML private TableColumn<BaseRequestDTO, String> positionColumn;         // 직급
+    @FXML private TableColumn<BaseRequestDTO, String> scheduleType;           // 스케줄 타입(텍스트)
+    @FXML private TableColumn<BaseRequestDTO, String> startDateColumn;        // 시작일
+    @FXML private TableColumn<BaseRequestDTO, String> endDateColumn;          // 종료일
+    @FXML private TableColumn<BaseRequestDTO, String> colReason;              // 사유/비고
+    @FXML private TableColumn<BaseRequestDTO, String> statusColumn;           // 요청상태(대기/승인/반려)
+    // 🔥 실제 DB SCHEDULE_TYPE 표시 컬럼(상세 종류)
     @FXML private TableColumn<BaseRequestDTO, String> scheduleTypeColumn;
 
-    @FXML private Button approveButton;
-    @FXML private Button rejectButton;
-    @FXML private Button closeButton;
-    @FXML private Button refreshButton;
-    @FXML private Label titleLabel;
+    @FXML private Button approveButton;  // 승인 버튼
+    @FXML private Button rejectButton;   // 거절 버튼
+    @FXML private Button closeButton;    // 닫기 버튼
+    @FXML private Label titleLabel;      // 타이틀 (요청타입별 표시)
 
-    private RequestService requestService;
-    private RequestType currentRequestType;
-    private ObservableList<BaseRequestDTO> requestData;
+    // ======================= 내부 변수 =======================
+    private RequestService requestService;                   // 서비스 (비즈니스로직)
+    private RequestType currentRequestType;                  // 현재 표시 대상 요청 유형
+    private ObservableList<BaseRequestDTO> requestData;      // 테이블 바인딩 데이터
 
+    /**
+     * 테이블 컬럼별 데이터 맵핑
+     * 테이블 값 선택시 승인/거절 버튼 활성화
+     * 기본 상태는 비활성화로 설정
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         requestService = new RequestService();
         setupTableColumns();
 
-        // 테이블 선택 이벤트
         requestTable.getSelectionModel().selectedItemProperty().addListener(
-                (observable, oldValue, newValue) -> updateButtonState());
+                (observable, oldVal, newVal) -> updateButtonState());
 
-        // 초기에는 버튼 비활성화
         approveButton.setDisable(true);
         rejectButton.setDisable(true);
     }
 
     /**
-     * 요청 타입 설정 (외부에서 호출)
+     * 외부(부모)에서 리스트 오픈 시 type을 명시적으로 셋팅한다.
      */
     public void setRequestType(RequestType requestType) {
         this.currentRequestType = requestType;
@@ -69,8 +81,10 @@ public class RequestListController implements Initializable {
         loadRequestData();
     }
 
+
     /**
-     * 테이블 컬럼 설정 (DB 실제값 표시 개선)
+     * 각 테이블 컬럼과 DTO 프로퍼티 연결
+     * DB 실제 스케줄타입 값(상세) 컬럼도 반영
      */
     private void setupTableColumns() {
         employeeIdColumn.setCellValueFactory(new PropertyValueFactory<>("employeeId"));
@@ -78,14 +92,14 @@ public class RequestListController implements Initializable {
         departmentColumn.setCellValueFactory(new PropertyValueFactory<>("department"));
         positionColumn.setCellValueFactory(new PropertyValueFactory<>("position"));
 
-        // 🔥 수정: sType → scheduleType으로 변경
+        // DB 실제 스케줄타입 명(Map)
         scheduleType.setCellValueFactory(new PropertyValueFactory<>("scheduleType"));
 
         startDateColumn.setCellValueFactory(new PropertyValueFactory<>("startDate"));
         endDateColumn.setCellValueFactory(new PropertyValueFactory<>("endDate"));
         colReason.setCellValueFactory(new PropertyValueFactory<>("content"));
 
-        // 기존 scheduleTypeColumn 설정은 그대로 유지
+        // DB 실제값(상세 종류) 표시 컬럼 추가
         if (scheduleTypeColumn != null) {
             scheduleTypeColumn.setCellValueFactory(cellData ->
                     new SimpleStringProperty(cellData.getValue().getScheduleType())
@@ -93,64 +107,69 @@ public class RequestListController implements Initializable {
             scheduleTypeColumn.setText("상세 종류");
         }
 
+        // 상태 문자열 변환(대기/승인/거절)
         statusColumn.setCellValueFactory(cellData ->
                 new SimpleStringProperty(cellData.getValue().getStatusString())
         );
     }
 
     /**
-     * 요청 데이터 로드 (DB 실제값 포함)
+     * 현재 type기반 전체 요청 조회 → 테이블 세팅
+     * DB scheduleType 등 실제값 포함
      */
     private void loadRequestData() {
         try {
             List<BaseRequestDTO> requests = requestService.getPendingList(currentRequestType);
             requestData = FXCollections.observableArrayList(requests);
             requestTable.setItems(requestData);
-            updateButtonState();
+            updateButtonState(); // 초기 선택 상태에 맞춰 버튼 상태 초기화
 
             System.out.println(currentRequestType.getDisplayName() + " 목록 로드 완료: " + requests.size() + "건");
 
-            // 🔥 디버그: DB 실제값 출력
-            for (BaseRequestDTO req : requests) {
-                System.out.println("요청 내역: ID=" + req.getRequestId() +
-                        ", 이름=" + req.getEmployeeName() +
-                        ", 화면타입=" + req.getRequestType() +
-                        ", DB실제값=" + req.getScheduleType());
-            }
         } catch (Exception e) {
             System.err.println("요청 목록 로드 실패: " + e.getMessage());
             e.printStackTrace();
         }
     }
 
+    /**
+     * 테이블 선택 행과 그 상태에 따라 승인/거절 버튼 활성화 제어
+     * (isGranted==0, 즉 '대기' 상태만 버튼 활성)
+     */
     private void updateButtonState() {
         BaseRequestDTO selectedRequest = requestTable.getSelectionModel().getSelectedItem();
         boolean isSelected = selectedRequest != null;
-        // isGranted==0 (대기)일 때만 승인/거절 활성화
         boolean isPending = isSelected && selectedRequest.getIsGranted() == 0;
 
         approveButton.setDisable(!isPending);
         rejectButton.setDisable(!isPending);
     }
 
+
     @FXML
     private void handleApprove() {
+        // 승인 처리
         processRequest("승인", 1, "승인 완료", "승인되었습니다.");
     }
 
     @FXML
     private void handleReject() {
+        // 거절 처리
         processRequest("거절", 2, "거절 완료", "거절되었습니다.");
     }
 
     /**
-     * 승인/거절 처리 (카운팅 동기화 개선)
+     * 승인/거절 공통 처리 로직 (DB 갱신 → 실시간 카운트 동기화)
+     * @param action 승인/거절 구분
+     * @param newStatus DB 상태값(1=승인, 2=거절)
+     * @param successTitle 결과창 타이틀
+     * @param successMsg 결과 메시지
      */
     private void processRequest(String action, int newStatus, String successTitle, String successMsg) {
         BaseRequestDTO selectedRequest = requestTable.getSelectionModel().getSelectedItem();
         if (selectedRequest == null) return;
 
-        // 확인 다이얼로그
+        // 확인(컨펌) 다이얼로그 팝업
         Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
         confirm.setTitle(action + " 확인");
         confirm.setHeaderText(null);
@@ -159,11 +178,10 @@ public class RequestListController implements Initializable {
                 action + "하시겠습니까?");
 
         if (confirm.showAndWait().orElse(ButtonType.CANCEL) == ButtonType.OK) {
-            // 백그라운드 스레드에서 DB 처리
+            // 백그라운드 스레드에서 DB 상태 처리
             Task<Boolean> updateTask = new Task<>() {
                 @Override
                 protected Boolean call() throws Exception {
-                    // DB 상태 업데이트 (트랜잭션 포함)
                     boolean success = requestService.updateRequestStatus(
                             currentRequestType,
                             selectedRequest.getRequestId(),
@@ -177,20 +195,20 @@ public class RequestListController implements Initializable {
                         System.err.println("DB 업데이트 실패 - " + action + ": ID=" +
                                 selectedRequest.getRequestId());
                     }
-
                     return success;
                 }
             };
 
+            // DB 갱신 후 UI에서 항목 제거 및 결과 메시지
             updateTask.setOnSucceeded(e -> {
                 Boolean success = updateTask.getValue();
                 Platform.runLater(() -> {
                     if (success) {
-                        // 🔥 핵심: UI에서 처리된 항목 즉시 제거 (카운팅 동기화)
+                        // 실시간 카운트/목록 동기화 - 처리 완료건 즉시 제거
                         requestData.remove(selectedRequest);
                         updateButtonState();
 
-                        // 성공 메시지 표시
+                        // 성공 안내 알림
                         Alert success_alert = new Alert(Alert.AlertType.INFORMATION);
                         success_alert.setTitle(successTitle);
                         success_alert.setHeaderText(null);
@@ -200,9 +218,8 @@ public class RequestListController implements Initializable {
 
                         System.out.println("✅ UI 업데이트 완료 - " + action + " 처리됨 (실시간 카운팅 반영)");
 
-
                     } else {
-                        // 실패 메시지
+                        // 실패 메시지 표시
                         Alert error = new Alert(Alert.AlertType.ERROR);
                         error.setTitle("처리 실패");
                         error.setHeaderText(null);
@@ -222,13 +239,17 @@ public class RequestListController implements Initializable {
                 });
             });
 
-            // 백그라운드 스레드 실행
+            // 비동기(DB) 처리 스레드 시작
             Thread thread = new Thread(updateTask);
             thread.setDaemon(true);
             thread.start();
         }
     }
 
+
+    /**
+     * 새로고침
+     */
     @FXML
     private void handleRefresh() {
         loadRequestData();

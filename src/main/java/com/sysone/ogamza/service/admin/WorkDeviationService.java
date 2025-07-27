@@ -8,6 +8,7 @@ import java.util.List;
 /**
  * WorkDeviationService
  * – 일일 근무 이탈자 통계 조회 기능용 Service 클래스
+ * @author 허겸
  */
 public class WorkDeviationService {
 

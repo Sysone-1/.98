@@ -208,50 +208,6 @@ public class EmployeeDAO {
     }
 
     /**
-     * 새 사원 등록 (BLOB 처리 개선)
-     */
-    public boolean insertEmployee(EmployeeDTO employee, int departmentId) {
-        String sql = """
-            INSERT INTO EMPLOYEE (
-                ID, DEPARTMENT_ID, NAME, EMAIL, IS_ADMIN, POSITION, TEL, 
-                PASSWORD, PIC_DIR, CARD_UID, TOTAL_VAC_NUM, 
-                ALARM_1, ALARM_2, ALARM_3, IS_DELETED
-            ) VALUES (
-                ?, ?, ?, ?, 0, ?, ?, 'defaultpass123', '/images/default.jpg', 
-                ?, 15, 0, 0, 0, 0
-            )
-            """;
-
-        try (Connection conn = OracleConnector.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-
-            stmt.setInt(1, employee.getEmployeeId());
-            stmt.setInt(2, departmentId);
-            stmt.setString(3, employee.getEmployeeName());
-            stmt.setString(4, employee.getEmail());
-            stmt.setString(5, employee.getPosition());
-            stmt.setString(6, employee.getTel());
-
-            // CARD_UID BLOB 처리
-            String cardUid = employee.getCardUid();
-            if (cardUid != null && !cardUid.trim().isEmpty()) {
-                byte[] bytes = cardUid.getBytes("UTF-8");
-                stmt.setBytes(7, bytes);
-            } else {
-                stmt.setNull(7, Types.BLOB);
-            }
-
-            int insertedRows = stmt.executeUpdate();
-            return insertedRows > 0;
-
-        } catch (SQLException | java.io.UnsupportedEncodingException e) {
-            System.err.println("사원 등록 실패: " + e.getMessage());
-            e.printStackTrace();
-            return false;
-        }
-    }
-
-    /**
      * 모든 부서 목록 조회
      */
     public List<String> getAllDepartments() {
@@ -270,27 +226,5 @@ public class EmployeeDAO {
             e.printStackTrace();
         }
         return departments;
-    }
-
-    /**
-     * 부서 ID 조회
-     */
-    public int getDepartmentId(String departmentName) {
-        String sql = "SELECT ID FROM DEPARTMENT WHERE NAME = ?";
-
-        try (Connection conn = OracleConnector.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-
-            stmt.setString(1, departmentName);
-            try (ResultSet rs = stmt.executeQuery()) {
-                if (rs.next()) {
-                    return rs.getInt("ID");
-                }
-            }
-        } catch (SQLException e) {
-            System.err.println("부서 ID 조회 실패: " + e.getMessage());
-            e.printStackTrace();
-        }
-        return 0;
     }
 }

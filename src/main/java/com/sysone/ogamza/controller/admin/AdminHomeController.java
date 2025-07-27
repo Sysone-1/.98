@@ -35,6 +35,9 @@ import java.util.concurrent.TimeUnit;
  * - 승인/거절 시 카운팅 실시간 동기화 개선
  * - 근무자별 일일 출근내역 및 파이차트 로직은 기존 유지
  * - 부서별 필터링 시각화 로직 기존 유지
+ *
+ *  * @author 허겸
+ *  * @since 2025-07-23
  */
 public class AdminHomeController implements Initializable {
 
@@ -51,7 +54,7 @@ public class AdminHomeController implements Initializable {
     @FXML private Text txtBusiness; // 결근 표시용 (기존 필드명 유지)
     @FXML private Text txtVacation; // 휴가
 
-    // =============== 차트/부서별 영역 (기존 로직 유지) ===============
+    // =============== 차트/부서별 영역 ===============
     @FXML private PieChart overallChart;
     @FXML private PieChart departmentChart;
     @FXML private ComboBox<String> departmentComboBox;
@@ -63,7 +66,9 @@ public class AdminHomeController implements Initializable {
     private ScheduledExecutorService scheduler;
     private volatile String currentDept = "전체";
 
-
+    /**
+     * 컨트롤러 초기화 - 각종 이벤트, 부서필터, 자동 새로고침 설정, 첫 데이터 로드
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         requestService = new RequestService();
@@ -80,7 +85,7 @@ public class AdminHomeController implements Initializable {
     }
 
     /**
-     * 자동 새로고침 설정 (기존 유지)
+     * 새로고침 스케쥴러 등록 (5분마다 refreshAllData 호출)
      */
     private void setupAutoRefresh() {
         scheduler = Executors.newScheduledThreadPool(1);
@@ -90,7 +95,7 @@ public class AdminHomeController implements Initializable {
     }
 
     /**
-     * 전체 데이터 새로고침 (승인 카운팅 동기화 개선)
+     * 전체 데이터(승인 카운트, 근태 현황, 차트 등) 새로고침. 화면 주요정보 동기화용 진입점
      */
     public void refreshAllData() {
         // 백그라운드 스레드에서 데이터 조회
@@ -117,7 +122,9 @@ public class AdminHomeController implements Initializable {
         thread.start();
     }
 
-    // ========================= 부서 필터링 및 통계 (기존 로직 완전 유지) =========================
+    /**
+     * 콤보박스에 부서 리스트 할당, 이벤트 바인딩
+     */
     private void setupDepartmentFilter() {
         try {
             List<String> departments = statsService.getAllDepartments();
@@ -130,9 +137,12 @@ public class AdminHomeController implements Initializable {
         }
     }
 
+    /**
+     * 콤보박스 값 변경시 이벤트 핸들러 (해당 부서 데이터 차트로 표시)
+     */
     @FXML
     private void handleDepartmentChange() {
-        currentDept = departmentComboBox.getValue();   // ★ 지금 선택한 부서를 저장
+        currentDept = departmentComboBox.getValue();
 
         String dept = departmentComboBox.getValue();
         if (dept != null) {
@@ -140,7 +150,9 @@ public class AdminHomeController implements Initializable {
         }
     }
 
-
+    /**
+     * 부서 선택에 따라 근태 통계(출근/지각 등) 쿼리 후 차트로 업데이트
+     */
     private void loadDepartmentStats(String departmentName) {
         try {
             int[] stats = "전체".equals(departmentName)
@@ -158,7 +170,7 @@ public class AdminHomeController implements Initializable {
 
 
     /**
-     * 부서별 차트 업데이트 (기존 로직 완전 유지)
+     * 부서별 PieChart 데이터 및 색상, 타이틀 업데이트
      */
     private void updateDepartmentChart(int[] stats, String deptName) {
         Platform.runLater(() -> {
@@ -206,7 +218,9 @@ public class AdminHomeController implements Initializable {
     }
 
 
-    // ========================= 메인/전체 통계 (기존 로직 완전 유지) =========================
+    /**
+     * 전체 근태 현황 카운트, chart 업데이트(홈 메인영역)
+     */
     private void loadHomeStats() {
 //        System.out.println(">> loadHomeStats 시작");
         try {
@@ -241,7 +255,7 @@ public class AdminHomeController implements Initializable {
     }
 
     /**
-     * 전체 차트 업데이트 (기존 로직 완전 유지)
+     * 전체 PieChart 업데이트
      */
     private void updateOverallChart(int[] stats) {
         Platform.runLater(() -> {
@@ -288,7 +302,7 @@ public class AdminHomeController implements Initializable {
 
 
     /**
-     * 부서별 필터링과 관계없이 상태별로 고정 색상을 적용하는 메서드 (기존 로직 완전 유지)
+     * PieChart 각 카테고리에 고정 색상 적용
      */
     private void applyFixedStatusColors(PieChart chart) {
 
@@ -319,7 +333,8 @@ public class AdminHomeController implements Initializable {
     // ========================= 승인관리 기능 (DB 실제값 표시 및 카운팅 동기화 개선) =========================
 
     /**
-     * 승인 관리 카운트 업데이트 (실시간 동기화 개선)
+     * 승인 요청 관련 각 텍스트(카운트 등) 동기화
+     * 실시간으로 DB 반영 값 적용
      */
     private void updateAllCounts() {
         try {
@@ -373,6 +388,9 @@ public class AdminHomeController implements Initializable {
         }
     }
 
+    /**
+     * 승인 대기/완료 카운트 텍스트에 클릭이벤트 등 바인딩
+     */
     private void setupClickEvents() {
         bindIfNotNull(vacationCountText, RequestType.ANNUAL);
         bindIfNotNull(clockChangeCountText, RequestType.OVERTIME);
@@ -387,6 +405,9 @@ public class AdminHomeController implements Initializable {
         }
     }
 
+    /**
+     * requestType별 approved 대기 리스트창 팝업 띄우기
+     */
     private void bindIfNotNull(Text txt, RequestType type) {
         if (txt != null) {
             txt.setOnMouseClicked(e -> openRequestList(type));
@@ -395,6 +416,10 @@ public class AdminHomeController implements Initializable {
         }
     }
 
+    /**
+     * 대기 리스트 FXML 로딩 및 다이얼로그 표시 (각종 승인)
+     * 닫힐 때 새로고침
+     */
     private void openRequestList(RequestType requestType) {
         try {
             URL fxmlUrl = getClass().getResource("/fxml/admin/RequestList.fxml");
@@ -424,6 +449,10 @@ public class AdminHomeController implements Initializable {
         }
     }
 
+    /**
+     * 완료/승인 내역 FXML 다이얼로그 표시
+     * 닫힐 때 전체데이터 새로고침
+     */
     private void openCompletedRequestList() {
         try {
             URL fxmlUrl = getClass().getResource("/fxml/admin/CompleteRequestList.fxml");
@@ -455,7 +484,7 @@ public class AdminHomeController implements Initializable {
     }
 
     /**
-     * 컨트롤러 종료 시 리소스 정리
+     * 종료 및 창 닫힘 시 자동 새로고침 스케쥴러 종료 (자원 누수방지)
      */
     public void cleanup() {
         if (scheduler != null && !scheduler.isShutdown()) {

@@ -27,7 +27,7 @@
                 <Label style="-fx-font-size: 18;" text="검색:" />
                 <TextField fx:id="searchField" onKeyReleased="#handleSearch" prefWidth="200.0" promptText="사번 또는 이름 입력" />
 
-                <Button fx:id="addScheduleButton1" layoutX="359.0" layoutY="11.0" mnemonicParsing="false" onAction="#handleAddEmployeeClick" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: #83ACFF; -fx-background-radius: 8; -fx-cursor: hand;" text="회원등록" textFill="WHITE">
+                <Button fx:id="addScheduleButton1" layoutX="359.0" layoutY="11.0" mnemonicParsing="false" onAction="#handleAddEmployeeClick" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: #83ACFF; -fx-background-radius: 8; -fx-cursor: hand;" text="사원등록" textFill="WHITE">
                     <font>
                         <Font name="SansSerif Bold" size="18.0" />
                     </font>
@@ -49,5 +49,10 @@
                 <TableColumn fx:id="telColumn" prefWidth="221.0" text="전화번호" />
             </columns>
         </TableView>
+      <Button layoutX="696.0" layoutY="56.0" mnemonicParsing="false"
+              opacity="0"
+              mouseTransparent="false"
+              pickOnBounds="true"
+              onAction="#handleTagCardClick" text="태깅" />
     </children>
 </AnchorPane>
