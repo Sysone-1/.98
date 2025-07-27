@@ -23,7 +23,7 @@ public class AlramController implements ModalControllable {
     @FXML
     private ComboBox<String> timeComboBox;
 
-    private final LocalTime offTime = LocalTime.of(18, 2);
+    private final LocalTime offTime = LocalTime.of(18, 0);
     private ScheduledExecutorService scheduler;
 
     private Stage modalStage;

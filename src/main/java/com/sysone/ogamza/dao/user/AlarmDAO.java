@@ -36,20 +36,23 @@ public class AlarmDAO {
             case 5 -> a2 = 1;
             case 10 -> a3 = 1;
         }
-        String sql = AlarmSQL.UPDATE_ALARM;
+        String sql = AlarmSQL.UPSERT_ALARM_PL_SQL;
 
         try (Connection conn = OracleConnector.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setInt(1, id);
-            pstmt.setInt(2, a1);
-            pstmt.setInt(3, a2);
-            pstmt.setInt(4, a3);
-            pstmt.setInt(5, id);
-            pstmt.setInt(6, a1);
-            pstmt.setInt(7, a2);
-            pstmt.setInt(8, a3);
+
+            pstmt.setInt(1, id);     // SELECT ... WHERE id = ?
+            pstmt.setInt(2, a1);     // UPDATE alarm_1
+            pstmt.setInt(3, a2);     // UPDATE alarm_2
+            pstmt.setInt(4, a3);     // UPDATE alarm_3
+            pstmt.setInt(5, id);     // UPDATE WHERE id = ?
+            pstmt.setInt(6, id);     // INSERT id
+            pstmt.setInt(7, a1);     // INSERT alarm_1
+            pstmt.setInt(8, a2);     // INSERT alarm_2
+            pstmt.setInt(9, a3);     // INSERT alarm_3
             pstmt.executeUpdate();
-        } catch (SQLException e) {
+        }
+        catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
