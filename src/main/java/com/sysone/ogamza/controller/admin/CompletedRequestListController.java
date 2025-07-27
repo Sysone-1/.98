@@ -19,29 +19,37 @@ import java.util.ResourceBundle;
  * - DB 실제 SCHEDULE_TYPE 값 표시 (연차, 반차, 연장근무, 휴일, 외근)
  * - 올바른 승인/거절 내역 조회
  * - UI 업데이트 개선 및 예외 처리 강화
+ *
+ * @author 허겸
+ * @since 2025-07-22
  */
 public class CompletedRequestListController implements Initializable {
 
-    @FXML private TableView<BaseRequestDTO> completedTable;
-    @FXML private TableColumn<BaseRequestDTO, Integer> employeeIdColumn;
-    @FXML private TableColumn<BaseRequestDTO, String> employeeNameColumn;
-    @FXML private TableColumn<BaseRequestDTO, String> departmentColumn;
-    @FXML private TableColumn<BaseRequestDTO, String> positionColumn;
-    @FXML private TableColumn<BaseRequestDTO, String> scheduleType;
-    @FXML private TableColumn<BaseRequestDTO, String> startDateColumn;
-    @FXML private TableColumn<BaseRequestDTO, String> endDateColumn;
-    @FXML private TableColumn<BaseRequestDTO, String> statusColumn;
-    @FXML private TableColumn<BaseRequestDTO, String> colReason;
+    // ===== FXML 테이블/버튼 컴포넌트 =====
+    @FXML private TableView<BaseRequestDTO> completedTable; // 결재완료 요청 목록 테이블
+    @FXML private TableColumn<BaseRequestDTO, Integer> employeeIdColumn;    // 사번
+    @FXML private TableColumn<BaseRequestDTO, String> employeeNameColumn;   // 이름
+    @FXML private TableColumn<BaseRequestDTO, String> departmentColumn;     // 부서명
+    @FXML private TableColumn<BaseRequestDTO, String> positionColumn;       // 직급
+    @FXML private TableColumn<BaseRequestDTO, String> startDateColumn;      // 시작일
+    @FXML private TableColumn<BaseRequestDTO, String> endDateColumn;        // 종료일
+    @FXML private TableColumn<BaseRequestDTO, String> statusColumn;         // 승인/거절 상태
+    @FXML private TableColumn<BaseRequestDTO, String> colReason;            // 사유(내용)
 
-    // 🔥 핵심 추가: DB 실제값 표시용 컬럼
+    // 실제 DB SCHEDULE_TYPE 표시용 컬럼 추가(상세 종류)
     @FXML private TableColumn<BaseRequestDTO, String> scheduleTypeColumn;
 
-    @FXML private Button closeButton;
-    @FXML private Button refreshButton;
+    @FXML private Button closeButton; // 닫기 버튼
 
     private RequestService requestService;
     private ObservableList<BaseRequestDTO> completedData;
 
+
+    /**
+     * 컨트롤러 초기화
+     * - 테이블 컬럼 셋업
+     * - 실제 데이터 로딩(init 아님. Service setter에서)
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         setupTableColumns();
@@ -49,7 +57,9 @@ public class CompletedRequestListController implements Initializable {
     }
 
     /**
-     * 테이블 컬럼 설정 (DB 실제값 표시 개선)
+     * 테이블 컬럼별 데이터 바인딩 및 이름 설정
+     * - DB 실제값(상세 종류) 컬럼 표시
+     * - 상태(승인/거절/대기) 가독성 좋게 변환
      */
     private void setupTableColumns() {
         employeeIdColumn.setCellValueFactory(new PropertyValueFactory<>("employeeId"));
@@ -61,7 +71,7 @@ public class CompletedRequestListController implements Initializable {
         endDateColumn.setCellValueFactory(new PropertyValueFactory<>("endDate"));
         colReason.setCellValueFactory(new PropertyValueFactory<>("content"));
 
-        // 핵심: DB 실제값(SCHEDULE_TYPE) 표시 컬럼 추가
+        // DB 실제값(SCHEDULE_TYPE) 표시 컬럼 추가
         if (scheduleTypeColumn != null) {
             scheduleTypeColumn.setCellValueFactory(cellData ->
                     new SimpleStringProperty(cellData.getValue().getScheduleType())
@@ -81,7 +91,9 @@ public class CompletedRequestListController implements Initializable {
         });
     }
 
-
+    /**
+     * 닫기 버튼 클릭시 창 닫기
+     */
     @FXML
     private void handleClose() {
         Stage stage = (Stage) closeButton.getScene().getWindow();
@@ -89,7 +101,9 @@ public class CompletedRequestListController implements Initializable {
     }
 
     /**
-     * RequestService 설정 및 데이터 로드
+     * RequestService 주입 및 데이터 로드
+     * - 부모 컨트롤러에서 세팅
+     * - 실제 데이터 로딩 시점 entry point
      */
     public void setRequestService(RequestService requestService) {
         this.requestService = requestService;
@@ -97,7 +111,9 @@ public class CompletedRequestListController implements Initializable {
     }
 
     /**
-     * 결재완료 데이터 로드 (DB 실제값 포함 개선)
+     * 결재 완료/거절된 요청 목록 DB에서 조회하여 TableView에 세팅
+     * - 실제 SCHEDULE_TYPE 컬럼까지 반영
+     * - 승인(1), 거절(2) 상태 요청만 필터
      */
     public void loadCompletedData() {
         try {
@@ -106,29 +122,19 @@ public class CompletedRequestListController implements Initializable {
                 return;
             }
 
-            // 모든 승인/거절된 요청 조회 (is_granted IN (1, 2) 조건 포함)
+            // 승인/거절건만 가져오기 (is_granted IN (1,2))
             List<BaseRequestDTO> requests = requestService.getAllCompletedRequests();
 
             if (requests == null || requests.isEmpty()) {
                 System.out.println("결재 완료된 내역이 없습니다.");
                 completedData = FXCollections.observableArrayList();
             } else {
-                // 승인(1) 또는 거절(2) 상태만 필터링 (추가 안전 장치)
                 List<BaseRequestDTO> filteredRequests = requests.stream()
                         .filter(req -> req.getIsGranted() == 1 || req.getIsGranted() == 2)
                         .toList();
 
                 completedData = FXCollections.observableArrayList(filteredRequests);
                 System.out.println("결재 완료 내역 로드 성공: " + filteredRequests.size() + "건");
-
-                // 디버그: DB 실제값 출력
-                for (BaseRequestDTO req : filteredRequests) {
-                    System.out.println("완료 내역: ID=" + req.getRequestId() +
-                            ", 이름=" + req.getEmployeeName() +
-                            ", 상태=" + req.getIsGranted() +
-                            ", 화면타입=" + req.getRequestType() +
-                            ", DB실제값=" + req.getScheduleType()); // 핵심
-                }
             }
 
             completedTable.setItems(completedData);

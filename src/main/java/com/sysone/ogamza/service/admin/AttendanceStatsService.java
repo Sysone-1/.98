@@ -7,6 +7,7 @@ import java.util.List;
 /**
  * AttendanceStatsService
  * – DAO 호출을 래핑하여 컨트롤러에 제공
+ * @author 허겸
  */
 public class AttendanceStatsService {
     private final AttendanceStatsDAO dao = new AttendanceStatsDAO();

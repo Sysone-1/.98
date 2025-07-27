@@ -17,7 +17,7 @@ import java.util.List;
  * - DB 실제 SCHEDULE_TYPE 값 조회 지원
  * - Oracle Cloud Wallet 연결 지원
  * - 트랜잭션 관리 강화 및 카운팅 동기화 개선
- * - Java 8+ 호환 switch 구문
+ * @author 허겸
  */
 public class RequestService {
 
