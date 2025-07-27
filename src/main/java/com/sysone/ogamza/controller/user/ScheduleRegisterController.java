@@ -13,8 +13,6 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-import java.time.DateTimeException;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -70,12 +68,13 @@ public class ScheduleRegisterController {
         for (ScheduleListDTO dto : list) {
             LocalDateTime startDate = dto.getStartDate();
             LocalDateTime endDate = dto.getEndDate();
+            int isGranted = dto.getIsGranted();
 
             LocalDateTime newStart = startDatePicker.getValue().atStartOfDay();
             LocalDateTime newEnd = endDatePicker.getValue().atStartOfDay();
 
             boolean isOverlapping = !(newEnd.isBefore(startDate) || newStart.isAfter(endDate));
-            if (isOverlapping) {
+            if (isOverlapping && (isGranted == 0 || isGranted == 1)) {
                 AlertCreate.showAlert(Alert.AlertType.ERROR, "결재 상신", "기존 일정과 겹치는 기간이 있습니다.");
                 return;
             }
