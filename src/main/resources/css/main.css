@@ -1,13 +1,28 @@
-/* 글꼴 임포트 */
+/**
+ * ===========================================
+ * 전역 스타일 설정 (fonts.css 등)
+ * ===========================================
+ * - 사용자 정의 폰트(SUIT, Inter) 임포트
+ * - JavaFX 애플리케이션 전체에 기본 글꼴로 적용
+ *
+ * 작성자: 구희원
+ * 작성일: 2025-07-27
+ * ===========================================
+ */
+
+/* ▶ Inter 가변 글꼴 임포트 */
 @font-face {
- font-family: "Inter";
- src:url("/fonts/Inter-VariableFont_opsz,wght.ttf");
+    font-family: "Inter";
+    src: url("/fonts/Inter-VariableFont_opsz,wght.ttf");
 }
-@font-face{
- font-family: "SUIT";
- src:url("/fonts/SUIT-Regular.ttf");
+
+/* ▶ SUIT 기본 글꼴 임포트 */
+@font-face {
+    font-family: "SUIT";
+    src: url("/fonts/SUIT-Regular.ttf");
 }
-/* 전역 기본 글꼴로 사용 */
+
+/* ▶ 애플리케이션 전역에 기본 글꼴 적용 (우선순위: SUIT → Inter) */
 .root {
- -fx-font-family: "SUIT","Inter";
+    -fx-font-family: "SUIT", "Inter";
 }

@@ -1,5 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<!--
+    ===========================================
+    설정 화면 레이아웃 (Settings.fxml)
+    ===========================================
+    - 회원 정보 수정, 퇴근 알림 설정을 위한 카드 UI 제공
+    - 각 항목 클릭 시 해당 모달 창을 호출
+    - Controller: SettingsController
+
+    작성자: 구희원
+    작성일: 2025-07-27
+    ===========================================
+-->
+
 <?import javafx.scene.effect.*?>
 <?import java.lang.*?>
 <?import java.util.*?>
@@ -7,26 +20,40 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="723" prefWidth="1151" style="-fx-background-color : F1F9FF;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sysone.ogamza.controller.user.SettingsController">
+<AnchorPane prefHeight="723" prefWidth="1151"
+            style="-fx-background-color : F1F9FF;"
+            xmlns="http://javafx.com/javafx/8"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.sysone.ogamza.controller.user.SettingsController">
+
     <children>
+        <!-- 전체 설정 카드 감싸는 VBox -->
         <VBox layoutX="24" layoutY="100" spacing="20.0">
             <children>
 
-                <!-- 카드 1 : 회원정보 수정-->
-                <StackPane fx:id = "editMemberCard"
-                           onMouseClicked = "#openEditMemberModal"
+                <!-- 카드 1: 회원 정보 수정 -->
+                <StackPane fx:id="editMemberCard"
+                           onMouseClicked="#openEditMemberModal"
                            prefHeight="60.0" prefWidth="1050.0"
-                           style="-fx-background-color: white; -fx-background-radius: 8px; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 4, 0, 0, 2);">
+                           style="-fx-background-color: white;
+                                  -fx-background-radius: 8px;
+                                  -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 4, 0, 0, 2);">
                     <children>
-                        <Label style="-fx-font-size: 16px; -fx-padding : 10 20" text="회원 정보 수정" />
+                        <Label style="-fx-font-size: 16px; -fx-padding : 10 20"
+                               text="회원 정보 수정" />
                     </children>
                 </StackPane>
 
-                <!-- 카드 2 : 알림 정보-->
-                <StackPane fx:id = "alarm" onMouseClicked = "#openAlarmModal"
-                           prefHeight="60.0" prefWidth="1050.0" style="-fx-background-color: white; -fx-background-radius: 8px; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 4, 0, 0, 2);">
+                <!-- 카드 2: 퇴근 알림 설정 -->
+                <StackPane fx:id="alarm"
+                           onMouseClicked="#openAlarmModal"
+                           prefHeight="60.0" prefWidth="1050.0"
+                           style="-fx-background-color: white;
+                                  -fx-background-radius: 8px;
+                                  -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 4, 0, 0, 2);">
                     <children>
-                        <Label style="-fx-font-size: 16px; -fx-padding : 10 20" text="퇴근 알림 설정" />
+                        <Label style="-fx-font-size: 16px; -fx-padding : 10 20"
+                               text="퇴근 알림 설정" />
                     </children>
                 </StackPane>
             </children>

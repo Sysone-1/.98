@@ -1,3 +1,6 @@
+package com.sysone.ogamza;
+
+import java.sql.SQLException;
 /**
  * ===========================================
  * 로그인 서비스 (LoginService)
@@ -10,9 +13,6 @@
  * ===========================================
  */
 
-package com.sysone.ogamza;
-
-import java.sql.SQLException;
 
 public class LoginService {
 

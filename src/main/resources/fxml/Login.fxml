@@ -1,28 +1,91 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<!--
+ ===========================================
+ 로그인 화면 FXML
+ ===========================================
+ - 사용자 로그인 화면 구성
+ - 이메일 입력, 비밀번호 입력, 로그인 버튼 포함
+ - 입력 오류 메시지 표시 라벨 포함
+ - 컨트롤러: com.sysone.ogamza.LoginController
+
+ 작성자: 구희원
+ 작성일: 2025-07-27
+ ===========================================
+-->
+
 <?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="832" prefWidth="1300" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sysone.ogamza.LoginController">
-   <children>
-       <ImageView fitHeight="95.0" fitWidth="380.0" layoutX="458.0" layoutY="157.0">
-           <image>
-               <Image url="@../images/userLogo.png" />
-           </image>
-       </ImageView>
-       <!-- 아이디 입력 -->
-       <TextField fx:id="emailField" layoutX="433.0" layoutY="279.0" prefHeight="65.0" prefWidth="446.0" promptText="이메일 입력" style="-fx-background-radius: 10; -fx-border-radius:10; -fx-font-size: 20px" />
-       <!-- 비밀번호 입력 -->
-       <PasswordField fx:id="passwordField" layoutX="433.0" layoutY="360.0" prefHeight="65.0" prefWidth="446.0" promptText="비밀번호 입력" style="-fx-background-radius: 10; -fx-border-radius: 10; -fx-font-size: 20px" />
-       <Label fx:id="errorLabel" layoutX="432.0" layoutY="425.0" prefHeight="44.0" prefWidth="446.0" style="-fx-font-size: 15px;" textFill="red" visible="false" />
-       <!-- 로그인 버튼 -->
-       <Button layoutX="433.0" layoutY="490.0" defaultButton="true" onAction="#handleLogin" prefHeight="65.0" prefWidth="446.0" style="-fx-background-color: #0099ff; -fx-text-fill: white; -fx-font-size: 20px; -fx-font-weight: bold; -fx-background-radius: 10; -fx-cursor:hand; -fx-font-family:'SUIT-SemiBold'" text="로그인">
-       </Button>
+<AnchorPane
+        prefHeight="832"
+        prefWidth="1300"
+        style="-fx-background-color: #ffffff;"
+        xmlns="http://javafx.com/javafx/8"
+        xmlns:fx="http://javafx.com/fxml/1"
+        fx:controller="com.sysone.ogamza.LoginController">
 
-   </children>
+    <children>
 
+        <!-- 로고 이미지 -->
+        <ImageView fitHeight="95.0" fitWidth="380.0" layoutX="458.0" layoutY="157.0">
+            <image>
+                <Image url="@../images/userLogo.png" />
+            </image>
+        </ImageView>
 
+        <!-- ▶ 이메일 입력 필드 -->
+        <TextField
+                fx:id="emailField"
+                layoutX="433.0"
+                layoutY="279.0"
+                prefHeight="65.0"
+                prefWidth="446.0"
+                promptText="이메일 입력"
+                style="-fx-background-radius: 10; -fx-border-radius:10; -fx-font-size: 20px" />
+
+        <!-- ▶ 비밀번호 입력 필드 -->
+        <PasswordField
+                fx:id="passwordField"
+                layoutX="433.0"
+                layoutY="360.0"
+                prefHeight="65.0"
+                prefWidth="446.0"
+                promptText="비밀번호 입력"
+                style="-fx-background-radius: 10; -fx-border-radius: 10; -fx-font-size: 20px" />
+
+        <!-- ▶ 오류 메시지 출력 라벨 (로그인 실패 시 메시지 표시) -->
+        <Label
+                fx:id="errorLabel"
+                layoutX="432.0"
+                layoutY="425.0"
+                prefHeight="44.0"
+                prefWidth="446.0"
+                style="-fx-font-size: 15px;"
+                textFill="red"
+                visible="false" />
+
+        <!-- ▶ 로그인 버튼 -->
+        <Button
+                layoutX="433.0"
+                layoutY="490.0"
+                prefHeight="65.0"
+                prefWidth="446.0"
+                text="로그인"
+                defaultButton="true"
+                onAction="#handleLogin"
+                style="
+                -fx-background-color: #0099ff;
+                -fx-text-fill: white;
+                -fx-font-size: 20px;
+                -fx-font-weight: bold;
+                -fx-background-radius: 10;
+                -fx-cursor: hand;
+                -fx-font-family: 'SUIT-SemiBold'
+            " />
+
+    </children>
 </AnchorPane>

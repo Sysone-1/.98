@@ -1,3 +1,9 @@
+package com.sysone.ogamza;
+
+import com.sysone.ogamza.sql.LoginSQL;
+import com.sysone.ogamza.utils.db.OracleConnector;
+
+import java.sql.*;
 /**
  * ===========================================
  * 로그인 DAO (LoginDAO)
@@ -9,13 +15,6 @@
  * 작성일: 2025-07-27
  * ===========================================
  */
-
-package com.sysone.ogamza;
-
-import com.sysone.ogamza.sql.LoginSQL;
-import com.sysone.ogamza.utils.db.OracleConnector;
-
-import java.sql.*;
 
 public class LoginDAO {
 
